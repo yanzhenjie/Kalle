@@ -1,4 +1,4 @@
-# Config
+# 个性化配置
 
 如果需要，我们可以做一些个性化的配置，但是所有的配置项都不是必须的。
 
@@ -123,7 +123,7 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 配置全局变流器，变流器用来将服务器响应数据转化为开发者想要的格式，比如`JavaBean`。
+* 配置全局转换器，变流器用来将服务器响应数据转化为开发者想要的格式，比如`JavaBean`。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
