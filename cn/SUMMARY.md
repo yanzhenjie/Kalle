@@ -22,6 +22,7 @@
   * [XmlBody](request/body/xml.md)
   * [FormBody](request/body/form.md)
   * [UrlBody](request/body/url.md)
-* [响应体](response/body/README.md)
+* [响应](response/README.md)
+  * [响应体](response/body/README.md)
 * [进度监控](progress/README.md)
 
