@@ -17,19 +17,19 @@ Kalle.setConfig(config);
 ```
 
 ## 详细配置
-* 配置线程池，如果不配置，将根据设备的CPU数量，计算出一个适当队列的线程池。
+* 配置工作线程执行器，如果不配置，将根据设备的CPU数量，计算出一个合适的队列线程池。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .threadExecutor(...)
+    .workThreadExecutor(...)
     .build();
 ```
 
-* 配置切换线程的`Handler`，如果不配置将会自行生成一个发送到主线程全局单例：`new Handler(Lopper.getMainLooper())`。
+* 配置主线程执行器，如果不配置，将会使用`Handler`自动生成一个。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .handler(...)
+    .mainThreadExecutor(...)
     .build();
 ```
 
@@ -49,14 +49,6 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 添加全局`Param`，添加后会为每一个`Request`添加这个参数，对于`Url`类型的`Request`，会把参数添加到`url`中；对于`Body`类型的`Request`，会把参数添加到`Body`中，暂不支持为`Body`类型`Request`添加全局参数。开发者可以为某个`Request`覆盖这个参数的`key`。
-```java
-KalleConfig config = KalleConfig.newBuilder()
-    ...
-    .addParam(...)
-    .build();
-```
-
 * 配置全局代理，配置后每一个`Request`都会使用这个代理，除非开发者为某个`Request`设置空的代理或者指定其它代理：
 ```java
 KalleConfig config = KalleConfig.newBuilder()
@@ -65,7 +57,7 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 配置全局`SSL`，`Https`需要我们决定怎样创建SSLSocket，同时告诉底层要信任哪些`Host`，我们通过`SSLSocketFactory`和`HostnameVerifier`来做这两件事。
+* 配置全局`SSL`，`Https`需要我们决定怎样创建`SSLSocket`，同时告诉底层要信任哪些`Host`，我们通过`SSLSocketFactory`和`HostnameVerifier`来做这两件事。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
@@ -83,19 +75,11 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 配置全局连接生成工厂，决定底层使用`OkHttp`、`UrlConnection`或者`HttpClient`。
+* 添加全局`Param`，添加后会为每一个`Request`添加这个参数，对于`Url`类型的`Request`，会把参数添加到`url`中；对于`Body`类型的`Request`，会把参数添加到`Body`中，暂不支持为`Body`类型`Request`添加全局参数。开发者可以为某个`Request`覆盖这个参数的`key`。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .connectFactory(...)
-    .build();
-```
-
-* 配置全局`CookieStore`，用来增删改查`Cookie`，如果不配置将不会自动管理`Cookie`。
-```java
-KalleConfig config = KalleConfig.newBuilder()
-    ...
-    .cookieStore(...)
+    .addParam(...)
     .build();
 ```
 
@@ -112,6 +96,22 @@ KalleConfig config = KalleConfig.newBuilder()
 KalleConfig config = KalleConfig.newBuilder()
     ...
     .network(...)
+    .build();
+```
+
+* 配置全局连接生成工厂，决定底层使用`OkHttp`、`UrlConnection`或者`HttpClient`。
+```java
+KalleConfig config = KalleConfig.newBuilder()
+    ...
+    .connectFactory(...)
+    .build();
+```
+
+* 配置全局`CookieStore`，用来增删改查`Cookie`，如果不配置将不会自动管理`Cookie`。
+```java
+KalleConfig config = KalleConfig.newBuilder()
+    ...
+    .cookieStore(...)
     .build();
 ```
 

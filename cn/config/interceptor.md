@@ -16,13 +16,14 @@ public class LoginInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         Response originResponse = chain.proceed(request);
-        if (originResponse.code() == 401) { // 原始请求失败，因为登录失效。
-        	// 调用一下登录接口。
+        if (originResponse.code() == 401) { // 业务失败，因为登录失效。
+        	// 调用登录接口。
         	Url.Builder urlBuilder = Url.newBuilder(UrlConfig.LOGIN);
-            Response loginResponse = BodyRequest.newBuilder(urlBuilder, RequestMethod.POST)
-                    .param("name", 123)
-                    .param("password", 456)
-                    .perform();
+            BodyRequest loginRequest = BodyRequest.newBuilder(urlBuilder, RequestMethod.POST)
+                .param("name", 123)
+                .param("password", 456)
+                .build();
+            Response loginResponse = new Call(loginRequest).execute();
 
             // 登录成功。
             if (loginResponse.code() == 200) {
