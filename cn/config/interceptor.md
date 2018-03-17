@@ -7,6 +7,53 @@ KalleConfig.newBuilder()
     .build()
 ```
 
+## 原理解析
+拦截器是一个接口，它的源码很简单：
+```java
+public interface Interceptor {
+    Response intercept(Chain chain) throws IOException;
+}
+```
+
+开发者可以进行一些的操作全部依靠`Chain`类，`Chain`类也是一个接口，但是开发者不需要关注它的具体实现：
+```java
+public interface Chain {
+    Request request();
+    Response proceed(Request request);
+    Call newCall();
+}
+```
+
+一般情况下，我们会像下面这样使用：
+```java
+public class MyInterceptor implement Interceptor {
+    @ovvride
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+
+        ...; // 对Request做一些事情。
+
+        return chain.proceed(request);
+    }
+}
+```
+
+比如开发者想在网络失败或者超时后重试一次，执行了`proceed(Request)`方法之后发生了了异常，再执行一次即可：
+```java
+@ovvride
+public Response intercept(Chain chain) throws IOException {
+    Request request = chain.request();
+
+    try {
+        return chain.proceed(request);
+    } catch(e) {
+        return chain.proceed(request);
+    }
+}
+```
+
+对于`Chain.newCall()`一般是用与当前请求是成功的时候，开发者还想执行一次时使用。比如执行A请求时，服务端返回的结果是用户登录失效，客户端开发者需要使用客户端保存的用户密码重新登录后再执行上A请求，因为A请求是成功的（只是业务级别的失败），所以不能再次调用`Chain.proceed(Request)`了，只能从头再执行一遍上A请求，就要使用`Chain.newCall().execute()`，相当于`reset()->restart()`过程。
+
 ## 演示：Token/Cookie失效后登录重试
 这是一个Token/Cookie失效后重新登录的拦截器示例：
 ```
