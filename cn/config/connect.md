@@ -21,7 +21,7 @@ KalleConfig.newBuilder()
 
 `URLConnectionFactory`和`OkHttpConnectFactory`在Android4.4以上没有太大的区别。在Android4.4以下的系统中`URLConnection`不支持`DELETE`的请求方法发送`Body`，这是一个`jre`的底层bug，我们没有任何办法让它支持；在Android4.4及以上的系统中`URLConnection`使用OkHttp2来实现，所以是没有这一个bug的。在Android4.4及以上系统中，使用`URLConnectionFactory`和`OkHttpConnectFactory`的唯一区别是`URLConnectionFactory`用的OkHttp2，`OkHttpConnectFactory`使用的是OkHttp3。  
 
-建议；如果你的应用需要在Android4.4以下的系统中运行，并且使用了`DELETE`请求方法，那么建议你直接使用`URLConnectionFactory`。
+**建议**：如果你的应用需要在Android4.4以下的系统中运行，并且使用了`DELETE`请求方法，那么建议你直接使用`OkHttpConnectFactory`。如果只在Android4.4以上的系统运行，或者在Android4.4以下的系统中运行时只用到简单的GET和POST请求时建议使用`URLConnectionFactory`，因为它小而且不会含OkHttp和OkIO。
 
 ## 自定义实现
 连接工厂是一个接口：
@@ -64,4 +64,5 @@ public interface Connection extends Closeable {
 }
 ```
 
-这里需要能拿到连接的输入流，以供Kalle发送数据；需要能拿到响应码以供Kalle判断如何读取；需要能拿到响应头，以供Kalle读取并判断如何读取响应包体；需要能拿到输出流，以供Kalle读取响应包体。`Connection`接口继承了`Closeable`接口，在`close()`方法被调用时应该断开此次请求时建立的连接。
+这里需要能拿到连接的输入流，以供Kalle发送数据；需要能拿到响应码以供Kalle和开发者处理业务；需要能拿到响应头，以供Kalle判断如何读取响应包体；需要能拿到输出流，以供Kalle读取响应包体。  
+`Connection`接口继承了`Closeable`接口，在`close()`方法被调用时应该断开此次请求时建立的连接。
