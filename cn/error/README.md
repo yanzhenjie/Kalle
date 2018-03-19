@@ -1,9 +1,10 @@
 # 异常和失败
-Http请求过程大概有三个阶段：连接-发送数据-读取数据，相应的在三个不同的阶段也会发生想听或者不同的异常，在Kalle中定义了三大类异常对应这三个过程中的异常，外加一个未知异常。
+Http请求过程大概有三个阶段：连接-发送数据-读取数据，相应的在三个不同的阶段也会发生想听或者不同的异常，在Kalle中定义了三大类异常对应这三个过程中的异常，另外还有下载时业务错误的异常和未知异常。
 
 * ConnectException，在连接服务器时发生的异常
 * WriteException，在向服务器写出数据时发生的异常
 * ReadException，在读取服务器响应数据时发生的异常
+* DownloadException，下载文件时业务中断时发生的异常
 * Exception，其它未预料到的异常
 
 ## ConnectException
@@ -29,6 +30,16 @@ Http请求过程大概有三个阶段：连接-发送数据-读取数据，相�
 `ReadTimeoutError`发生的情景有两种，一种是网络不好时，客户端在一段时间内没有从流内读取到新的字节时发生；第二种是网络是好的，但是服务器在发送数据时由于去查询数据库或者IO操作，长时间未做出响应，客户端在一段时间内没有从流内读取到新的字节时发生。  
 
 `ParseError`是为了防止开发者在`Converter`中处理不当时发生异常造成程序崩溃而加入的，对于有经验的开发者应该会自己在`Converter`中处理好，并结合自己的业务解析。
+
+## DownloadException
+`DownloadException`是当开发者插入业务，中断下载过程时发生。通过`DownloadException`可以拿到当前请求的响应码和响应头。
+```java
+DownloadException ex = ...;
+int code = ex.getCode();
+Headers headers = ex.getHeaders();
+```
+
+文件下载的用法请参考[下载](../download)。
 
 ## 异步请求时接受异常回调
 ```java
