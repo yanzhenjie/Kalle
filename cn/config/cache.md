@@ -5,7 +5,7 @@
 Kalle默认提供了一个基于磁盘的缓存类`DiskCacheStore`，这个类只需要开发者指定缓存的文件夹和缓存数据的加密密钥即可使用：
 ```java
 CacheStore cacheStore = DiskCacheStore.newBuilder("/sdcard")
-    .password("这事密钥")
+    .password("这是密钥")
     .build()
 
 KalleConfig.newBuilder()

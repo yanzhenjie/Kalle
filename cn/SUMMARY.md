@@ -13,9 +13,10 @@
 * [Url](url/README.md)
 * [请求参数](params/README.md)
 * [取消](cancel/README.md)
-* [进度监控](progress/README.md)
+* [进度](progress/README.md)
 * [缓存模式](cache/README.md)
 * [异常和失败](error/README.md)
+* [下载](download/README.md)
 * [请求体](request/body/README.md)
   * [FileBody](request/body/file.md)
   * [StringBody](request/body/string.md)
@@ -26,4 +27,3 @@
 * [Request](request/README.md)
 * [Response](response/README.md)
   * [响应体](response/body/README.md)
-

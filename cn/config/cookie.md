@@ -58,7 +58,8 @@ public class MyWebView extends WebView {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 manager.flush();
             } else {
-                android.webkit.CookieSyncManager.createInstance(getContext()).sync();
+                Context context = getContext().getApplicationContext();
+                android.webkit.CookieSyncManager.createInstance(context).sync();
             }
         }
         super.loadUrl(url, httpHeader);

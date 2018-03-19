@@ -4,11 +4,16 @@ Kalle提供了9种缓存模式来满足各种业务需求，缓存模式必须�
 用法如下：
 ```java
 Kalle.get(url)
-    .cacheMode(CacheMode.Default)
+    .cacheMode(CacheMode)
+    .cacheKey(String)
     ...
 ```
 
-## 各缓存模式的含义
+`cacheMode()`方法是设置请求的缓存模式，决定**如何读取缓存，如何写入缓存**（不是决定如何回调数据），如果不设置默认使用`HTTP`模式。`cacheKey()`方法是设置请求的缓存数据对应的键，如果不设置默认使用`url`（含`UrlParam`，不含`BodyParam`）作为缓存数据的键。
+
+**建议**：每一个请求都应该设置缓存键，否则容易发生不同接口的数据覆盖，因为很多Body类请求的`url`是不含`BodyParam`的，所以不同的接口虽然参数不同，但是`url`是相同的。
+
+## 缓存模式的含义
 建议开发者浏览缓存模式的源码和注释，有助于理解和更好的使用缓存模式。
 
 * HTTP  
