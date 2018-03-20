@@ -27,7 +27,9 @@ UrlRequest urlRequest = UrlRequest.newBuilder(url, RequestMethod.GET)
 Response response = new Call(urlRequest).execute();
 ```
 
-关于`Url`的更多用法，开发者可以参考[Url](../url)
+相关类使用参考：
+* [Url](../url)
+* [Response](../response)
 
 ## BodyRequest
 `BodyRequest`的用法和`UrlRequest`基本是完全一致的：

@@ -54,6 +54,71 @@ public Response intercept(Chain chain) throws IOException {
 
 对于`Chain.newCall()`一般是用与当前请求是成功的时候，开发者还想执行一次时使用。比如执行A请求时，服务端返回的结果是用户登录失效，客户端开发者需要使用客户端保存的用户密码重新登录后再执行上A请求，因为A请求是成功的（只是业务级别的失败），所以不能再次调用`Chain.proceed(Request)`了，只能从头再执行一遍上A请求，就要使用`Chain.newCall().execute()`，相当于`reset()->restart()`过程。
 
+## 重试拦截器
+重试拦截器（`RetryInterceptor`）对所有请求的失败都会重试*开发者可以指定重试次数*次，Kalle默认不会使用重试拦截器，开发者可以自行添加，重试拦截器实现如下：
+```java
+public class RetryInterceptor implements Interceptor {
+
+    private int mCount;
+
+    public RetryInterceptor(int count) {
+        this.mCount = count;
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        try {
+            return chain.proceed(chain.request());
+        } catch (IOException e) {
+            if (mCount > 0) {
+                mCount--;
+                return intercept(chain);
+            }
+            throw e;
+        }
+    }
+}
+```
+
+## 重定向拦截器
+重定向拦截器（`RedirectInterceptor`）对所有重定向都不会拒绝，也就是说如果有100个接口一直重定向Kalle也不会拒绝，例如从`0->1->2->3->...->100`。Kalle默认不会使用重试拦截器，开发者可以自行添加，重定向拦截器实现如下：
+```java
+public class RedirectInterceptor implements Interceptor {
+
+    public RedirectInterceptor() {
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        Response response = chain.proceed(request);
+        if (response.isRedirect()) {
+            Url oldUrl = request.url();
+            Url url = oldUrl.location(response.headers().getLocation());
+            Headers headers = request.headers();
+            headers.remove(KEY_COOKIE);
+
+            RequestMethod method = request.method();
+            Request newRequest;
+            if (method.allowBody()) {
+                newRequest = BodyRequest.newBuilder(url.builder(), request.method())
+                        .setHeaders(headers)
+                        .setParams(request.copyParams())
+                        .body(request.body())
+                        .build();
+            } else {
+                newRequest = UrlRequest.newBuilder(url.builder(), request.method())
+                        .setHeaders(headers)
+                        .build();
+            }
+            IOUtils.closeQuietly(response);
+            return chain.proceed(newRequest);
+        }
+        return response;
+    }
+}
+```
+
 ## 演示：Token/Cookie失效后登录重试
 这是一个Token/Cookie失效后重新登录的拦截器示例：
 ```

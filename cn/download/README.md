@@ -4,8 +4,8 @@
 这是一个最简单的例子：
 ```java
 Kalle.Download.get(url)
-    .directory("/sdcard")    // 指定保存文件的目录。
-    .fileName("kalle.apk")   // 指定保存时的文件名。
+    .directory("/sdcard")
+    .fileName("kalle.apk")
     .perform(new Callback() {
         @Override
         public void onStart() {
@@ -33,6 +33,11 @@ Kalle.Download.get(url)
         }
     });
 ```
+
+* `directory(String)`  
+  用来指定保存文件的目录，必须要指定保存目录，否则会回调失败。
+* `fileName(String)`  
+  用来指定文件名，如果开发者未指定文件名，则会尝试获取服务器指定的文件名，首先尝试从`Content-Disposition`头中获取，如果获取不到则使用`url`的path中获取最后一个`/`后的字符串作为文件名。例如`http://www.example.com/files/abc.apk`，那么从`url`中获取到的文件名就是`abc.apk`。
 
 ## 进度和网速
 ```java
@@ -89,3 +94,19 @@ interface Policy {
 `path`是旧文件的本地地址，既开发者指定的目录和文件名对应的文件，只有这个旧文件存在时才会回调这个方法。因为开发者指定保存要下载文件的目标位置处，已经存在一个同名文件了，Kalle不知道如何处理它。一般情况下，我们会做文件有效性校验，例如验证MD5或者验证响应码，因为验证过程属于业务，所以Kalle把这个过程交给开发者做校验。
 
 如果开发者想重新下载文件，但是也不想删除旧文件，在这里开发者可以备份这个旧文件，Kalle尝试删除时是删除开发者指定保存要下载文件的目标位置处的文件。
+
+### 默认下载策略
+默认下载策略适用于大多数开发者，默认使用断点续传，默认允许任何响应码时下载文件，默认旧文件不可用。
+```
+public boolean isRange() {
+    return true;
+}
+
+public boolean allowDownload(int code, Headers headers) {
+    return true;
+}
+
+public boolean oldAvailable(String path, int code, Headers headers) {
+    return false;
+}
+```
