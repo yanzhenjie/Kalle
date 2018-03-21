@@ -1,4 +1,4 @@
-# Response
+# 响应
 
 `Response`是Kalle的核心类，在[Interceptor](../config/interceptor.md)和[Request](../request)都提到过它的用法，通过`Response`可以获取到服务器响应时的`code`、`headers`和`body`（参考[ResponseBody](./body)）。
 

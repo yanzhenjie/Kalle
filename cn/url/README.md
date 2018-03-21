@@ -5,9 +5,9 @@
 其实`url`是有规则的，下面用一个图说明：
 ![url](../images/url.jpg)
 
-这里只是为开发者介绍一下这个类，让开发者对Kalle的设计和细节更加了解，`Url`类在实际开发中没有太多用法，因为它被大量使用在Kalle内部，有些类中也有面向开发者的Api。
+`Url`类在实际开发中没有太多用法，因为它被大量使用在Kalle内部，有些类中也有面向开发者的Api。
 
-## Url类的构建
+## 构建Url
 如果开发者需要构建`Url`：
 ```java
 Url url = Url.newBuilder("http://www.example.com")

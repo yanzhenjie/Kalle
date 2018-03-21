@@ -1,4 +1,4 @@
-# ResponseBody
+# 响应包体
 
 `ResponseBody`是服务器的响应包体，为了方便它提供了3个简单的实现方法获取服务器的包体数据：
 ```java

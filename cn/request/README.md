@@ -1,4 +1,4 @@
-# Request
+# 请求
 在[示例](../sample)中有提到，我们把请求根据请求方法的不同，分为了Url类请求和Body类请求。
 
 在Kalle中，有一个`Request`基类，它有两个直接子类，一个`UrlRequest`，另一个是`BodyRequest`，它们分别根据Url类请求和Body类请求的不同特点实现了的`Request`基类规定的抽象方法。
