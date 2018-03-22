@@ -15,7 +15,7 @@ POST, PUT, DELETE, PATCH
 在示例中，Url类的请求我们以`GET`为代表，Body类的请求我们以`POST`为代表。
 
 ## 对Callback的说明
-这里我们先以`GET`请求方法为例，我们请求一个`UserInfo`，先写一个完整的请求。
+这里我们先以`GET`请求方法为例，我们请求一个`UserInfo`，先写一个完整的请求。下面的代码似乎看起来有点长，但是接下来会优化的很少。
 ```java
 Kalle.get("http://www.example.com")
     .perform(UserInfo.class, new Callback<UserInfo>() {
@@ -47,28 +47,15 @@ Kalle.get("http://www.example.com")
     });
 ```
 
-* 如果我们把这个请求简化或者封装一下，其实我们只需要实现`onResponse()`方法即可。
-* 只要回调了`onStart()`，就肯定会回调`onEnd()`。
-* `onCancel()`可能随时被回调，因为不确定开发者在什么时候取消请求。
+**一些特点：**
+* 回调了`onStart()`，就肯定会回调`onEnd()`。
+* 回调了`onStart()`，也可能会回调`onCancel()`，接着一定会回调`onEnd()`。
+* 没有回调`onStart()`时，也可能会回调`onCancel()`，接着一定会回调`onEnd()`。
 * `onException()`是客户端环境发生异常时回调，比如超时、网络错误、发送数据失败。
 * `onResponse()`只要服务器有响应就会回调，不论响应码是100、200、300、400、500段中的任何一个。
 
 ### 简化
-乍一看上面的回调方法有些多，有时候我们只想简单的测试一下的时候就可以这样做：
-```java
-Kalle.get("http://www.example.com")
-    .perform(UserInfo.class, new SimpleCallback<UserInfo>() {
-        @Override
-        public void onResponse(SimpleResponse<UserInfo> response) {
-        	// 请求响应了。
-        	UserInfo user = response.result();
-        }
-    });
-```
-
-我们可以看到上面的`Callback`在这里变为`SimpleCallback`了，`SimpleCallback`是`Callback`的一个实现类，所以我们只需要重写`onResponse()`方法就可以，当然这样做的弊端就是不能处理异常了，不过这不是问题，因为我们可以封装统一回调一个方法，后面会讲到。
-
-让有些有些开发者不能接受的是，想请求一个`JavaBean`还需要传一个`JavaBean.class`的参数进去，那么我们可以这样写：
+乍一看上面的回调方法有些多，而且需要传入`UserInfo.class`，如果想写更少的代码且不想传入`UserInfo.class`时可以使用`SimpleCallback`代替`Callback<>`类：
 ```java
 Kalle.get("http://www.example.com")
     .perform(new SimpleCallback<UserInfo>() {
@@ -79,7 +66,10 @@ Kalle.get("http://www.example.com")
         }
     });
 ```
-这样就做到最简化了，不过我们必须使用`new SimpleCallback<UserInfo>()`，如果开发者想把这个请求代码封装起来，通过外部传入泛型来解析时就不好使了，可以通过传入明确的`UserInfo.class`来解析，传入`SimpleCallback`的子类也可以。
+
+我们可以看到上面的`Callback`在这里变为`SimpleCallback`了，`SimpleCallback`是`Callback`的一个实现类，所以最简单时我们只需要重写`onResponse()`方法就可以，如果想处理其它情况也需要重写其它方法。
+
+**值得注意**的是：因为不需要传入`UserInfo.class`了，所以开发者必须使用`SimpleCallback<UserInfo>()`类型才能让底层获取到`UserInfo.class`。如果开发者想把请求的代码包装起来，通过外部再传入泛型通过`SimpleCallback<>`来解析时就会出现获取不到`UserInfo.class`的问题。这种情况下就得回到原点，调用需要传入明确的`UserInfo.class`的方法来解析。另外，要解析`JavaBean`需要配置数据[转换器](../config/converter.md)。
 
 ## Url中的PATH
 很多开发者的`url`中的`path`段会带有需要`encode`的字符（例如中文），在Kalle中开发者不需要关注自己的`path`中是否带有需要`encode`的字符，例如这样的`url`是完全没问题的：

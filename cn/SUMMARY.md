@@ -1,7 +1,7 @@
 # Summary
 
 * [概述](README.md)
-* [配置](/config/README.md)
+* [配置](config/README.md)
   * [网络](config/network.md)
   * [连接](config/connect.md)
   * [Cookie](config/cookie.md)
@@ -9,6 +9,7 @@
   * [缓存](config/cache.md)
   * [转换器](config/converter.md)
 * [示例](sample/README.md)
+  * [业务封装](sample/business.md)
 * [头](header/README.md)
 * [Url](url/README.md)
 * [参数](params/README.md)

@@ -1,6 +1,6 @@
 # 连接
 
-Kalle是一个完全独立的网络库，它限制任何实现Http协议底层连接库，因此它允许开发者自行决定使用何种底层连接库，比如`URLConnection`、`OkHttp、`HttpClient`。为了减小编译后Kalle的大小，Kalle默认提供了基于`URLConnection`的底层连接库（因为URLConnction是Java默认自带的），同时实现了基于`OkHttp`的备用的底层连接库，有兴趣的开发者可以自行实现基于其它项目的底层连接库。
+Kalle是一个完全独立的网络库，它不限制任何实现Http协议底层连接库，因此它允许开发者自行决定使用何种底层连接库，比如`URLConnection`、`OkHttp、`HttpClient`。为了减小编译后Kalle的大小，Kalle默认提供了基于`URLConnection`的底层连接库（因为URLConnction是Java默认自带的），同时实现了基于`OkHttp`的备用的底层连接库，有兴趣的开发者可以自行实现基于其它项目的底层连接库。
 
 ## URLConnection 和 OkHttp
 如果没有配置连接工厂，那么Kalle默认使用基于`URLConnection`的的连接工厂，开发者也可以明确指定使用默认的连接工厂：
