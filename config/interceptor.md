@@ -119,6 +119,46 @@ public class RedirectInterceptor implements Interceptor {
 }
 ```
 
+## Log拦截器
+Log拦截器打印了请求和响应的主要信息，打印的请求信息含请求地址、请求方法和请求头，打印的响应信息含响应码和响应头。可以通过构造方法控制`tag`和`enable`。
+```java
+public class LoggerInterceptor implements Interceptor {
+
+    private final String mTag;
+    private final boolean isEnable;
+
+    public LoggerInterceptor(String tag, boolean isEnable) {
+        this.mTag = tag;
+        this.isEnable = isEnable;
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        if (isEnable) {
+            Log.i(mTag, "Print Request.");
+            Log.i(mTag, String.format("Url: %1$s.", request.url().toString()));
+            Log.i(mTag, String.format("Method: %1$s.", request.method().name()));
+            Headers toHeaders = request.headers();
+            for (Map.Entry<String, List<String>> entry : toHeaders.entrySet()) {
+                Log.i(mTag, String.format("%1$s: %2$s.", entry.getKey(), entry.getValue()));
+            }
+
+            Response response = chain.proceed(request);
+            Log.i(mTag, "Print Response.");
+            Log.i(mTag, String.format("Code: %1$d", response.code()));
+            Headers fromHeaders = request.headers();
+            for (Map.Entry<String, List<String>> entry : fromHeaders.entrySet()) {
+                Log.i(mTag, String.format("%1$s: %2$s.", entry.getKey(), entry.getValue()));
+            }
+            return response;
+        }
+        return chain.proceed(request);
+    }
+
+}
+```
+
 ## 演示：Token/Cookie失效后登录重试
 这是一个Token/Cookie失效后重新登录的拦截器示例：
 ```
