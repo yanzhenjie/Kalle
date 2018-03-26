@@ -17,7 +17,7 @@ Kalle.setConfig(config);
 ```
 
 ## 详细配置
-* 配置工作线程执行器，如果不配置，将根据设备的CPU数量，计算出一个合适的队列线程池。
+* 配置工作线程执行器，如果不配置，将根据设备的CPU数量，计算出一个并发数量合适的线程池。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
@@ -33,7 +33,7 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 配置发送`Body`时的编码格式，如果不配置将会采用系统默认编码，一般为`UTF-8`：
+* 配置发送`Body`时的编码格式，如果不配置将会使用系统默认编码，目前常见的设备默认情况下都是`UTF-8`：
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
@@ -75,12 +75,20 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 添加全局`Param`，添加后会为每一个`Request`添加这个参数，对于`Url`类型的`Request`，会把参数添加到`url`中；对于`Body`类型的`Request`，会把参数添加到`Body`中，暂不支持为`Body`类型`Request`添加全局参数。开发者可以为某个`Request`覆盖这个参数的`key`。
+* 添加全局参数，添加后会为每一个请求添加这个参数，对于`Url`类型的`Request`，会把参数添加到`url`中；对于`Body`类型的`Request`，会把参数添加到`Body`中。暂不支持为`Body`类型`Request`添加全局`url`参数。开发者可以为某个`Request`覆盖这个参数的`key`。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .addParam(...)
+    .addParam("name", "Kalle")
     .build();
+```
+
+例如某个请求中不需要这个全局参数时，调用`removeParam()`为这个请求移除这个参数：
+```
+Kalle.get(url)
+    ...
+    .removeParam("name")
+    ...
 ```
 
 * 配置全局`CacheStore`，用来增删改查缓存，如果不配置，将不会根据任何缓存模式对任何数据进行缓存。
@@ -123,7 +131,7 @@ KalleConfig config = KalleConfig.newBuilder()
     .build();
 ```
 
-* 配置全局转换器，变流器用来将服务器响应数据转化为开发者想要的格式，比如`JavaBean`。
+* 配置全局数据转换器，数据转换器用来将服务器响应数据转化为开发者想要的格式，具体用法请参考[转换器](./converter.md)。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...

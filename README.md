@@ -1,4 +1,3 @@
-![Logo](./images/logo.svg)
 # 概述
 
 [Kalle](https://github.com/yanzhenjie/Kalle)是一个Android平台的Http客户端，它遵循Http标准协议，支持同步请求和异步请求。

@@ -1,6 +1,6 @@
 # 示例
 
-正式开始之前的说明，Http请求从请求方法上可以分为两大类，我们把它们称为Url类请求（[UrlRequest](../request)）和Body类请求（[BodyRequest](../request)），因为一类只可以是简单的`url`，而另一类不仅仅可以是简单的`url`，也可以使用流来发送自定义`RequestBody`。
+Http请求从请求方法上可以分为两大类，我们把它们称为Url类请求（[UrlRequest](../request)）和Body类请求（[BodyRequest](../request)），因为一类只可以是简单的`url`，而另一类不仅仅可以是简单的`url`，也可以使用流来发送自定义`RequestBody`。
 
 Url类的请求方法：
 ```
@@ -15,19 +15,28 @@ POST, PUT, DELETE, PATCH
 在示例中，Url类的请求我们以`GET`为代表，Body类的请求我们以`POST`为代表。
 
 ## 对Callback的说明
-这里我们先以`GET`请求方法为例，我们请求一个`UserInfo`，先写一个完整的请求。下面的代码似乎看起来有点长，但是接下来会优化的很少。
+这里我们先以`GET`请求方法为例，我们请求一个`UserInfo`，先写一个完整的请求。。
 ```java
 Kalle.get("http://www.example.com")
-    .perform(UserInfo.class, new Callback<UserInfo>() {
+    .perform(new Callback<UserInfo, String>() {
         @Override
         public void onStart() {
             // 请求开始了，可以显示个dialog。
         }
 
         @Override
-        public void onResponse(SimpleResponse<UserInfo> response) {
+        public void onResponse(SimpleResponse<UserInfo, String> response) {
         	// 请求响应了。
-        	UserInfo user = response.result();
+            if(response.isSucceed()) {
+                // 业务成功，拿到业务成功的数据。
+        	    UserInfo user = response.succeed();
+                ...
+            } else {
+                // 业务失败，拿到业务失败的数据。
+                String message = response.failed();
+                ...
+            }
+            ...
         }
 
         @Override
@@ -54,22 +63,29 @@ Kalle.get("http://www.example.com")
 * `onException()`是客户端环境发生异常时回调，比如超时、网络错误、发送数据失败。
 * `onResponse()`只要服务器有响应就会回调，不论响应码是100、200、300、400、500段中的任何一个。
 
-### 简化
-乍一看上面的回调方法有些多，而且需要传入`UserInfo.class`，如果想写更少的代码且不想传入`UserInfo.class`时可以使用`SimpleCallback`代替`Callback<>`类：
+Kalle中用`Callback`来回调请求的响应结果，`Callback`需要两个泛型，第一个泛型表示业务成功时的数据类型，第二个泛型表示业务失败时的数据类型。最终会交给[转换器](../config/converter.md)把数据转为开发者指定类型的数据。上述代码中，先抛开`onException(Exception)`不管，在`onResponse(SimpleResponse)`中我们希望业务成功时直接拿到`UserInfo`对象示例，业务失败时返回错误原因。
+
+### 简化Callback
+Kalle中提供了一个`SimpleCallback`，它是`Callback`的直接子类，且限定了错误时返回的数据时`String`，使用它写一个请求就很简单了：
 ```java
 Kalle.get("http://www.example.com")
     .perform(new SimpleCallback<UserInfo>() {
         @Override
-        public void onResponse(SimpleResponse<UserInfo> response) {
+        public void onResponse(SimpleResponse<UserInfo, String> response) {
         	// 请求响应了。
-        	UserInfo user = response.result();
+            if(response.isSucceed()) {
+        	    UserInfo user = response.succeed();
+                ...
+            } else {
+                Toast.show(response.failed());
+            }
         }
     });
 ```
 
-我们可以看到上面的`Callback`在这里变为`SimpleCallback`了，`SimpleCallback`是`Callback`的一个实现类，所以最简单时我们只需要重写`onResponse()`方法就可以，如果想处理其它情况也需要重写其它方法。
+在上述代码中，我们只传了一个泛型`UserInfo`就可以请求到`UserInfo`的实体了，对于业务判断也仅仅需要一个`isSucceed()`方法即可（不用判断http响应码、业务数据的响应码、数据结构是否符合预期等），当然这个简单的写法并不是臆测的，而是需要我们使用`Converter`做一些业务封装，请参考[业务封装](./business.md)。
 
-**值得注意**的是：因为不需要传入`UserInfo.class`了，所以开发者必须使用`SimpleCallback<UserInfo>()`类型才能让底层获取到`UserInfo.class`。如果开发者想把请求的代码包装起来，通过外部再传入泛型通过`SimpleCallback<>`来解析时就会出现获取不到`UserInfo.class`的问题。这种情况下就得回到原点，调用需要传入明确的`UserInfo.class`的方法来解析。另外，要解析`JavaBean`需要配置数据[转换器](../config/converter.md)。
+如果开发者需要处理`onException()`和`onCancel()`等情况，还需要再重写这几个方法，但是经过[业务封装](./business.md)后这几个方法也不需要写了。另外有些业务场景在业务失败时返回的不是一句提示，也就是说不是`String`，而是另一个对象示例，此时开发者可以参考`SimpleCallback`写一个自己的`Callback`类。
 
 ## Url中的PATH
 很多开发者的`url`中的`path`段会带有需要`encode`的字符（例如中文），在Kalle中开发者不需要关注自己的`path`中是否带有需要`encode`的字符，例如这样的`url`是完全没问题的：
@@ -90,7 +106,7 @@ Kalle.get("http://www.example.com")
     .path("info")
     .perform(new SimpleCallback<UserInfo>() {
         @Override
-        public void onResponse(SimpleResponse<UserInfo> response) {
+        public void onResponse(SimpleResponse<UserInfo, String> response) {
         	// 请求响应了。
         	UserInfo = response.result();
         }

@@ -13,6 +13,7 @@
 * [头](header/README.md)
 * [Url](url/README.md)
 * [参数](params/README.md)
+  * [传递JavaBean](params/entity.md)
 * [取消](cancel/README.md)
 * [进度](progress/README.md)
 * [缓存模式](cache/README.md)
