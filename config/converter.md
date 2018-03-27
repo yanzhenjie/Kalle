@@ -49,7 +49,7 @@ Kalle.post("http://www.example.com")
 ## 响应转换为String
 `Response`已经提供了`String`的转换，可以直接把`ResponseBody`转换为`String`。
 ```java
-public class StringConverter imeplement Converter {
+public class StringConverter implements Converter {
 
     public <S, F> SimpelResponse<S, F> convert(Type succeed, Type failed,
             Response response, boolean fromCache) throws Exception {
@@ -70,7 +70,7 @@ public class StringConverter imeplement Converter {
 /**
  * Base on gson.
  */
-public class GsonConverter imeplement Converter {
+public class GsonConverter implements Converter {
 
     private static final Gson GSON = new Gson();
 

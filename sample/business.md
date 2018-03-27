@@ -166,7 +166,7 @@ Kalle.get("http://www.example.com")
 
 然后我们按照理想情况来封装`Converter`：
 ```java
-public class GsonConverter imeplement Converter {
+public class GsonConverter implements Converter {
 
     private static final Gson GSON = new Gson();
 
@@ -417,6 +417,8 @@ public abstract class DefineCallback<S> extends Callback<S, String> {
             message = "发送数据错误，请检查网络";
         } else if (e instanceof ReadTimeoutError) {
             message = "读取服务器数据超时，请检查网络";
+        } else if (e instanceof ParseError) {
+            message = "解析数据时发生异常";
         } else {
             message = "发生未知异常，请稍后重试";
         }
@@ -442,4 +444,4 @@ public abstract class DefineCallback<S> extends Callback<S, String> {
 }
 ```
 
-这里例举了一部分常见的业务场景，开发者可根据自身需求扩展。
+更多异常相关的信息请参考[异常](../error)，这里例举了一部分常见的业务场景，开发者可根据自身需求扩展。

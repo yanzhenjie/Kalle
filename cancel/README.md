@@ -62,7 +62,7 @@ public void onDestroy() {
 ```
 
 内部对比Tag一致性的的原理：
-```
+```java
 public void cancel(Object tag) {
     Object newTag = mRequest.tag();
     if (tag == newTag || (tag != null && newTag != null && tag.equals(newTag))) {

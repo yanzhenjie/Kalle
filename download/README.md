@@ -97,7 +97,7 @@ interface Policy {
 
 ### 默认下载策略
 默认下载策略适用于大多数开发者，默认使用断点续传，默认允许任何响应码时下载文件，默认旧文件不可用。
-```
+```java
 public boolean isRange() {
     return true;
 }

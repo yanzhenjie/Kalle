@@ -38,7 +38,7 @@ public interface ConnectFactory {
 如果开发者自行实现了这个接口，只需要在被调用时，使用`url`建立连接，并且把`Request`中的所有请求头设置给负责底层连接的库即可，然后返回`Conneciton`接口即可。
 
 `Connection`也是一个接口：
-```
+```java
 public interface Connection extends Closeable {
 
     /**

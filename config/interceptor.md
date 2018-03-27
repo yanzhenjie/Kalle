@@ -26,7 +26,7 @@ public interface Chain {
 
 一般情况下，我们会像下面这样使用：
 ```java
-public class MyInterceptor implement Interceptor {
+public class MyInterceptor implements Interceptor {
     @ovvride
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -161,7 +161,7 @@ public class LoggerInterceptor implements Interceptor {
 
 ## 演示：Token/Cookie失效后登录重试
 这是一个Token/Cookie失效后重新登录的拦截器示例：
-```
+```java
 public class LoginInterceptor implements Interceptor {
 
     @Override

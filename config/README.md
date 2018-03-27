@@ -67,7 +67,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```
 
 * 配置全局`Request`连接服务器超时时间和读取响应数据超时时间。
-```
+```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
     .connectionTimeout(...)
@@ -84,7 +84,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```
 
 例如某个请求中不需要这个全局参数时，调用`removeParam()`为这个请求移除这个参数：
-```
+```java
 Kalle.get(url)
     ...
     .removeParam("name")
