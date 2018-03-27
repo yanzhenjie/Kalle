@@ -1,6 +1,6 @@
 # 概述
 
-[Kalle](https://github.com/yanzhenjie/Kalle)是一个Android平台的Http客户端，它遵循Http标准协议，支持同步请求和异步请求。
+[Kalle](https://github.com/yanzhenjie/Kalle)是一个Android平台的HttpClient，它遵循Http标准协议，支持同步请求和异步请求。
 
 如果你想做一些Http功能性的测试，我已经为你准备好了服务端源码和在线测试地址。
 * KalleServer源代码: [https://github.com/yanzhenjie/KalleServer](https://github.com/yanzhenjie/KalleServer)
@@ -17,8 +17,8 @@
 * 全局反序列化转换器，直接请求JavaBean
 * 基于拦截器的智能重定向与智能重试
 * 支持开发者添加拦截器，例如Log打印、登录重试、参数签名
-* 网络可用性缓存检查法，连接层可动态替换，如URLConnection、OkHttp或者HttpClient
+* 网络可用性缓存检查法，连接层可动态替换，如URLConnection、OkHttp或者ApacheHttpClient
 
-更多用法，请开发者点击左侧的菜单栏进行学习。
+更多用法，请开发者点击左侧的菜单栏进行学习，欢迎加入Android开发群交流技术：[547839514](http://shang.qq.com/wpa/qunwpa?idkey=11857b25741e589628887d8b393a4cab2f642bb467f98ba66dfad42031657d4e)。
 
-> **注：**如果觉得左侧菜单一二级不容易区分或者主内容字体太小，可点击主内容左上角**A**切换主题。
+> **注**：如果觉得左侧菜单一二级不容易区分或者主内容字体太小，可点击主内容左上角**A**切换主题。

@@ -142,7 +142,6 @@ if (e instanceof NetworkError) {
     message = "发生未知异常，请稍后重试";
 }
 ...
-}
 ```
 
 对于普通请求和下载请求的区别是`ParseError`和`DownloadError`，这两个异常的特点都是为了抓取开发者插入业务时发生的异常。

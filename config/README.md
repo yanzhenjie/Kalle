@@ -7,7 +7,7 @@
 Kalle.setConfig(...);
 ```
 
-我们需要为它构建一个参数：
+开发者需要先构建一个配置对象实例：
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
@@ -21,7 +21,7 @@ Kalle.setConfig(config);
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .workThreadExecutor(...)
+    .workThreadExecutor(Executor)
     .build();
 ```
 
@@ -29,7 +29,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .mainThreadExecutor(...)
+    .mainThreadExecutor(Executor)
     .build();
 ```
 
@@ -37,7 +37,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .charset(...)
+    .charset(Charset)
     .build();
 ```
 
@@ -45,7 +45,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .addHeader(...)
+    .addHeader(String, String)
     .build();
 ```
 
@@ -53,7 +53,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .proxy(...)
+    .proxy(Proxy)
     .build();
 ```
 
@@ -61,8 +61,8 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .sslSocketFactory(...)
-    .hostnameVerifier(...)
+    .sslSocketFactory(SSLSocketFactory)
+    .hostnameVerifier(HostnameVerifier)
     .build();
 ```
 
@@ -70,8 +70,8 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .connectionTimeout(...)
-    .readTimeout(...)
+    .connectionTimeout(int, TimeUnit)
+    .readTimeout(int, TimeUnit)
     .build();
 ```
 
@@ -95,7 +95,7 @@ Kalle.get(url)
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .cacheStore(...)
+    .cacheStore(CacheStore)
     .build();
 ```
 
@@ -103,7 +103,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .network(...)
+    .network(NetWork)
     .build();
 ```
 
@@ -111,7 +111,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .connectFactory(...)
+    .connectFactory(ConnectFactory)
     .build();
 ```
 
@@ -119,15 +119,16 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .cookieStore(...)
+    .cookieStore(CookieStore)
     .build();
 ```
 
-* 添加全局拦截器，这里不做过多解释，请移步到[拦截器](/config/interceptor.md)查看。
+* 添加全局拦截器，这里不做过多解释，具体使用方法请到[拦截器](/config/interceptor.md)查看。
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .addInterceptor(...)
+    .addInterceptor(Interceptor)
+    .addInterceptors(List<Interceptor>)
     .build();
 ```
 
@@ -135,7 +136,7 @@ KalleConfig config = KalleConfig.newBuilder()
 ```java
 KalleConfig config = KalleConfig.newBuilder()
     ...
-    .converter(...)
+    .converter(Converter)
     .build();
 ```
 
