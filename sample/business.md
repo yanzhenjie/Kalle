@@ -140,9 +140,11 @@ Kalle.get("http://www.example.com")
         @Override
         public void onResponse(SimpleResponse<UserInfo> response) {
             if(response.isSucceed())) { // Http成功，业务也成功。
+                // 拿到data对应的数据转成的实际对象。
                 UserInfo user = response.succeed();
                 ...
             } else {
+                // 拿到message对应的提示，显示给用户。
                 Toast.show(response.failed());
             }
         }
@@ -164,11 +166,9 @@ Kalle.get("http://www.example.com")
     });
 ```
 
-然后我们按照理想情况来封装`Converter`：
+然后我们按照理想情况来封装`Converter`（本例使用的Json解析工具是[FastJson](https://github.com/alibaba/fastjson)）：
 ```java
-public class GsonConverter implements Converter {
-
-    private static final Gson GSON = new Gson();
+public class JsonConverter implements Converter {
 
     @Override
     public <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed,
@@ -179,39 +179,28 @@ public class GsonConverter implements Converter {
         int code = response.code();
         String serverJson = response.body().string();
         if (code >= 200 && code < 300) { // Http请求成功。
+            HttpEntity httpEntity;
             try {
-                HttpEntity http = GSON.fromJson(serverJson, HttpEntity.class);
-
-                if (http.getCode() == 1) { // 服务端业务处理成功。
-                    String data = http.getData();
-                    // 如果是请求String或者int。
-                    if (succeed == String.class) {
-                        succeedData = (S) data;
-                    } else if (succeed == Integer.class) {
-                        try {
-                            Integer succeedInt = Integer.parseInt(data);
-                            succeedData = (S) succeedInt;
-                        } catch (NumberFormatException e) {
-                            failedData = (F) "服务器数据格式错误";
-                        }
-                    } else {
-                        // 请求JavaBean、List或者Map。
-                        try {
-                            succeedData = GSON.fromJson(data, succeed);
-                        } catch (Exception e) {
-                            failedData = (F) "服务器数据格式错误";
-                        }
-                    }
-                } else {
-                    // 服务端业务处理失败，读取错误信息。
-                    failedData = (F) http.getMessage();
-                }
+                httpEntity = JSON.parseObject(serverJson, HttpEntity.class);
             } catch (Exception e) {
-                failedData = (F) "服务器数据格式错误";
+                httpEntity = new HttpEntity();
+                httpEntity.setCode(0);
+                httpEntity.setMessage("服务器数据格式异常");
             }
-        } else if (code >= 400 && code < 500) {// 一般是由于不符合接口要求。
+
+            if (httpEntity.getCode() == 1) { // 服务端业务成功。
+                try {
+                    succeedData = JSON.parseObject(httpEntity.getData(), succeed);
+                } catch (Exception e) {
+                    failedData = (F) "服务器数据格式异常";
+                }
+            } else {
+                // 业务失败，获取服务端提示信息。
+                failedData = (F) httpEntity.getMessage();
+            }
+        } else if (code >= 400 && code < 500) { // 客户端请求不符合服务端要求。
             failedData = (F) "发生未知异常";
-        } else if (code >= 500) {
+        } else if (code >= 500) { // 服务端发生异常。
             failedData = (F) "服务器开小差啦";
         }
 
@@ -231,9 +220,10 @@ public class GsonConverter implements Converter {
 1. 先拿到`httpCode`和`httpBody`
 2. 根据`httpCode`判断客户端是否正常请求，服务端接口是否正常响应
 3. 解析`httpBody`数据为`HttpEntity`实体
-4. 从`HttpEntity`实体判断业务是否成功
+4. 从`HttpEntity`的业务状态码`code`判断业务是否成功
 5. 业务成功后解析业务数据中的`data`为我们真正想要的数据类型
-6. 对各个解析加一些`try-catch`的异常兼容处理
+6. 业务失败后获取服务端设置的提示消息
+7. 对各个解析加一些`try-catch`的异常兼容处理
 
 ## 封装之后的使用示例
 
