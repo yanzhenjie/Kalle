@@ -83,9 +83,11 @@
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResponse</span><span class="hljs-params">(SimpleResponse&lt;UserInfo&gt; response)</span> </span>{
             <span class="hljs-keyword">if</span>(response.isSucceed())) { <span class="hljs-comment">// Http&#x6210;&#x529F;&#xFF0C;&#x4E1A;&#x52A1;&#x4E5F;&#x6210;&#x529F;&#x3002;</span>
+                <span class="hljs-comment">// &#x62FF;&#x5230;data&#x5BF9;&#x5E94;&#x7684;&#x6570;&#x636E;&#x8F6C;&#x6210;&#x7684;&#x5B9E;&#x9645;&#x5BF9;&#x8C61;&#x3002;</span>
                 UserInfo user = response.succeed();
                 ...
             } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// &#x62FF;&#x5230;message&#x5BF9;&#x5E94;&#x7684;&#x63D0;&#x793A;&#xFF0C;&#x663E;&#x793A;&#x7ED9;&#x7528;&#x6237;&#x3002;</span>
                 Toast.show(response.failed());
             }
         }
@@ -105,9 +107,7 @@ Kalle.get(<span class="hljs-string">&quot;http://www.example.com&quot;</span>)
             }
         }
     });
-</code></pre> <p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x6309;&#x7167;&#x7406;&#x60F3;&#x60C5;&#x51B5;&#x6765;&#x5C01;&#x88C5;<code>Converter</code>&#xFF1A;</p> <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GsonConverter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Converter</span> </span>{
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Gson GSON = <span class="hljs-keyword">new</span> Gson();
+</code></pre> <p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x6309;&#x7167;&#x7406;&#x60F3;&#x60C5;&#x51B5;&#x6765;&#x5C01;&#x88C5;<code>Converter</code>&#xFF08;&#x672C;&#x4F8B;&#x4F7F;&#x7528;&#x7684;Json&#x89E3;&#x6790;&#x5DE5;&#x5177;&#x662F;<a href="https://github.com/alibaba/fastjson" target="_blank">FastJson</a>&#xFF09;&#xFF1A;</p> <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JsonConverter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Converter</span> </span>{
 
     <span class="hljs-meta">@Override</span>
     <span class="hljs-keyword">public</span> &lt;S, F&gt; <span class="hljs-function">SimpleResponse&lt;S, F&gt; <span class="hljs-title">convert</span><span class="hljs-params">(Type succeed, Type failed,
@@ -118,39 +118,28 @@ Kalle.get(<span class="hljs-string">&quot;http://www.example.com&quot;</span>)
         <span class="hljs-keyword">int</span> code = response.code();
         String serverJson = response.body().string();
         <span class="hljs-keyword">if</span> (code &gt;= <span class="hljs-number">200</span> &amp;&amp; code &lt; <span class="hljs-number">300</span>) { <span class="hljs-comment">// Http&#x8BF7;&#x6C42;&#x6210;&#x529F;&#x3002;</span>
+            HttpEntity httpEntity;
             <span class="hljs-keyword">try</span> {
-                HttpEntity http = GSON.fromJson(serverJson, HttpEntity.class);
-
-                <span class="hljs-keyword">if</span> (http.getCode() == <span class="hljs-number">1</span>) { <span class="hljs-comment">// &#x670D;&#x52A1;&#x7AEF;&#x4E1A;&#x52A1;&#x5904;&#x7406;&#x6210;&#x529F;&#x3002;</span>
-                    String data = http.getData();
-                    <span class="hljs-comment">// &#x5982;&#x679C;&#x662F;&#x8BF7;&#x6C42;String&#x6216;&#x8005;int&#x3002;</span>
-                    <span class="hljs-keyword">if</span> (succeed == String.class) {
-                        succeedData = (S) data;
-                    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (succeed == Integer.class) {
-                        <span class="hljs-keyword">try</span> {
-                            Integer succeedInt = Integer.parseInt(data);
-                            succeedData = (S) succeedInt;
-                        } <span class="hljs-keyword">catch</span> (NumberFormatException e) {
-                            failedData = (F) <span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x9519;&#x8BEF;&quot;</span>;
-                        }
-                    } <span class="hljs-keyword">else</span> {
-                        <span class="hljs-comment">// &#x8BF7;&#x6C42;JavaBean&#x3001;List&#x6216;&#x8005;Map&#x3002;</span>
-                        <span class="hljs-keyword">try</span> {
-                            succeedData = GSON.fromJson(data, succeed);
-                        } <span class="hljs-keyword">catch</span> (Exception e) {
-                            failedData = (F) <span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x9519;&#x8BEF;&quot;</span>;
-                        }
-                    }
-                } <span class="hljs-keyword">else</span> {
-                    <span class="hljs-comment">// &#x670D;&#x52A1;&#x7AEF;&#x4E1A;&#x52A1;&#x5904;&#x7406;&#x5931;&#x8D25;&#xFF0C;&#x8BFB;&#x53D6;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x3002;</span>
-                    failedData = (F) http.getMessage();
-                }
+                httpEntity = JSON.parseObject(serverJson, HttpEntity.class);
             } <span class="hljs-keyword">catch</span> (Exception e) {
-                failedData = (F) <span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x9519;&#x8BEF;&quot;</span>;
+                httpEntity = <span class="hljs-keyword">new</span> HttpEntity();
+                httpEntity.setCode(<span class="hljs-number">0</span>);
+                httpEntity.setMessage(<span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x5F02;&#x5E38;&quot;</span>);
             }
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code &gt;= <span class="hljs-number">400</span> &amp;&amp; code &lt; <span class="hljs-number">500</span>) {<span class="hljs-comment">// &#x4E00;&#x822C;&#x662F;&#x7531;&#x4E8E;&#x4E0D;&#x7B26;&#x5408;&#x63A5;&#x53E3;&#x8981;&#x6C42;&#x3002;</span>
+
+            <span class="hljs-keyword">if</span> (httpEntity.getCode() == <span class="hljs-number">1</span>) { <span class="hljs-comment">// &#x670D;&#x52A1;&#x7AEF;&#x4E1A;&#x52A1;&#x6210;&#x529F;&#x3002;</span>
+                <span class="hljs-keyword">try</span> {
+                    succeedData = JSON.parseObject(httpEntity.getData(), succeed);
+                } <span class="hljs-keyword">catch</span> (Exception e) {
+                    failedData = (F) <span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x5F02;&#x5E38;&quot;</span>;
+                }
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// &#x4E1A;&#x52A1;&#x5931;&#x8D25;&#xFF0C;&#x83B7;&#x53D6;&#x670D;&#x52A1;&#x7AEF;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#x3002;</span>
+                failedData = (F) httpEntity.getMessage();
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code &gt;= <span class="hljs-number">400</span> &amp;&amp; code &lt; <span class="hljs-number">500</span>) { <span class="hljs-comment">// &#x5BA2;&#x6237;&#x7AEF;&#x8BF7;&#x6C42;&#x4E0D;&#x7B26;&#x5408;&#x670D;&#x52A1;&#x7AEF;&#x8981;&#x6C42;&#x3002;</span>
             failedData = (F) <span class="hljs-string">&quot;&#x53D1;&#x751F;&#x672A;&#x77E5;&#x5F02;&#x5E38;&quot;</span>;
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code &gt;= <span class="hljs-number">500</span>) {
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code &gt;= <span class="hljs-number">500</span>) { <span class="hljs-comment">// &#x670D;&#x52A1;&#x7AEF;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x3002;</span>
             failedData = (F) <span class="hljs-string">&quot;&#x670D;&#x52A1;&#x5668;&#x5F00;&#x5C0F;&#x5DEE;&#x5566;&quot;</span>;
         }
 
@@ -164,7 +153,7 @@ Kalle.get(<span class="hljs-string">&quot;http://www.example.com&quot;</span>)
                 .build();
     }
 }
-</code></pre> <p><code>Converter</code>&#x4E2D;&#x4EE3;&#x7801;&#x521D;&#x770B;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x591A;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x70B9;&#x4E5F;&#x65E0;&#x590D;&#x6742;&#x3002;&#x6211;&#x4EEC;&#x6765;&#x5206;&#x6790;&#x4E00;&#x4E0B;&#x89E3;&#x6790;&#x8FC7;&#x7A0B;&#xFF1A;</p> <ol> <li>&#x5148;&#x62FF;&#x5230;<code>httpCode</code>&#x548C;<code>httpBody</code></li> <li>&#x6839;&#x636E;<code>httpCode</code>&#x5224;&#x65AD;&#x5BA2;&#x6237;&#x7AEF;&#x662F;&#x5426;&#x6B63;&#x5E38;&#x8BF7;&#x6C42;&#xFF0C;&#x670D;&#x52A1;&#x7AEF;&#x63A5;&#x53E3;&#x662F;&#x5426;&#x6B63;&#x5E38;&#x54CD;&#x5E94;</li> <li>&#x89E3;&#x6790;<code>httpBody</code>&#x6570;&#x636E;&#x4E3A;<code>HttpEntity</code>&#x5B9E;&#x4F53;</li> <li>&#x4ECE;<code>HttpEntity</code>&#x5B9E;&#x4F53;&#x5224;&#x65AD;&#x4E1A;&#x52A1;&#x662F;&#x5426;&#x6210;&#x529F;</li> <li>&#x4E1A;&#x52A1;&#x6210;&#x529F;&#x540E;&#x89E3;&#x6790;&#x4E1A;&#x52A1;&#x6570;&#x636E;&#x4E2D;&#x7684;<code>data</code>&#x4E3A;&#x6211;&#x4EEC;&#x771F;&#x6B63;&#x60F3;&#x8981;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;</li> <li>&#x5BF9;&#x5404;&#x4E2A;&#x89E3;&#x6790;&#x52A0;&#x4E00;&#x4E9B;<code>try-catch</code>&#x7684;&#x5F02;&#x5E38;&#x517C;&#x5BB9;&#x5904;&#x7406;</li> </ol> <h2 id="&#x5C01;&#x88C5;&#x4E4B;&#x540E;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;">&#x5C01;&#x88C5;&#x4E4B;&#x540E;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;</h2> <h3 id="&#x8BF7;&#x6C42;javabean">&#x8BF7;&#x6C42;JavaBean</h3> <p>JSON&#x6570;&#x636E;&#x5982;&#x4E0B;&#xFF1A;</p> <pre><code class="lang-json">{
+</code></pre> <p><code>Converter</code>&#x4E2D;&#x4EE3;&#x7801;&#x521D;&#x770B;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x591A;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x70B9;&#x4E5F;&#x65E0;&#x590D;&#x6742;&#x3002;&#x6211;&#x4EEC;&#x6765;&#x5206;&#x6790;&#x4E00;&#x4E0B;&#x89E3;&#x6790;&#x8FC7;&#x7A0B;&#xFF1A;</p> <ol> <li>&#x5148;&#x62FF;&#x5230;<code>httpCode</code>&#x548C;<code>httpBody</code></li> <li>&#x6839;&#x636E;<code>httpCode</code>&#x5224;&#x65AD;&#x5BA2;&#x6237;&#x7AEF;&#x662F;&#x5426;&#x6B63;&#x5E38;&#x8BF7;&#x6C42;&#xFF0C;&#x670D;&#x52A1;&#x7AEF;&#x63A5;&#x53E3;&#x662F;&#x5426;&#x6B63;&#x5E38;&#x54CD;&#x5E94;</li> <li>&#x89E3;&#x6790;<code>httpBody</code>&#x6570;&#x636E;&#x4E3A;<code>HttpEntity</code>&#x5B9E;&#x4F53;</li> <li>&#x4ECE;<code>HttpEntity</code>&#x7684;&#x4E1A;&#x52A1;&#x72B6;&#x6001;&#x7801;<code>code</code>&#x5224;&#x65AD;&#x4E1A;&#x52A1;&#x662F;&#x5426;&#x6210;&#x529F;</li> <li>&#x4E1A;&#x52A1;&#x6210;&#x529F;&#x540E;&#x89E3;&#x6790;&#x4E1A;&#x52A1;&#x6570;&#x636E;&#x4E2D;&#x7684;<code>data</code>&#x4E3A;&#x6211;&#x4EEC;&#x771F;&#x6B63;&#x60F3;&#x8981;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;</li> <li>&#x4E1A;&#x52A1;&#x5931;&#x8D25;&#x540E;&#x83B7;&#x53D6;&#x670D;&#x52A1;&#x7AEF;&#x8BBE;&#x7F6E;&#x7684;&#x63D0;&#x793A;&#x6D88;&#x606F;</li> <li>&#x5BF9;&#x5404;&#x4E2A;&#x89E3;&#x6790;&#x52A0;&#x4E00;&#x4E9B;<code>try-catch</code>&#x7684;&#x5F02;&#x5E38;&#x517C;&#x5BB9;&#x5904;&#x7406;</li> </ol> <h2 id="&#x5C01;&#x88C5;&#x4E4B;&#x540E;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;">&#x5C01;&#x88C5;&#x4E4B;&#x540E;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;</h2> <h3 id="&#x8BF7;&#x6C42;javabean">&#x8BF7;&#x6C42;JavaBean</h3> <p>JSON&#x6570;&#x636E;&#x5982;&#x4E0B;&#xFF1A;</p> <pre><code class="lang-json">{
     <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">1</span>,
     <span class="hljs-string">&quot;data&quot;</span>: {
         <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Kalle&quot;</span>,
@@ -323,4 +312,4 @@ Kalle.get(<span class="hljs-string">&quot;http://www.example.com&quot;</span>)
         }
     }
 }
-</code></pre> <p>&#x66F4;&#x591A;&#x5F02;&#x5E38;&#x76F8;&#x5173;&#x7684;&#x4FE1;&#x606F;&#x8BF7;&#x53C2;&#x8003;<a href="../error">&#x5F02;&#x5E38;</a>&#xFF0C;&#x8FD9;&#x91CC;&#x4F8B;&#x4E3E;&#x4E86;&#x4E00;&#x90E8;&#x5206;&#x5E38;&#x89C1;&#x7684;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x6839;&#x636E;&#x81EA;&#x8EAB;&#x9700;&#x6C42;&#x6269;&#x5C55;&#x3002;</p> </section> </div> <div class="search-results"> <div class="has-results"> <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1> <ul class="search-results-list"></ul> </div> <div class="no-results"> <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1> </div> </div> </div> </div> </div> </div> <a href="./" class="navigation navigation-prev " aria-label="Previous page: 示例"> <i class="fa fa-angle-left"></i> </a> <a href="../header/" class="navigation navigation-next " aria-label="Next page: 头"> <i class="fa fa-angle-right"></i> </a> </div> <script>var gitbook=gitbook||[];gitbook.push(function(){gitbook.page.hasChanged({page:{title:"业务封装",level:"1.3.1",depth:2,next:{title:"头",level:"1.4",depth:1,path:"header/README.md",ref:"header/README.md",articles:[]},previous:{title:"示例",level:"1.3",depth:1,path:"sample/README.md",ref:"sample/README.md",articles:[{title:"业务封装",level:"1.3.1",depth:2,path:"sample/business.md",ref:"sample/business.md",articles:[]}]},dir:"ltr"},config:{gitbook:"*",theme:"default",variables:{},plugins:[],pluginsConfig:{highlight:{},search:{},lunr:{maxIndexSize:1000000,ignoreSpecialCharacters:false},sharing:{facebook:true,twitter:true,google:false,weibo:false,instapaper:false,vk:false,all:["facebook","google","twitter","weibo","instapaper"]},fontsettings:{theme:"white",family:"sans",size:2},"theme-default":{styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"},showLevel:false}},structure:{langs:"LANGS.md",readme:"README.md",glossary:"GLOSSARY.md",summary:"SUMMARY.md"},pdf:{pageNumbers:true,fontSize:12,fontFamily:"Arial",paperSize:"a4",chapterMark:"pagebreak",pageBreaksBefore:"/",margin:{right:62,left:62,top:56,bottom:56}},styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"}},file:{path:"sample/business.md",mtime:"2018-03-27T04:17:06.873Z",type:"markdown"},gitbook:{version:"3.2.3",time:"2018-03-27T06:51:26.823Z"},basePath:"..",book:{language:""}})});</script> </div> <script src="../gitbook/gitbook.js"></script> <script src="../gitbook/theme.js"></script> <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script> <script src="../gitbook/gitbook-plugin-search/search.js"></script> <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script> <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script> <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script> <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script> </body> </html>
+</code></pre> <p>&#x66F4;&#x591A;&#x5F02;&#x5E38;&#x76F8;&#x5173;&#x7684;&#x4FE1;&#x606F;&#x8BF7;&#x53C2;&#x8003;<a href="../error">&#x5F02;&#x5E38;</a>&#xFF0C;&#x8FD9;&#x91CC;&#x4F8B;&#x4E3E;&#x4E86;&#x4E00;&#x90E8;&#x5206;&#x5E38;&#x89C1;&#x7684;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x6839;&#x636E;&#x81EA;&#x8EAB;&#x9700;&#x6C42;&#x6269;&#x5C55;&#x3002;</p> </section> </div> <div class="search-results"> <div class="has-results"> <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1> <ul class="search-results-list"></ul> </div> <div class="no-results"> <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1> </div> </div> </div> </div> </div> </div> <a href="./" class="navigation navigation-prev " aria-label="Previous page: 示例"> <i class="fa fa-angle-left"></i> </a> <a href="../header/" class="navigation navigation-next " aria-label="Next page: 头"> <i class="fa fa-angle-right"></i> </a> </div> <script>var gitbook=gitbook||[];gitbook.push(function(){gitbook.page.hasChanged({page:{title:"业务封装",level:"1.3.1",depth:2,next:{title:"头",level:"1.4",depth:1,path:"header/README.md",ref:"header/README.md",articles:[]},previous:{title:"示例",level:"1.3",depth:1,path:"sample/README.md",ref:"sample/README.md",articles:[{title:"业务封装",level:"1.3.1",depth:2,path:"sample/business.md",ref:"sample/business.md",articles:[]}]},dir:"ltr"},config:{gitbook:"*",theme:"default",variables:{},plugins:["livereload"],pluginsConfig:{livereload:{},highlight:{},search:{},lunr:{maxIndexSize:1000000,ignoreSpecialCharacters:false},sharing:{facebook:true,twitter:true,google:false,weibo:false,instapaper:false,vk:false,all:["facebook","google","twitter","weibo","instapaper"]},fontsettings:{theme:"white",family:"sans",size:2},"theme-default":{styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"},showLevel:false}},structure:{langs:"LANGS.md",readme:"README.md",glossary:"GLOSSARY.md",summary:"SUMMARY.md"},pdf:{pageNumbers:true,fontSize:12,fontFamily:"Arial",paperSize:"a4",chapterMark:"pagebreak",pageBreaksBefore:"/",margin:{right:62,left:62,top:56,bottom:56}},styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"}},file:{path:"sample/business.md",mtime:"2018-03-28T08:40:09.756Z",type:"markdown"},gitbook:{version:"3.2.3",time:"2018-03-28T08:40:33.120Z"},basePath:"..",book:{language:""}})});</script> </div> <script src="../gitbook/gitbook.js"></script> <script src="../gitbook/theme.js"></script> <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script> <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script> <script src="../gitbook/gitbook-plugin-search/search.js"></script> <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script> <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script> <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script> <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script> </body> </html>
