@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright © 2018 Yan Zhenjie.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+    <color name="colorPrimary">#9607c6</color>
+    <color name="colorPrimaryDark">#8103ab</color>
+    <color name="colorAccent">#9607c6</color>
+    <color name="navigationColor">#2B2B2B</color>
+    <color name="navigationColorAlpha">#992B2B2B</color>
+
+    <color name="black">#000</color>
+    <color name="gray">#888</color>
+    <color name="white">#FFF</color>
+    <color name="red">#F00</color>
+    <color name="green">#0F0</color>
+    <color name="blue">#00F</color>
+    <color name="yellow">#FF0</color>
+    <color name="orange">#FFA500</color>
+    <color name="transparent">#0000</color>
+
+    <color name="button_normal">#FF1B7AEA</color>
+    <color name="button_pressed">#FF2C8BDB</color>
+
+    <color name="page_background">#FFEFEFF4</color>
+    <color name="font_color_primary">#333</color>
+    <color name="font_color_secondary">#BB666666</color>
+    <color name="line_color">#C4C4C4</color>
+
+    <color name="white_normal">#FFFFFF</color>
+    <color name="white_pressed">#B0B0B0</color>
+
+    <color name="red_normal">#FF4500</color>
+    <color name="red_pressed">#B22222</color>
+
+    <color name="blue_qq_normal">#3BB5F4</color>
+    <color name="blue_qq_pressed">#1993e2</color>
+
+    <color name="green_wechat_normal">#45C01A</color>
+    <color name="green_wechat_pressed">#298409</color>
+
+    <color name="yellow_weibo_normal">#FCDA53</color>
+    <color name="yellow_weibo_pressed">#DAB831</color>
+
+</resources>

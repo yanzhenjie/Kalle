@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ AUTHOR: YanZhenjie
+
+ DESCRIPTION: create the File, and add the content.
+
+ Copyright © www.mamaqunaer.com. All Rights Reserved
+-->
+<resources>
+
+    <style name="AppTheme.Splash.Main">
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+
+</resources>
