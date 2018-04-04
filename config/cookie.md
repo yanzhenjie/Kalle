@@ -1,7 +1,7 @@
 # Cookie
 
-`CookieStore`用来增删改查App使用Kalle时的Cookie，如果开发者不配置，那么Kalle将不会操作Cookie（包括增删改差），因此如果开发者请求的网站需要保存Cookie或者网站需要读取Cookie时，将会无效。  
-Cookie的增删改差需要根据Http协议来做，要分析`path`、`expire`、`domain`等几个属性，对于一般的开发者来说相对复杂，这里不做更详细的解释，如果开发者感兴趣，可以自行搜索相关资料学习，或者查看Kalle提供的基于数据库实现的`DBCookieStore`，开发者如果需要使用Cookie只需要做个简单的配置即可：
+`CookieStore`用来增删改查App使用Kalle时的Cookie，如果开发者不配置，那么Kalle将不会操作Cookie（包括增删改查），因此如果开发者请求的网站需要保存Cookie或者网站需要读取Cookie时，将会无效。  
+Cookie的增删改查需要根据Http协议来做，要分析`path`、`expire`、`domain`等几个属性，对于一般的开发者来说相对复杂，这里不做更详细的解释，如果开发者感兴趣，可以自行搜索相关资料学习，或者查看Kalle提供的基于数据库实现的`DBCookieStore`，开发者如果需要使用Cookie只需要做个简单的配置即可：
 ```java
 KalleConfig.newBuilder()
     ...
