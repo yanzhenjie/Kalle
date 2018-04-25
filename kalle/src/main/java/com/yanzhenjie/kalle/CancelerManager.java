@@ -16,6 +16,7 @@
 package com.yanzhenjie.kalle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,16 +46,14 @@ public class CancelerManager {
      *
      * @param request target request.
      */
-    public synchronized void removeCancel(Request request) {
-        CancelEntity cancelEntity = null;
-        for (CancelEntity entity : mRequestList) {
-            Request newRequest = entity.mRequest;
-            if (request == newRequest) {
-                cancelEntity = entity;
+    public synchronized void removeCancel(final Request request) {
+        final Iterator<CancelEntity> it = mRequestList.iterator();
+        while (it.hasNext()) {
+            if (request == it.next().mRequest) {
+                it.remove();
                 break;
             }
         }
-        if (cancelEntity != null) mRequestList.remove(cancelEntity);
     }
 
     /**
