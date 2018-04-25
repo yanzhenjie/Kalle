@@ -314,7 +314,7 @@ public abstract class Request {
          */
         public T readTimeout(int timeout, TimeUnit timeUnit) {
             long time = timeUnit.toMillis(timeout);
-            this.mConnectTimeout = (int) Math.min(time, Integer.MAX_VALUE);
+            this.mReadTimeout = (int) Math.min(time, Integer.MAX_VALUE);
             return (T) this;
         }
 
