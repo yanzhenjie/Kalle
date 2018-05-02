@@ -57,13 +57,13 @@ import static com.yanzhenjie.kalle.Headers.KEY_SET_COOKIE;
 /**
  * Created by YanZhenjie on 2018/2/20.
  */
-public class ConnectInterceptor implements Interceptor {
+class ConnectInterceptor implements Interceptor {
 
     private final CookieManager mCookieManager;
     private final ConnectFactory mFactory;
     private final Network mNetwork;
 
-    public ConnectInterceptor() {
+    ConnectInterceptor() {
         this.mCookieManager = new CookieManager(Kalle.getConfig().getCookieStore());
         this.mFactory = Kalle.getConfig().getConnectFactory();
         this.mNetwork = Kalle.getConfig().getNetwork();

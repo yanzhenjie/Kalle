@@ -42,7 +42,7 @@ public class Call {
         List<Interceptor> interceptors = new ArrayList<>(Kalle.getConfig().getInterceptor());
         interceptors.add(new ConnectInterceptor());
 
-        AppChain chain = new AppChain(interceptors, 0, mRequest);
+        Chain chain = new AppChain(interceptors, 0, mRequest, this);
         return chain.proceed(mRequest);
     }
 }

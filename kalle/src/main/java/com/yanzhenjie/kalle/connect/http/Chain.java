@@ -42,6 +42,16 @@ public interface Chain {
 
     /**
      * Return {@link Call}, request will be executed on it.
+     *
+     * @deprecated use {@link #call()} instead.
      */
+    @Deprecated
     Call newCall();
+
+    /**
+     * Return {@link Call}, request will be executed on it.
+     *
+     * @return {@link Call}.
+     */
+    Call call();
 }
