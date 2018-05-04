@@ -30,5 +30,5 @@ public class SSLUtils {
         }
     };
 
-    public static final SSLSocketFactory SSL_SOCKET_FACTORY = new CompatSSLSocketFactory();
+    public static final SSLSocketFactory SSL_SOCKET_FACTORY = new TLSSocketFactory();
 }
