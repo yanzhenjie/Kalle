@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class UrlRequest extends Request {
 
-    public static UrlRequest.Builder newBuilder(Url.Builder builder, RequestMethod method) {
-        return new UrlRequest.Builder(builder, method);
+    public static UrlRequest.Builder newBuilder(Url url, RequestMethod method) {
+        return new UrlRequest.Builder(url, method);
     }
 
     private final Url mUrl;
@@ -52,9 +52,9 @@ public class UrlRequest extends Request {
 
         private Url.Builder mUrl;
 
-        protected Api(Url.Builder builder, RequestMethod method) {
+        protected Api(Url url, RequestMethod method) {
             super(method);
-            this.mUrl = builder;
+            this.mUrl = url.builder();
             this.mUrl.addQuery(Kalle.getConfig().getParams());
         }
 
@@ -197,8 +197,8 @@ public class UrlRequest extends Request {
 
     public static class Builder extends UrlRequest.Api<UrlRequest.Builder> {
 
-        private Builder(Url.Builder builder, RequestMethod method) {
-            super(builder, method);
+        private Builder(Url url, RequestMethod method) {
+            super(url, method);
         }
 
         public UrlRequest build() {

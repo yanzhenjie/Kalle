@@ -25,8 +25,8 @@ import com.yanzhenjie.kalle.Url;
  */
 public class BodyDownload extends BodyRequest implements Download {
 
-    public static BodyDownload.Api newApi(Url.Builder builder, RequestMethod method) {
-        return new BodyDownload.Api(builder, method);
+    public static BodyDownload.Api newApi(Url url, RequestMethod method) {
+        return new BodyDownload.Api(url, method);
     }
 
     private final String mDirectory;
@@ -71,8 +71,8 @@ public class BodyDownload extends BodyRequest implements Download {
         private ProgressBar mProgressBar;
         private Policy mPolicy;
 
-        private Api(Url.Builder builder, RequestMethod method) {
-            super(builder, method);
+        private Api(Url url, RequestMethod method) {
+            super(url, method);
         }
 
         public Api directory(String directory) {

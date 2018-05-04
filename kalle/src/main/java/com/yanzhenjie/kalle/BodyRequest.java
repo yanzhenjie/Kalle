@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class BodyRequest extends Request {
 
-    public static BodyRequest.Builder newBuilder(Url.Builder builder, RequestMethod method) {
-        return new BodyRequest.Builder(builder, method);
+    public static BodyRequest.Builder newBuilder(Url url, RequestMethod method) {
+        return new BodyRequest.Builder(url, method);
     }
 
     private final Url mUrl;
@@ -63,9 +63,9 @@ public class BodyRequest extends Request {
         private Params.Builder mParams;
         private RequestBody mBody;
 
-        protected Api(Url.Builder builder, RequestMethod method) {
+        protected Api(Url url, RequestMethod method) {
             super(method);
-            this.mUrlBuilder = builder;
+            this.mUrlBuilder = url.builder();
             this.mParams = Params.newBuilder();
 
             this.mParams.add(Kalle.getConfig().getParams());
@@ -345,8 +345,8 @@ public class BodyRequest extends Request {
 
     public static class Builder extends BodyRequest.Api<BodyRequest.Builder> {
 
-        private Builder(Url.Builder builder, RequestMethod method) {
-            super(builder, method);
+        private Builder(Url url, RequestMethod method) {
+            super(url, method);
         }
 
         public BodyRequest build() {

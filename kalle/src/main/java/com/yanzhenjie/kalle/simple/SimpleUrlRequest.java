@@ -32,8 +32,8 @@ import static com.yanzhenjie.kalle.simple.cache.CacheMode.HTTP;
  */
 public class SimpleUrlRequest extends UrlRequest implements SimpleRequest {
 
-    public static SimpleUrlRequest.Api newApi(Url.Builder builder, RequestMethod method) {
-        return new SimpleUrlRequest.Api(builder, method);
+    public static SimpleUrlRequest.Api newApi(Url url, RequestMethod method) {
+        return new SimpleUrlRequest.Api(url, method);
     }
 
     private final CacheMode mCacheMode;
@@ -71,8 +71,8 @@ public class SimpleUrlRequest extends UrlRequest implements SimpleRequest {
 
         private Converter mConverter;
 
-        private Api(Url.Builder builder, RequestMethod method) {
-            super(builder, method);
+        private Api(Url url, RequestMethod method) {
+            super(url, method);
         }
 
         public Api cacheMode(CacheMode cacheMode) {
@@ -93,7 +93,7 @@ public class SimpleUrlRequest extends UrlRequest implements SimpleRequest {
         public <S, F> SimpleResponse<S, F> perform(Type succeed, Type failed) throws Exception {
             return RequestManager.getInstance().perform(new SimpleUrlRequest(this), succeed, failed);
         }
-        
+
         public <S, F> Canceller perform(Callback<S, F> callback) {
             return RequestManager.getInstance().perform(new SimpleUrlRequest(this), callback);
         }

@@ -32,8 +32,8 @@ import static com.yanzhenjie.kalle.simple.cache.CacheMode.HTTP;
  */
 public class SimpleBodyRequest extends BodyRequest implements SimpleRequest {
 
-    public static SimpleBodyRequest.Api newApi(Url.Builder builder, RequestMethod method) {
-        return new SimpleBodyRequest.Api(builder, method);
+    public static SimpleBodyRequest.Api newApi(Url url, RequestMethod method) {
+        return new SimpleBodyRequest.Api(url, method);
     }
 
     private final CacheMode mCacheMode;
@@ -71,8 +71,8 @@ public class SimpleBodyRequest extends BodyRequest implements SimpleRequest {
 
         private Converter mConverter;
 
-        private Api(Url.Builder builder, RequestMethod method) {
-            super(builder, method);
+        private Api(Url url, RequestMethod method) {
+            super(url, method);
         }
 
         public Api cacheMode(CacheMode cacheMode) {
