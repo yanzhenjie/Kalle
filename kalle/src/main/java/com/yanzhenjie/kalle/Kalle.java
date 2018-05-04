@@ -35,20 +35,16 @@ public final class Kalle {
     private static KalleConfig sConfig;
 
     public static void setConfig(KalleConfig config) {
-        if (sConfig == null) sConfig = config;
-        else {
-            Log.w("Kalle", new IllegalStateException("Illegal operation, only allowed to configure once."));
+        if (sConfig == null) {
+            synchronized (KalleConfig.class) {
+                if (sConfig == null) sConfig = config == null ? KalleConfig.newBuilder().build() : config;
+                else Log.w("Kalle", new IllegalStateException("Only allowed to configure once."));
+            }
         }
     }
 
     public static KalleConfig getConfig() {
-        if (sConfig == null) {
-            synchronized (KalleConfig.class) {
-                if (sConfig == null) {
-                    sConfig = KalleConfig.newBuilder().build();
-                }
-            }
-        }
+        setConfig(null);
         return sConfig;
     }
 
