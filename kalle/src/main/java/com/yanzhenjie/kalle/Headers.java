@@ -469,7 +469,7 @@ public class Headers extends ListMap<String, String> {
     /**
      * Get language.
      */
-    private static String getLanguage() {
+    public static String getLanguage() {
         Locale locale = Locale.getDefault();
         String language = locale.getLanguage();
         String country = locale.getCountry();
@@ -482,7 +482,7 @@ public class Headers extends ListMap<String, String> {
     /**
      * Get User-Agent.
      */
-    private static String getUserAgent() {
+    public static String getUserAgent() {
         String webUserAgent = "Mozilla/5.0 (Linux; U; Android %s) AppleWebKit/534.30 (KHTML, like Gecko) Version/5.0 %sSafari/534.30";
 
         StringBuffer buffer = new StringBuffer();
