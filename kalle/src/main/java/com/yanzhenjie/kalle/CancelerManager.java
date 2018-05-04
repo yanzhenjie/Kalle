@@ -15,18 +15,22 @@
  */
 package com.yanzhenjie.kalle;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by YanZhenjie on 2018/2/27.
  */
 public class CancelerManager {
 
-    private final List<CancelEntity> mRequestList;
+    private final Lock mLock;
+    private final Map<Request, Canceller> mCancelMap;
 
     public CancelerManager() {
-        this.mRequestList = new ArrayList<>();
+        this.mLock = new ReentrantLock();
+        this.mCancelMap = new HashMap<>();
     }
 
     /**
@@ -36,8 +40,9 @@ public class CancelerManager {
      * @param canceller canceller.
      */
     public void addCancel(Request request, Canceller canceller) {
-        CancelEntity cancelTag = new CancelEntity(request, canceller);
-        mRequestList.add(cancelTag);
+        mLock.lock();
+        mCancelMap.put(request, canceller);
+        mLock.unlock();
     }
 
     /**
@@ -46,15 +51,9 @@ public class CancelerManager {
      * @param request target request.
      */
     public void removeCancel(Request request) {
-        CancelEntity cancelEntity = null;
-        for (CancelEntity entity : mRequestList) {
-            Request newRequest = entity.mRequest;
-            if (request == newRequest) {
-                cancelEntity = entity;
-                break;
-            }
-        }
-        if (cancelEntity != null) mRequestList.remove(cancelEntity);
+        mLock.lock();
+        mCancelMap.remove(request);
+        mLock.unlock();
     }
 
     /**
@@ -63,22 +62,14 @@ public class CancelerManager {
      * @param tag tag.
      */
     public void cancel(Object tag) {
-        for (CancelEntity entity : mRequestList) {
-            Object newTag = entity.mRequest.tag();
-            if (tag == newTag || (tag != null && newTag != null && tag.equals(newTag))) {
-                entity.mCanceller.cancel();
+        mLock.lock();
+        for (Map.Entry<Request, Canceller> entry : mCancelMap.entrySet()) {
+            Request request = entry.getKey();
+            Object oldTag = request.tag();
+            if ((tag == oldTag) || (tag != null && tag.equals(oldTag))) {
+                entry.getValue().cancel();
             }
         }
+        mLock.unlock();
     }
-
-    private static class CancelEntity {
-        private final Request mRequest;
-        private final Canceller mCanceller;
-
-        private CancelEntity(Request request, Canceller canceller) {
-            this.mRequest = request;
-            this.mCanceller = canceller;
-        }
-    }
-
 }
