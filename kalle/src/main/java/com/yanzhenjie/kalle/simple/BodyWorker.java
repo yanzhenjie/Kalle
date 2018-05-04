@@ -26,12 +26,22 @@ import java.lang.reflect.Type;
  */
 final class BodyWorker<S, F> extends BasicWorker<SimpleBodyRequest, S, F> {
 
+    private Call mCall;
+
     BodyWorker(SimpleBodyRequest request, Type succeed, Type failed) {
         super(request, succeed, failed);
     }
 
     @Override
     protected Response requestNetwork(SimpleBodyRequest request) throws IOException {
-        return new Call(request).execute();
+        mCall = new Call(request);
+        return mCall.execute();
+    }
+
+    @Override
+    public void cancel() {
+        if (mCall != null && !mCall.isCanceled()) {
+            mCall.cancel();
+        }
     }
 }

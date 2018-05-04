@@ -25,12 +25,22 @@ import java.io.IOException;
  */
 public class UrlWorker extends BasicWorker<UrlDownload> {
 
+    private Call mCall;
+
     UrlWorker(UrlDownload download) {
         super(download);
     }
 
     @Override
     protected Response requestNetwork(UrlDownload download) throws IOException {
-        return new Call(download).execute();
+        mCall = new Call(download);
+        return mCall.execute();
+    }
+
+    @Override
+    public void cancel() {
+        if (mCall != null && !mCall.isCanceled()) {
+            mCall.cancel();
+        }
     }
 }

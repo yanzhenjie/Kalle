@@ -25,12 +25,22 @@ import java.io.IOException;
  */
 public class BodyWorker extends BasicWorker<BodyDownload> {
 
+    private Call mCall;
+
     BodyWorker(BodyDownload download) {
         super(download);
     }
 
     @Override
     protected Response requestNetwork(BodyDownload download) throws IOException {
-        return new Call(download).execute();
+        mCall = new Call(download);
+        return mCall.execute();
+    }
+
+    @Override
+    public void cancel() {
+        if (mCall != null && !mCall.isCanceled()) {
+            mCall.cancel();
+        }
     }
 }

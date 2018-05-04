@@ -47,6 +47,7 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 
 import static com.yanzhenjie.kalle.Headers.KEY_CONTENT_LENGTH;
 import static com.yanzhenjie.kalle.Headers.KEY_CONTENT_TYPE;
@@ -63,6 +64,9 @@ class ConnectInterceptor implements Interceptor {
     private final ConnectFactory mFactory;
     private final Network mNetwork;
 
+    private Connection mConnection;
+    private boolean isCanceled;
+
     ConnectInterceptor() {
         this.mCookieManager = new CookieManager(Kalle.getConfig().getCookieStore());
         this.mFactory = Kalle.getConfig().getConnectFactory();
@@ -71,21 +75,32 @@ class ConnectInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        if (isCanceled) throw new CancellationException("The request has been cancelled.");
+
         Request request = chain.request();
         RequestMethod method = request.method();
 
-        Connection connection;
         if (method.allowBody()) {
             Headers headers = request.headers();
             RequestBody body = request.body();
             headers.set(KEY_CONTENT_LENGTH, Long.toString(body.length()));
             headers.set(KEY_CONTENT_TYPE, body.contentType());
-            connection = connect(request);
-            writeBody(connection, body);
+            mConnection = connect(request);
+            writeBody(body);
         } else {
-            connection = connect(request);
+            mConnection = connect(request);
         }
-        return readResponse(connection, request);
+        return readResponse(request);
+    }
+
+    /**
+     * Cancel the request.
+     */
+    public void cancel() {
+        isCanceled = true;
+        if (mConnection != null) {
+            mConnection.disconnect();
+        }
     }
 
     /**
@@ -120,9 +135,9 @@ class ConnectInterceptor implements Interceptor {
         }
     }
 
-    private void writeBody(Connection connection, RequestBody body) throws WriteException {
+    private void writeBody(RequestBody body) throws WriteException {
         try {
-            OutputStream stream = connection.getOutputStream();
+            OutputStream stream = mConnection.getOutputStream();
             body.writeTo(IOUtils.toBufferedOutputStream(stream));
             IOUtils.closeQuietly(stream);
         } catch (Exception e) {
@@ -130,17 +145,17 @@ class ConnectInterceptor implements Interceptor {
         }
     }
 
-    private Response readResponse(Connection connection, Request request) throws ReadException {
+    private Response readResponse(Request request) throws ReadException {
         try {
-            int code = connection.getCode();
-            Headers headers = parseResponseHeaders(connection.getHeaders());
+            int code = mConnection.getCode();
+            Headers headers = parseResponseHeaders(mConnection.getHeaders());
 
             List<String> cookieList = headers.get(KEY_SET_COOKIE);
             if (cookieList != null && !cookieList.isEmpty())
                 mCookieManager.add(URI.create(request.url().toString()), cookieList);
 
             String contentType = headers.getContentType();
-            ResponseBody body = new StreamBody(contentType, connection.getInputStream());
+            ResponseBody body = new StreamBody(contentType, mConnection.getInputStream());
             return Response.newBuilder().code(code).headers(headers).body(body).build();
         } catch (SocketTimeoutException e) {
             throw new ReadTimeoutError(String.format("Read data time out: %1$s.", request.url()), e);

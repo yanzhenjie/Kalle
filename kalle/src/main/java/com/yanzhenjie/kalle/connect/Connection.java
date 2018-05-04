@@ -47,4 +47,9 @@ public interface Connection extends Closeable {
      */
     InputStream getInputStream() throws IOException;
 
+    /**
+     * Cancel connect.
+     */
+    void disconnect();
+
 }

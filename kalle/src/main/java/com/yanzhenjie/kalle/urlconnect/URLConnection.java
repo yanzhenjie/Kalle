@@ -69,8 +69,17 @@ public class URLConnection implements Connection {
     }
 
     @Override
+    public void disconnect() {
+        if (mConnection != null) {
+            mConnection.disconnect();
+        }
+    }
+
+    @Override
     public void close() throws IOException {
-        mConnection.disconnect();
+        if (mConnection != null) {
+            mConnection.disconnect();
+        }
     }
 
     private static InputStream getInputStream(String contentEncoding, InputStream stream) throws IOException {

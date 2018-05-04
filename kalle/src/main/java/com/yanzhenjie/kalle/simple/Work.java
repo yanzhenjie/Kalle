@@ -25,10 +25,12 @@ import java.util.concurrent.FutureTask;
  */
 final class Work<T extends SimpleRequest, S, F> extends FutureTask<SimpleResponse<S, F>> implements Canceller {
 
+    private BasicWorker<T, S, F> mWorker;
     private final Callback<S, F> mCallback;
 
     Work(BasicWorker<T, S, F> work, Callback<S, F> callback) {
         super(work);
+        this.mWorker = work;
         this.mCallback = callback;
     }
 
@@ -53,5 +55,6 @@ final class Work<T extends SimpleRequest, S, F> extends FutureTask<SimpleRespons
     @Override
     public void cancel() {
         cancel(true);
+        mWorker.cancel();
     }
 }

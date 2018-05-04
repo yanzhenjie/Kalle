@@ -179,6 +179,11 @@ public abstract class BasicWorker<T extends Download> implements Callable<String
      */
     protected abstract Response requestNetwork(T download) throws IOException;
 
+    /**
+     * Cancel request.
+     */
+    public abstract void cancel();
+
     private String getRealFileName(Headers headers) throws IOException {
         String fileName = null;
         String contentDisposition = headers.getContentDisposition();

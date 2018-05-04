@@ -23,6 +23,7 @@ import com.yanzhenjie.kalle.connect.Interceptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 /**
  * Created by YanZhenjie on 2018/2/24.
@@ -30,6 +31,9 @@ import java.util.List;
 public class Call {
 
     private final Request mRequest;
+    private ConnectInterceptor mConnectInterceptor;
+    private boolean isExecuted;
+    private boolean isCanceled;
 
     public Call(Request request) {
         this.mRequest = request;
@@ -39,10 +43,49 @@ public class Call {
      * Execute request.
      */
     public Response execute() throws IOException {
+        if (isCanceled) throw new CancellationException("The request has been cancelled.");
+        isExecuted = true;
+
         List<Interceptor> interceptors = new ArrayList<>(Kalle.getConfig().getInterceptor());
-        interceptors.add(new ConnectInterceptor());
+        mConnectInterceptor = new ConnectInterceptor();
+        interceptors.add(mConnectInterceptor);
 
         Chain chain = new AppChain(interceptors, 0, mRequest, this);
-        return chain.proceed(mRequest);
+        try {
+            return chain.proceed(mRequest);
+        } catch (Exception e) {
+            if (isCanceled) throw new CancellationException("The request has been cancelled.");
+            else throw e;
+        }
+    }
+
+    /**
+     * The call is executed.
+     *
+     * @return true, otherwise is false.
+     */
+    public boolean isExecuted() {
+        return isExecuted;
+    }
+
+    /**
+     * The call is canceled.
+     *
+     * @return true, otherwise is false.
+     */
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    /**
+     * Cancel the call.
+     */
+    public void cancel() {
+        if (!isCanceled) {
+            isCanceled = true;
+            if (mConnectInterceptor != null) {
+                mConnectInterceptor.cancel();
+            }
+        }
     }
 }

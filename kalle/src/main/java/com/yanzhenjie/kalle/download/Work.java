@@ -25,10 +25,12 @@ import java.util.concurrent.FutureTask;
  */
 public class Work<T extends Download> extends FutureTask<String> implements Canceller {
 
+    private BasicWorker<T> mWorker;
     private final Callback mCallback;
 
     Work(BasicWorker<T> work, Callback callback) {
         super(work);
+        this.mWorker = work;
         this.mCallback = callback;
     }
 
@@ -53,5 +55,6 @@ public class Work<T extends Download> extends FutureTask<String> implements Canc
     @Override
     public void cancel() {
         cancel(true);
+        mWorker.cancel();
     }
 }

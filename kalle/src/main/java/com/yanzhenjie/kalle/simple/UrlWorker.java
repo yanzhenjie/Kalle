@@ -26,12 +26,22 @@ import java.lang.reflect.Type;
  */
 final class UrlWorker<S, F> extends BasicWorker<SimpleUrlRequest, S, F> {
 
+    private Call mCall;
+
     UrlWorker(SimpleUrlRequest request, Type succeed, Type failed) {
         super(request, succeed, failed);
     }
 
     @Override
     protected Response requestNetwork(SimpleUrlRequest request) throws IOException {
-        return new Call(request).execute();
+        mCall = new Call(request);
+        return mCall.execute();
+    }
+
+    @Override
+    public void cancel() {
+        if (mCall != null && !mCall.isCanceled()) {
+            mCall.cancel();
+        }
     }
 }

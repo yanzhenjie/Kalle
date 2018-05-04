@@ -97,6 +97,11 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
      */
     protected abstract Response requestNetwork(T request) throws IOException;
 
+    /**
+     * Cancel request.
+     */
+    public abstract void cancel();
+
     private Response tryReadCacheBefore() throws NoCacheError {
         CacheMode cacheMode = mRequest.cacheMode();
         switch (cacheMode) {
