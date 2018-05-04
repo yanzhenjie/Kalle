@@ -69,10 +69,18 @@ public class DBCookieStore implements CookieStore, Field {
 
                 int firstDot = host.indexOf(".");
                 int lastDot = host.lastIndexOf(".");
-                if (firstDot > 0 && lastDot > firstDot) {
-                    String domain = host.substring(firstDot, host.length());
-                    if (!TextUtils.isEmpty(domain)) {
-                        subBuilder.or(DOMAIN, Where.Options.EQUAL, domain);
+                if (firstDot > 0) {
+                    if (lastDot > firstDot) {
+                        String domain = host.substring(firstDot, host.length());
+                        if (!TextUtils.isEmpty(domain)) {
+                            subBuilder.or(DOMAIN, Where.Options.EQUAL, domain);
+                        }
+                    }
+                    if (lastDot > firstDot + 1) {
+                        String domain = host.substring(firstDot + 1, host.length());
+                        if (!TextUtils.isEmpty(domain)) {
+                            subBuilder.or(DOMAIN, Where.Options.EQUAL, domain);
+                        }
                     }
                 }
                 whereBuilder.set(subBuilder.build().toString());
