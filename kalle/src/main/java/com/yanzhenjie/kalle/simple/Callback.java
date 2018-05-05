@@ -23,25 +23,23 @@ import java.lang.reflect.Type;
  */
 public abstract class Callback<Succeed, Failed> {
 
-    private final Type[] mTypeArguments;
-
     public Callback() {
-        Type superClass = getClass().getGenericSuperclass();
-        mTypeArguments = ((ParameterizedType) superClass).getActualTypeArguments();
     }
 
     /**
      * Get the data type when the business was successful.
      */
     public Type getSucceed() {
-        return mTypeArguments[0];
+        Type superClass = getClass().getGenericSuperclass();
+        return ((ParameterizedType) superClass).getActualTypeArguments()[0];
     }
 
     /**
      * Get the data type when the business failed.
      */
     public Type getFailed() {
-        return mTypeArguments[1];
+        Type superClass = getClass().getGenericSuperclass();
+        return ((ParameterizedType) superClass).getActualTypeArguments()[1];
     }
 
     /**
