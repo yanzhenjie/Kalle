@@ -49,6 +49,7 @@ public class DBCookieStore implements CookieStore, Field {
 
         Where where = Where.newBuilder()
                 .add(EXPIRY, Where.Options.EQUAL, -1)
+                .or(EXPIRY, Where.Options.EQUAL, 0)
                 .build();
         mCookieDao.delete(where.toString());
     }
@@ -166,8 +167,7 @@ public class DBCookieStore implements CookieStore, Field {
         int count = mCookieDao.count();
         if (count > MAX_COOKIE_SIZE) {
             List<Cookie> rmList = mCookieDao.getList(null, null, Integer.toString(count - MAX_COOKIE_SIZE), null);
-            if (rmList != null)
-                mCookieDao.delete(rmList);
+            if (rmList != null) mCookieDao.delete(rmList);
         }
     }
 

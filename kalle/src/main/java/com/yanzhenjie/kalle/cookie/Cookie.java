@@ -157,14 +157,16 @@ public class Cookie implements Serializable {
         cookie.setDiscard(httpCookie.getDiscard());
         cookie.setDomain(httpCookie.getDomain());
         long maxAge = httpCookie.getMaxAge();
-        if (maxAge != -1 && maxAge > 0) {
+        if (maxAge > 0) {
             long expiry = (maxAge * 1000L) + System.currentTimeMillis();
             if (expiry < 0L) {
                 expiry = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
             }
             cookie.setExpiry(expiry);
-        } else {
+        } else if (maxAge == -1) {
             cookie.setExpiry(-1);
+        } else {
+            cookie.setExpiry(0);
         }
 
         String path = httpCookie.getPath();
@@ -184,10 +186,9 @@ public class Cookie implements Serializable {
         httpCookie.setCommentURL(cookie.commentURL);
         httpCookie.setDiscard(cookie.discard);
         httpCookie.setDomain(cookie.domain);
-        if (cookie.expiry == -1L)
-            httpCookie.setMaxAge(-1L);
-        else
-            httpCookie.setMaxAge((cookie.expiry - System.currentTimeMillis()) / 1000L);
+        if (cookie.expiry == 0) httpCookie.setMaxAge(0);
+        else if (cookie.expiry == -1L) httpCookie.setMaxAge(-1L);
+        else httpCookie.setMaxAge((cookie.expiry - System.currentTimeMillis()) / 1000L);
         httpCookie.setPath(cookie.path);
         httpCookie.setPortlist(cookie.portList);
         httpCookie.setSecure(cookie.secure);
