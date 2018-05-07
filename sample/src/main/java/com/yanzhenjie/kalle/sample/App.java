@@ -22,16 +22,16 @@ import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.KalleConfig;
+import com.yanzhenjie.kalle.OkHttpConnectFactory;
 import com.yanzhenjie.kalle.connect.BroadcastNetwork;
 import com.yanzhenjie.kalle.connect.http.LoggerInterceptor;
 import com.yanzhenjie.kalle.cookie.DBCookieStore;
 import com.yanzhenjie.kalle.sample.config.AppConfig;
 import com.yanzhenjie.kalle.sample.http.JsonConverter;
 import com.yanzhenjie.kalle.sample.http.LoginInterceptor;
-import com.yanzhenjie.kalle.sample.util.AlbumLoader;
 import com.yanzhenjie.kalle.sample.util.Logger;
+import com.yanzhenjie.kalle.sample.util.MediaLoader;
 import com.yanzhenjie.kalle.simple.cache.DiskCacheStore;
-import com.yanzhenjie.kalle.urlconnect.URLConnectionFactory;
 
 /**
  * Created by YanZhenjie on 2018/3/27.
@@ -55,7 +55,7 @@ public class App extends Application {
         AppConfig.get().initFileDir();
 
         Kalle.setConfig(KalleConfig.newBuilder()
-                .connectFactory(URLConnectionFactory.newBuilder().build())
+                .connectFactory(OkHttpConnectFactory.newBuilder().build())
                 .cookieStore(DBCookieStore.newBuilder(this).build())
                 .cacheStore(DiskCacheStore.newBuilder(AppConfig.get().PATH_APP_CACHE).build())
                 .network(new BroadcastNetwork(this))
@@ -66,7 +66,7 @@ public class App extends Application {
 
         Album.initialize(
                 AlbumConfig.newBuilder(this)
-                        .setAlbumLoader(new AlbumLoader())
+                        .setAlbumLoader(new MediaLoader())
                         .build()
         );
     }

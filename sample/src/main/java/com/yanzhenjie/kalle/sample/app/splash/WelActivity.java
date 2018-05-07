@@ -53,14 +53,15 @@ public class WelActivity extends Activity {
 
     private void requestPermission() {
         AndPermission.with(this)
+                .runtime()
                 .permission(Permission.Group.STORAGE)
-                .onDenied(new Action() {
+                .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> list) {
                         finish();
                     }
                 })
-                .onGranted(new Action() {
+                .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> list) {
                         App.get().initialize();

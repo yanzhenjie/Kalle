@@ -59,7 +59,7 @@ public class BodyPresenter extends BaseActivity implements Contract.BodyPresente
                 .camera(true)
                 .onResult(new Action<ArrayList<AlbumFile>>() {
                     @Override
-                    public void onAction(int requestCode, @NonNull ArrayList<AlbumFile> result) {
+                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
                         mAlbumFile = result.get(0);
                         mView.setLocalFile(mAlbumFile.getPath());
                     }

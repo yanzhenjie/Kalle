@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.yanzhenjie.album.Album;
 import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.app.form.entity.FileItem;
 import com.yanzhenjie.kalle.sample.util.BaseAdapter;
@@ -33,8 +33,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.yanzhenjie.kalle.sample.util.AlbumLoader.DEFAULT_DRAWABLE;
 
 /**
  * Created by YanZhenjie on 2018/3/29.
@@ -127,12 +125,9 @@ public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
 
         void bindData(FileItem fileItem) {
-            Glide.with(mIvImage.getContext())
-                    .load(fileItem.getAlbumFile().getPath())
-                    .error(DEFAULT_DRAWABLE)
-                    .placeholder(DEFAULT_DRAWABLE)
-                    .crossFade()
-                    .into(mIvImage);
+            Album.getAlbumConfig()
+                    .getAlbumLoader()
+                    .load(mIvImage, fileItem.getAlbumFile().getPath());
 
             int progress = fileItem.getProgress();
             if (progress > 0) {

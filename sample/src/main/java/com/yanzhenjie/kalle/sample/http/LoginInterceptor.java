@@ -16,15 +16,14 @@
 package com.yanzhenjie.kalle.sample.http;
 
 import com.yanzhenjie.kalle.BodyRequest;
-import com.yanzhenjie.kalle.sample.util.Logger;
 import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Response;
-import com.yanzhenjie.kalle.Url;
 import com.yanzhenjie.kalle.connect.Interceptor;
 import com.yanzhenjie.kalle.connect.http.Call;
 import com.yanzhenjie.kalle.connect.http.Chain;
 import com.yanzhenjie.kalle.sample.config.UrlConfig;
+import com.yanzhenjie.kalle.sample.util.Logger;
 import com.yanzhenjie.kalle.util.IOUtils;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class LoginInterceptor implements Interceptor {
         Response originResponse = chain.proceed(request);
         if (originResponse.code() == 401) { // If not login, try login.
             Logger.w("Need login: " + request.url().toString());
-            BodyRequest loginRequest = BodyRequest.newBuilder(Url.newBuilder(UrlConfig.LOGIN), RequestMethod.POST)
+            BodyRequest loginRequest = BodyRequest.newBuilder(UrlConfig.LOGIN, RequestMethod.POST)
                     .param("name", 123)
                     .param("password", 456)
                     .build();
@@ -51,7 +50,7 @@ public class LoginInterceptor implements Interceptor {
                 // Login successfully, the original request to re-launch.
                 IOUtils.closeQuietly(originResponse);
                 IOUtils.closeQuietly(loginResponse);
-                return chain.newCall().execute(); // Execute origin request.
+                return chain.proceed(request); // Execute origin request.
             }
             IOUtils.closeQuietly(loginResponse); // Login failed, close it.
         }

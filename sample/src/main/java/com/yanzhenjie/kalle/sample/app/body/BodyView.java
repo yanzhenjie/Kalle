@@ -21,13 +21,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.yanzhenjie.album.Album;
 import com.yanzhenjie.kalle.sample.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.yanzhenjie.kalle.sample.util.AlbumLoader.DEFAULT_DRAWABLE;
 
 /**
  * Created by YanZhenjie on 2018/3/29.
@@ -66,12 +64,9 @@ public class BodyView extends Contract.BodyView {
 
     @Override
     public void setLocalFile(String filepath) {
-        Glide.with(mIvImage.getContext())
-                .load(filepath)
-                .error(DEFAULT_DRAWABLE)
-                .placeholder(DEFAULT_DRAWABLE)
-                .crossFade()
-                .into(mIvImage);
+        Album.getAlbumConfig()
+                .getAlbumLoader()
+                .load(mIvImage, filepath);
 
         mTvStatus.setText(R.string.body_status_un_upload);
         mBtnCopy.setVisibility(View.GONE);
@@ -79,12 +74,9 @@ public class BodyView extends Contract.BodyView {
 
     @Override
     public void setRemoteFile(String filepath) {
-        Glide.with(mIvImage.getContext())
-                .load(filepath)
-                .error(DEFAULT_DRAWABLE)
-                .placeholder(DEFAULT_DRAWABLE)
-                .crossFade()
-                .into(mIvImage);
+        Album.getAlbumConfig()
+                .getAlbumLoader()
+                .load(mIvImage, filepath);
 
         mTvStatus.setText(R.string.body_status_upload_succeed);
         mBtnCopy.setVisibility(View.VISIBLE);

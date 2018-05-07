@@ -64,7 +64,7 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
                 .checkedList(mAlbumList)
                 .onResult(new Action<ArrayList<AlbumFile>>() {
                     @Override
-                    public void onAction(int i, @NonNull ArrayList<AlbumFile> albumFiles) {
+                    public void onAction(@NonNull ArrayList<AlbumFile> albumFiles) {
                         mAlbumList = albumFiles;
 
                         mFileItems = new ArrayList<>();
@@ -139,6 +139,7 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
 
         Kalle.post(UrlConfig.UPLOAD_FORM)
                 .body(formBody)
+                .tag(this)
                 .perform(new SimpleCallback<FileInfo>() {
                     @Override
                     public void onResponse(SimpleResponse<FileInfo, String> response) {
