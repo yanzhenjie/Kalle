@@ -15,14 +15,14 @@ ext {
             sampleMinSdkVersion: 14,
             targetSdkVersion   : 27,
 
-            versionCode        : 1,
-            versionName        : "0.1.1",
+            versionCode        : 2,
+            versionName        : "0.1.2",
 
             testRunner         : "android.support.test.runner.AndroidJUnitRunner"
     ]
 
     bintray = [
-            version       : "0.1.1",
+            version       : "0.1.2",
 
             siteUrl       : 'https://github.com/yanzhenjie/Kalle',
             gitUrl        : 'git@github.com:yanzhenjie/Kalle.git',
@@ -40,30 +40,30 @@ ext {
             developerName : 'yanzhenjie',
             developerEmail: 'smallajax@foxmail.com',
 
-            binrayLibrary : "kalle",
+            binrayLibrary : "",
             bintrayRepo   : "maven",
             bintrayUser   : 'yolanda',
             bintrayLicense: "Apache-2.0"
     ]
 
     dependencies = [
-            kalle              : 'com.yanzhenjie:kalle:0.1.1',
-            okalle             : 'com.yanzhenjie:okalle:0.1.1',
+            kalle              : 'com.yanzhenjie:kalle:0.1.2',
+            okalle             : 'com.yanzhenjie:okalle:0.1.2',
 
             junit              : 'junit:junit:4.12',
-            expressoCore       : 'com.android.support.test.espresso:espresso-core:3.0.1',
+            expressoCore       : 'com.android.support.test.espresso:espresso-core:3.0.2',
 
             okhttpUrl          : 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0',
 
-            appCompat          : 'com.android.support:appcompat-v7:27.1.0',
-            design             : 'com.android.support:design:27.1.0',
-            cardView           : 'com.android.support:cardview-v7:27.1.0',
+            appCompat          : 'com.android.support:appcompat-v7:27.1.1',
+            design             : 'com.android.support:design:27.1.1',
+            cardView           : 'com.android.support:cardview-v7:27.1.1',
             recyclerView       : 'com.yanzhenjie:recyclerview-swipe:1.1.4',
 
             fastjson           : 'com.alibaba:fastjson:1.1.68.android',
-            permission         : 'com.yanzhenjie:permission:2.0.0-rc4',
+            permission         : 'com.yanzhenjie:permission:2.0.0-rc5',
             loading            : 'com.yanzhenjie:loading:1.0.2',
-            album              : 'com.yanzhenjie:album:2.0.2',
+            album              : 'com.yanzhenjie:album:2.1.1',
             glide              : 'com.github.bumptech.glide:glide:3.8.0',
 
             butterKnife        : 'com.jakewharton:butterknife:8.8.1',
