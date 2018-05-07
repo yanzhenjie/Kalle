@@ -208,7 +208,8 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
     private Response tryReadCacheAfter(int code) {
         CacheMode cacheMode = mRequest.cacheMode();
         switch (cacheMode) {
-            case HTTP: {
+            case HTTP:
+            case HTTP_YES_THEN_WRITE_CACHE: {
                 if (code == 304) {
                     Cache cache = mCacheStore.get(mRequest.cacheKey());
                     if (cache != null) {
@@ -217,7 +218,6 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
                 }
                 break;
             }
-            case HTTP_YES_THEN_WRITE_CACHE:
             case NETWORK:
             case NETWORK_YES_THEN_HTTP:
             case NETWORK_YES_THEN_WRITE_CACHE: {
