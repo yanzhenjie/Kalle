@@ -23,8 +23,20 @@ import java.util.List;
  */
 public class BodyRequest extends Request {
 
+    public static BodyRequest.Builder newBuilder(String url, RequestMethod method) {
+        return newBuilder(Url.newBuilder(url).build(), method);
+    }
+
     public static BodyRequest.Builder newBuilder(Url url, RequestMethod method) {
         return new BodyRequest.Builder(url, method);
+    }
+
+    /**
+     * @deprecated use {@link #newBuilder(Url, RequestMethod)} instead.
+     */
+    @Deprecated
+    public static BodyRequest.Builder newBuilder(Url.Builder url, RequestMethod method) {
+        return newBuilder(url.build(), method);
     }
 
     private final Url mUrl;

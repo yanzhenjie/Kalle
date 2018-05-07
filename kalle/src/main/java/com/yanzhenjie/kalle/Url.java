@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Add the mPath to the URL, such as:
@@ -34,7 +35,7 @@ import java.util.Locale;
  *      .path("yy")
  *      .query("abc", "123")
  *      .setFragment("article")
- *      .send();
+ *      .build();
  * ...
  * The real url is: <code>https://www.example.com:8080/xx/yy?abc=123#article</code>.
  * </pre>
@@ -42,7 +43,7 @@ import java.util.Locale;
  * Url url = Url.newBuilder("http://www.example.com/xx/yy?abc=123")
  *      .setPath("/aa/bb/cc")
  *      .setQuery("mln=456&ijk=789")
- *      .send();
+ *      .build();
  * ...
  * The real url is: <code>http://www.example.com/aa/bb/cc?mln=456&ijk=789</code>.
  * </pre>
@@ -63,17 +64,17 @@ public class Url {
     private final String mScheme;
     private final String mHost;
     private final int mPort;
-    private final List<String> mPath;
-    private final Params mQuery;
+    private final String mPath;
+    private final String mQuery;
     private final String mFragment;
 
     private Url(Builder builder) {
         this.mScheme = builder.mScheme;
         this.mHost = builder.mHost;
         this.mPort = builder.mPort;
-        this.mPath = builder.mPath;
-        this.mQuery = builder.mQuery.build();
-        this.mFragment = builder.mFragment;
+        this.mPath = path(builder.mPath);
+        this.mQuery = query(builder.mQuery.build());
+        this.mFragment = fragment(builder.mFragment);
     }
 
     public String getScheme() {
@@ -89,19 +90,27 @@ public class Url {
     }
 
     public String getPath() {
-        return path(mPath);
+        return mPath;
     }
 
     public List<String> copyPath() {
-        return Collections.unmodifiableList(mPath);
+        return convertPath(mPath);
     }
 
     public String getQuery() {
-        return query(mQuery);
+        return mQuery;
     }
 
+    /**
+     * @deprecated use {@link #getParams()} instead.
+     */
+    @Deprecated
     public Params copyQuery() {
-        return mQuery;
+        return getParams();
+    }
+
+    public Params getParams() {
+        return convertQuery(mQuery);
     }
 
     public String getFragment() {
@@ -114,7 +123,7 @@ public class Url {
 
     @Override
     public String toString() {
-        return mScheme + "://" + mHost + port(mPort) + path(mPath) + query(mQuery) + fragment(mFragment);
+        return mScheme + "://" + mHost + port(mPort) + mPath + mQuery + mFragment;
     }
 
     public Url location(String location) {
@@ -176,11 +185,12 @@ public class Url {
 
         private Builder(String url) {
             URI uri = URI.create(url);
+
             this.mScheme = uri.getScheme();
             this.mHost = uri.getHost();
             this.mPort = uri.getPort();
             this.mPath = convertPath(uri.getPath());
-            this.mQuery = convertQuery(uri.getQuery());
+            this.mQuery = convertQuery(uri.getQuery()).builder();
             this.mFragment = uri.getFragment();
         }
 
@@ -243,7 +253,7 @@ public class Url {
             return this;
         }
 
-        public Builder param(String key, int value) {
+        public Builder addQuery(String key, int value) {
             return addQuery(key, Integer.toString(value));
         }
 
@@ -286,13 +296,22 @@ public class Url {
             return this;
         }
 
-        public Builder setQuery(String query) {
-            mQuery = convertQuery(query);
+        public Builder addQuery(Params query) {
+            for (Map.Entry<String, List<Object>> entry : query.entrySet()) {
+                String key = entry.getKey();
+                List<Object> values = entry.getValue();
+                for (Object value : values) {
+                    if (value != null && value instanceof CharSequence) {
+                        String textValue = Uri.encode(value.toString());
+                        addQuery(key, textValue);
+                    }
+                }
+            }
             return this;
         }
 
-        public Builder addQuery(Params query) {
-            mQuery = query.builder();
+        public Builder setQuery(String query) {
+            mQuery = convertQuery(query).builder();
             return this;
         }
 
@@ -344,9 +363,10 @@ public class Url {
         return pathList;
     }
 
-    private static Params.Builder convertQuery(String query) {
+    private static Params convertQuery(String query) {
         Params.Builder params = Params.newBuilder();
         if (!TextUtils.isEmpty(query)) {
+            if (query.startsWith("?")) query = query.substring(1);
             String[] paramArray = query.split("&");
             for (String param : paramArray) {
                 String key;
@@ -363,7 +383,7 @@ public class Url {
                 params.add(key, value);
             }
         }
-        return params;
+        return params.build();
     }
 
     private static String port(int port) {

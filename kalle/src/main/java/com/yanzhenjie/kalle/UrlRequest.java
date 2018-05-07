@@ -22,8 +22,20 @@ import java.util.List;
  */
 public class UrlRequest extends Request {
 
+    public static UrlRequest.Builder newBuilder(String url, RequestMethod method) {
+        return newBuilder(Url.newBuilder(url).build(), method);
+    }
+
     public static UrlRequest.Builder newBuilder(Url url, RequestMethod method) {
         return new UrlRequest.Builder(url, method);
+    }
+
+    /**
+     * @deprecated use {@link #newBuilder(Url, RequestMethod)} instead.
+     */
+    @Deprecated
+    public static UrlRequest.Builder newBuilder(Url.Builder url, RequestMethod method) {
+        return newBuilder(url.build(), method);
     }
 
     private final Url mUrl;
@@ -40,7 +52,7 @@ public class UrlRequest extends Request {
 
     @Override
     public Params copyParams() {
-        return mUrl.copyQuery();
+        return mUrl.getParams();
     }
 
     @Override

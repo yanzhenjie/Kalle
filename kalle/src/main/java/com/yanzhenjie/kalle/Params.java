@@ -20,7 +20,6 @@ import android.text.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +47,7 @@ public class Params {
      * @return if the key does not exist, it may be null.
      */
     public List<Object> get(String key) {
-        List<Object> valueList = mMap.get(key);
-        if (valueList == null) return null;
-        return Collections.unmodifiableList(valueList);
+        return mMap.get(key);
     }
 
     /**
@@ -73,7 +70,7 @@ public class Params {
      * @see Map#entrySet()
      */
     public Set<Map.Entry<String, List<Object>>> entrySet() {
-        return Collections.unmodifiableSet(mMap.entrySet());
+        return mMap.entrySet();
     }
 
     /**
@@ -83,7 +80,7 @@ public class Params {
      * @see Map#keySet()
      */
     public Set<String> keySet() {
-        return Collections.unmodifiableSet(mMap.keySet());
+        return mMap.keySet();
     }
 
     /**
@@ -139,9 +136,7 @@ public class Params {
     public Builder builder() {
         Map<String, List<Object>> map = new LinkedHashMap<>();
         for (Map.Entry<String, List<Object>> entry : mMap.entrySet()) {
-            List<Object> valueList = new ArrayList<>();
-            valueList.addAll(entry.getValue());
-            map.put(entry.getKey(), valueList);
+            map.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
         return new Builder(map);
     }
