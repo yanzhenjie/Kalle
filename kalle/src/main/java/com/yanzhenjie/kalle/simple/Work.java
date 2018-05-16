@@ -18,6 +18,7 @@ package com.yanzhenjie.kalle.simple;
 import com.yanzhenjie.kalle.Canceller;
 
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -46,8 +47,21 @@ final class Work<T extends SimpleRequest, S, F> extends FutureTask<SimpleRespons
             mCallback.onResponse(get());
         } catch (CancellationException e) {
             mCallback.onCancel();
+        } catch (ExecutionException e) {
+            Throwable cause = e.getCause();
+            if (isCancelled()) {
+                mCallback.onCancel();
+            } else if (cause != null && cause instanceof Exception) {
+                mCallback.onException((Exception) cause);
+            } else {
+                mCallback.onException(new Exception(cause));
+            }
         } catch (Exception e) {
-            mCallback.onException(e);
+            if (isCancelled()) {
+                mCallback.onCancel();
+            } else {
+                mCallback.onException(e);
+            }
         }
         mCallback.onEnd();
     }
