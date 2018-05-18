@@ -15,14 +15,14 @@ ext {
             sampleMinSdkVersion: 14,
             targetSdkVersion   : 27,
 
-            versionCode        : 2,
-            versionName        : "0.1.2",
+            versionCode        : 3,
+            versionName        : "0.1.3",
 
             testRunner         : "android.support.test.runner.AndroidJUnitRunner"
     ]
 
     bintray = [
-            version       : "0.1.2",
+            version       : "0.1.3",
 
             siteUrl       : 'https://github.com/yanzhenjie/Kalle',
             gitUrl        : 'git@github.com:yanzhenjie/Kalle.git',
@@ -47,8 +47,8 @@ ext {
     ]
 
     dependencies = [
-            kalle              : 'com.yanzhenjie:kalle:0.1.2',
-            okalle             : 'com.yanzhenjie:okalle:0.1.2',
+            kalle              : 'com.yanzhenjie:kalle:0.1.3',
+            okalle             : 'com.yanzhenjie:okalle:0.1.3',
 
             junit              : 'junit:junit:4.12',
             expressoCore       : 'com.android.support.test.espresso:espresso-core:3.0.2',
