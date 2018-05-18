@@ -163,7 +163,7 @@ public class Cookie implements Serializable {
                 expiry = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
             }
             cookie.setExpiry(expiry);
-        } else if (maxAge == -1) {
+        } else if (maxAge < 0) {
             cookie.setExpiry(-1);
         } else {
             cookie.setExpiry(0);
@@ -186,9 +186,15 @@ public class Cookie implements Serializable {
         httpCookie.setCommentURL(cookie.commentURL);
         httpCookie.setDiscard(cookie.discard);
         httpCookie.setDomain(cookie.domain);
-        if (cookie.expiry == 0) httpCookie.setMaxAge(0);
-        else if (cookie.expiry == -1L) httpCookie.setMaxAge(-1L);
-        else httpCookie.setMaxAge((cookie.expiry - System.currentTimeMillis()) / 1000L);
+        if (cookie.expiry == 0) {
+            httpCookie.setMaxAge(0);
+        } else if (cookie.expiry < 0) {
+            httpCookie.setMaxAge(-1L);
+        } else {
+            long expiry = cookie.expiry - System.currentTimeMillis();
+            expiry = expiry <= 0 ? 0 : expiry;
+            httpCookie.setMaxAge(expiry / 1000L);
+        }
         httpCookie.setPath(cookie.path);
         httpCookie.setPortlist(cookie.portList);
         httpCookie.setSecure(cookie.secure);
