@@ -15,22 +15,18 @@
  */
 package com.yanzhenjie.kalle;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by YanZhenjie on 2018/2/27.
  */
 public class CancelerManager {
 
-    private final Lock mLock;
     private final Map<Request, Canceller> mCancelMap;
 
     public CancelerManager() {
-        this.mLock = new ReentrantLock();
-        this.mCancelMap = new HashMap<>();
+        this.mCancelMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -40,9 +36,7 @@ public class CancelerManager {
      * @param canceller canceller.
      */
     public void addCancel(Request request, Canceller canceller) {
-        mLock.lock();
         mCancelMap.put(request, canceller);
-        mLock.unlock();
     }
 
     /**
@@ -51,9 +45,7 @@ public class CancelerManager {
      * @param request target request.
      */
     public void removeCancel(Request request) {
-        mLock.lock();
         mCancelMap.remove(request);
-        mLock.unlock();
     }
 
     /**
@@ -62,7 +54,6 @@ public class CancelerManager {
      * @param tag tag.
      */
     public void cancel(Object tag) {
-        mLock.lock();
         for (Map.Entry<Request, Canceller> entry : mCancelMap.entrySet()) {
             Request request = entry.getKey();
             Object oldTag = request.tag();
@@ -70,6 +61,5 @@ public class CancelerManager {
                 entry.getValue().cancel();
             }
         }
-        mLock.unlock();
     }
 }
