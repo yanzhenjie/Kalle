@@ -321,7 +321,7 @@ public class IOUtils {
     public static void write(InputStream input, OutputStream output) throws IOException {
         int len;
         byte[] buffer = new byte[4096];
-        while ((len = input.read(buffer)) != -1) {
+        while ((len = input.read(buffer)) > 0) {
             output.write(buffer, 0, len);
             output.flush();
         }
@@ -362,7 +362,7 @@ public class IOUtils {
     public static void write(Reader input, Writer output) throws IOException {
         int len;
         char[] buffer = new char[4096];
-        while (-1 != (len = input.read(buffer))) {
+        while (0< (len = input.read(buffer))) {
             output.write(buffer, 0, len);
             output.flush();
         }
@@ -373,7 +373,7 @@ public class IOUtils {
         input2 = toBufferedInputStream(input2);
 
         int ch = input1.read();
-        while (-1 != ch) {
+        while (0< ch) {
             int ch2 = input2.read();
             if (ch != ch2) return false;
             ch = input1.read();
@@ -388,7 +388,7 @@ public class IOUtils {
         input2 = toBufferedReader(input2);
 
         int ch = input1.read();
-        while (-1 != ch) {
+        while (0< ch) {
             int ch2 = input2.read();
             if (ch != ch2) return false;
             ch = input1.read();
