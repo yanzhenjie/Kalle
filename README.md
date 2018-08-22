@@ -17,15 +17,15 @@ For more information please see [the website](http://yanzhenjie.github.io/Kalle)
 ## Download
 Kalle uses URLConnection handle socket by default, add this dependency using Gradle:  
 ```groovy
-implementation 'com.yanzhenjie:kalle:0.1.3'
+implementation 'com.yanzhenjie:kalle:0.1.4'
 ```
 
 If you want to use okhttp handle socket, add this dependency using Gradle:  
 ```groovy
-implementation 'com.yanzhenjie:okalle:0.1.3'
+implementation 'com.yanzhenjie:okalle:0.1.4'
 ```
 
-Kalle requires at minimum Java 7 or Android 2.3(Api level 9).
+Kalle requires at minimum Android 2.3(Api level 9).
 
 ## ProGuard
 ```text
@@ -35,9 +35,6 @@ Maybe you also need to refer to [ProGuard](https://github.com/square/okhttp#prog
 
 ## Contributing
 Before submitting pull requests, contributors must abide by the [agreement](CONTRIBUTING.md) .
-
-## Thanks
-* [zj565061763](https://github.com/zj565061763), review the source code of kalle and help me fix some of problems.
 
 ## License
 ```text
