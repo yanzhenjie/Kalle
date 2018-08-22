@@ -43,14 +43,10 @@ public class DiskCacheStore implements CacheStore {
         return new Builder(directory);
     }
 
-    private Lock mLock;
-
     private Secret mSecret;
     private String mDirectory;
 
     private DiskCacheStore(Builder builder) {
-        mLock = new ReentrantLock();
-
         mDirectory = builder.mDirectory;
         String password = TextUtils.isEmpty(builder.mPassword) ? mDirectory : builder.mPassword;
         mSecret = Encryption.createSecret(password);
@@ -58,33 +54,30 @@ public class DiskCacheStore implements CacheStore {
 
     @Override
     public Cache get(String key) {
-        mLock.lock();
         key = uniqueKey(key);
 
-        BufferedReader bufferedReader = null;
+        BufferedReader reader = null;
         try {
             File file = new File(mDirectory, key);
             if (!file.exists() || file.isDirectory()) return null;
 
             Cache cache = new Cache();
-            bufferedReader = new BufferedReader(new FileReader(file));
-            cache.setCode(Integer.parseInt(decrypt(bufferedReader.readLine())));
-            cache.setHeaders(Headers.fromJSONString(decrypt(bufferedReader.readLine())));
-            cache.setBody(Encryption.hexToByteArray(decrypt(bufferedReader.readLine())));
-            cache.setExpires(Long.parseLong(decrypt(bufferedReader.readLine())));
+            reader = new BufferedReader(new FileReader(file));
+            cache.setCode(Integer.parseInt(decrypt(reader.readLine())));
+            cache.setHeaders(Headers.fromJSONString(decrypt(reader.readLine())));
+            cache.setBody(Encryption.hexToByteArray(decrypt(reader.readLine())));
+            cache.setExpires(Long.parseLong(decrypt(reader.readLine())));
             return cache;
         } catch (Exception e) {
             IOUtils.delFileOrFolder(new File(mDirectory, key));
         } finally {
-            IOUtils.closeQuietly(bufferedReader);
-            mLock.unlock();
+            IOUtils.closeQuietly(reader);
         }
         return null;
     }
 
     @Override
     public boolean replace(String key, Cache cache) {
-        mLock.lock();
         key = uniqueKey(key);
 
         BufferedWriter writer = null;
@@ -109,31 +102,19 @@ public class DiskCacheStore implements CacheStore {
             IOUtils.delFileOrFolder(new File(mDirectory, key));
         } finally {
             IOUtils.closeQuietly(writer);
-            mLock.unlock();
         }
         return false;
     }
 
     @Override
     public boolean remove(String key) {
-        mLock.lock();
         key = uniqueKey(key);
-
-        try {
-            return IOUtils.delFileOrFolder(new File(mDirectory, key));
-        } finally {
-            mLock.unlock();
-        }
+        return IOUtils.delFileOrFolder(new File(mDirectory, key));
     }
 
     @Override
     public boolean clear() {
-        mLock.lock();
-        try {
-            return IOUtils.delFileOrFolder(mDirectory);
-        } finally {
-            mLock.unlock();
-        }
+        return IOUtils.delFileOrFolder(mDirectory);
     }
 
     private String encrypt(String encryptionText) throws GeneralSecurityException {
