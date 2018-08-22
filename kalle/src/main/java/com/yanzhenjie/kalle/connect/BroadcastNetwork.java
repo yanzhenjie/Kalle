@@ -54,7 +54,7 @@ public class BroadcastNetwork implements Network {
 
     private static class NetworkReceiver extends BroadcastReceiver {
 
-        private boolean mAvailable;
+        private boolean mAvailable = true;
         private NetworkChecker mChecker;
 
         public NetworkReceiver(NetworkChecker checker) {
