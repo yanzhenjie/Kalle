@@ -17,7 +17,6 @@ package com.yanzhenjie.kalle.sample.http;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.yanzhenjie.kalle.exception.ConnectTimeoutError;
 import com.yanzhenjie.kalle.exception.HostError;

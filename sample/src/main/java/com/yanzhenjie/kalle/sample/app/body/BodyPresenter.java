@@ -28,6 +28,7 @@ import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.app.BaseActivity;
 import com.yanzhenjie.kalle.sample.app.body.entity.FileInfo;
 import com.yanzhenjie.kalle.sample.config.UrlConfig;
+import com.yanzhenjie.kalle.sample.http.DialogCallback;
 import com.yanzhenjie.kalle.sample.http.SimpleCallback;
 import com.yanzhenjie.kalle.sample.util.FileUtils;
 import com.yanzhenjie.kalle.simple.SimpleResponse;
@@ -91,7 +92,7 @@ public class BodyPresenter extends BaseActivity implements Contract.BodyPresente
                 .urlParam("filename", file.getName())
                 .body(new FileBody(file))
                 .tag(this)
-                .perform(new SimpleCallback<FileInfo>(this) {
+                .perform(new DialogCallback<FileInfo>(this) {
                     @Override
                     public void onResponse(SimpleResponse<FileInfo, String> response) {
                         if (response.isSucceed()) {
