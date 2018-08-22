@@ -302,7 +302,7 @@ public class Url {
                 List<Object> values = entry.getValue();
                 for (Object value : values) {
                     if (value != null && value instanceof CharSequence) {
-                        String textValue = Uri.encode(value.toString());
+                        String textValue = value.toString();
                         addQuery(key, textValue);
                     }
                 }
