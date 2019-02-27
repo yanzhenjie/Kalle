@@ -10,7 +10,6 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
-        testInstrumentationRunner rootProject.ext.android.testRunner
     }
 
     buildTypes {
@@ -33,25 +32,21 @@ android {
 }
 
 dependencies {
-    testImplementation rootProject.ext.dependencies.junit
-    androidTestImplementation(rootProject.ext.dependencies.expressoCore) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
-
     implementation rootProject.ext.dependencies.kalle
     implementation rootProject.ext.dependencies.okalle
 
+    implementation rootProject.ext.dependencies.material
     implementation rootProject.ext.dependencies.appCompat
-    implementation rootProject.ext.dependencies.design
     implementation rootProject.ext.dependencies.cardView
     implementation rootProject.ext.dependencies.recyclerView
+    implementation rootProject.ext.dependencies.swipeRecyclerView
 
-    implementation rootProject.ext.dependencies.fastjson
-    implementation rootProject.ext.dependencies.permission
     implementation rootProject.ext.dependencies.loading
     implementation rootProject.ext.dependencies.album
-    implementation rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.permission
 
+    implementation rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.fastjson
     implementation rootProject.ext.dependencies.butterKnife
     annotationProcessor rootProject.ext.dependencies.butterKnifeCompiler
 
