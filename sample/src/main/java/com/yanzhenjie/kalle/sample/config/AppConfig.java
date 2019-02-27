@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,11 +36,11 @@ public class AppConfig {
     private static AppConfig sInstance;
 
     public static AppConfig get() {
-        if (sInstance == null)
+        if (sInstance == null) {
             synchronized (AppConfig.class) {
-                if (sInstance == null)
-                    sInstance = new AppConfig();
+                if (sInstance == null) sInstance = new AppConfig();
             }
+        }
         return sInstance;
     }
 
@@ -82,85 +82,59 @@ public class AppConfig {
     }
 
     public void setStringApply(String key, String value) {
-        mPreferences.edit()
-                .putString(key, value)
-                .apply();
+        mPreferences.edit().putString(key, value).apply();
     }
 
     public boolean setStringCommit(String key, String value) {
-        return mPreferences.edit()
-                .putString(key, value)
-                .commit();
+        return mPreferences.edit().putString(key, value).commit();
     }
 
     public void setBooleanApply(String key, boolean value) {
-        mPreferences.edit()
-                .putBoolean(key, value)
-                .apply();
+        mPreferences.edit().putBoolean(key, value).apply();
     }
 
     public boolean setBooleanCommit(String key, boolean value) {
-        return mPreferences.edit()
-                .putBoolean(key, value)
-                .commit();
+        return mPreferences.edit().putBoolean(key, value).commit();
     }
 
     public void setFloatApply(String key, float value) {
-        mPreferences.edit()
-                .putFloat(key, value)
-                .apply();
+        mPreferences.edit().putFloat(key, value).apply();
     }
 
     public boolean setFloatCommit(String key, float value) {
-        return mPreferences.edit()
-                .putFloat(key, value)
-                .commit();
+        return mPreferences.edit().putFloat(key, value).commit();
     }
 
     public void setIntApply(String key, int value) {
-        mPreferences.edit()
-                .putInt(key, value)
-                .apply();
+        mPreferences.edit().putInt(key, value).apply();
     }
 
     public boolean setIntCommit(String key, int value) {
-        return mPreferences.edit()
-                .putInt(key, value)
-                .commit();
+        return mPreferences.edit().putInt(key, value).commit();
     }
 
     public void setLongApply(String key, long value) {
-        mPreferences.edit()
-                .putLong(key, value)
-                .apply();
+        mPreferences.edit().putLong(key, value).apply();
     }
 
     public boolean setLongCommit(String key, long value) {
-        return mPreferences.edit()
-                .putLong(key, value)
-                .commit();
+        return mPreferences.edit().putLong(key, value).commit();
     }
 
     public <P extends Parcelable> void setObjectApply(String key, P param) {
-        if (param != null)
-            mPreferences.edit()
-                    .putString(key, JSON.toJSONString(param))
-                    .apply();
-        else
-            mPreferences.edit()
-                    .putString(key, "")
-                    .apply();
+        if (param != null) {
+            mPreferences.edit().putString(key, JSON.toJSONString(param)).apply();
+        } else {
+            mPreferences.edit().putString(key, "").apply();
+        }
     }
 
     public <P extends Parcelable> boolean setObjectCommit(String key, P param) {
-        if (param != null)
-            return mPreferences.edit()
-                    .putString(key, JSON.toJSONString(param))
-                    .commit();
-        else
-            return mPreferences.edit()
-                    .putString(key, "")
-                    .commit();
+        if (param != null) {
+            return mPreferences.edit().putString(key, JSON.toJSONString(param)).commit();
+        } else {
+            return mPreferences.edit().putString(key, "").commit();
+        }
     }
 
     public String getString(String key, String defaultValue) {

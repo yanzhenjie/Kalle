@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import com.yanzhenjie.kalle.sample.mvp.BaseView;
 public final class Contract {
 
     public interface DownloadPresenter extends BasePresenter {
+
         /**
          * Try download.
          */
@@ -33,6 +34,7 @@ public final class Contract {
     }
 
     public static abstract class DownloadView extends BaseView<DownloadPresenter> {
+
         public DownloadView(Activity activity, DownloadPresenter presenter) {
             super(activity, presenter);
         }

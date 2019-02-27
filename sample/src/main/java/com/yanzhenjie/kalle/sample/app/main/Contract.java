@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.util.List;
 public final class Contract {
 
     public interface MainPresenter extends BasePresenter {
+
         /**
          * Click function item.
          */
@@ -36,6 +37,7 @@ public final class Contract {
     }
 
     public static abstract class MainView extends BaseView<MainPresenter> {
+
         public MainView(Activity activity, MainPresenter presenter) {
             super(activity, presenter);
         }

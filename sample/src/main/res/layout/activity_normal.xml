@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-    Copyright 2018 Yan Zhenjie.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 Zhenjie Yan.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,12 +14,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MatchParent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_scroll" />
+    <include layout="@layout/toolbar_scroll"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
@@ -26,9 +28,9 @@
         android:background="@color/page_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
             android:id="@+id/recycler_view"
-            style="@style/WrapContent.WidthMatchParent" />
+            style="@style/WrapContent.WidthMatchParent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

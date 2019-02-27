@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by YanZhenjie on 2018/3/26.
+ * Created by Zhenjie Yan on 2018/3/26.
  */
 public abstract class DialogCallback<S> extends Callback<S, String> {
 
@@ -50,7 +50,7 @@ public abstract class DialogCallback<S> extends Callback<S, String> {
     @Override
     public Type getSucceed() {
         Type superClass = getClass().getGenericSuperclass();
-        return ((ParameterizedType) superClass).getActualTypeArguments()[0];
+        return ((ParameterizedType)superClass).getActualTypeArguments()[0];
     }
 
     @Override
@@ -87,9 +87,7 @@ public abstract class DialogCallback<S> extends Callback<S, String> {
         }
 
         Logger.e(e);
-        onResponse(SimpleResponse.<S, String>newBuilder()
-                .failed(message)
-                .build());
+        onResponse(SimpleResponse.<S, String>newBuilder().failed(message).build());
     }
 
     @Override

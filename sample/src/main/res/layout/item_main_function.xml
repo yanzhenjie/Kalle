@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-    Copyright 2018 Yan Zhenjie.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 Zhenjie Yan.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,7 +14,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/WrapContent.WidthMatchParent"
     android:background="?selectableItemBackground"
@@ -26,12 +28,12 @@
         android:id="@+id/tv_title"
         style="@style/WrapContent"
         android:textSize="@dimen/sp_18"
-        tools:text="I am kalle" />
+        tools:text="I am kalle"/>
 
     <TextView
         android:id="@+id/tv_content"
         style="@style/WrapContent"
         android:textColor="@color/font_color_secondary"
-        tools:text="I am content, " />
+        tools:text="I am content, "/>
 
 </LinearLayout>

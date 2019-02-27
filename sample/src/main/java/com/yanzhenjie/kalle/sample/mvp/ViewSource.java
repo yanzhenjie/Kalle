@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright © Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,32 +114,27 @@ class ViewSource extends Source<View> {
     @Override
     void setHomeAsUpIndicator(Drawable icon) {
         this.mActionBarIcon = icon;
-        if (mActionBar != null)
-            mActionBar.setNavigationIcon(icon);
+        if (mActionBar != null) mActionBar.setNavigationIcon(icon);
     }
 
     @Override
     final void setTitle(CharSequence title) {
-        if (mActionBar != null)
-            mActionBar.setTitle(title);
+        if (mActionBar != null) mActionBar.setTitle(title);
     }
 
     @Override
     final void setTitle(@StringRes int title) {
-        if (mActionBar != null)
-            mActionBar.setTitle(title);
+        if (mActionBar != null) mActionBar.setTitle(title);
     }
 
     @Override
     final void setSubTitle(CharSequence title) {
-        if (mActionBar != null)
-            mActionBar.setSubtitle(title);
+        if (mActionBar != null) mActionBar.setSubtitle(title);
     }
 
     @Override
     final void setSubTitle(@StringRes int title) {
-        if (mActionBar != null)
-            mActionBar.setSubtitle(title);
+        if (mActionBar != null) mActionBar.setSubtitle(title);
     }
 
     @Override
@@ -156,7 +151,8 @@ class ViewSource extends Source<View> {
     void closeInputMethod() {
         View focusView = getHostView().findFocus();
         if (focusView != null) {
-            InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager manager = (InputMethodManager)getContext().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
             if (manager != null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }

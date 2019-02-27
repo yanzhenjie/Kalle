@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * Created by YanZhenjie on 2018/3/29.
+ * Created by Zhenjie Yan on 2018/3/29.
  */
 public class BodyView extends Contract.BodyView {
 
@@ -64,9 +64,7 @@ public class BodyView extends Contract.BodyView {
 
     @Override
     public void setLocalFile(String filepath) {
-        Album.getAlbumConfig()
-                .getAlbumLoader()
-                .load(mIvImage, filepath);
+        Album.getAlbumConfig().getAlbumLoader().load(mIvImage, filepath);
 
         mTvStatus.setText(R.string.body_status_un_upload);
         mBtnCopy.setVisibility(View.GONE);
@@ -74,9 +72,7 @@ public class BodyView extends Contract.BodyView {
 
     @Override
     public void setRemoteFile(String filepath) {
-        Album.getAlbumConfig()
-                .getAlbumLoader()
-                .load(mIvImage, filepath);
+        Album.getAlbumConfig().getAlbumLoader().load(mIvImage, filepath);
 
         mTvStatus.setText(R.string.body_status_upload_succeed);
         mBtnCopy.setVisibility(View.VISIBLE);

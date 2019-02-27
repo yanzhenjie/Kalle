@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +23,21 @@ import android.view.View;
 import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.entity.News;
 import com.yanzhenjie.kalle.sample.util.DisplayUtils;
-import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.yanzhenjie.recyclerview.OnItemClickListener;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 import java.util.List;
 
 import butterknife.BindView;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class MainView extends Contract.MainView {
 
     @BindView(R.id.recycler_view)
-    SwipeMenuRecyclerView mRecyclerView;
+    SwipeRecyclerView mRecyclerView;
     MainAdapter mAdapter;
 
     public MainView(Activity activity, Contract.MainPresenter presenter) {
@@ -47,7 +47,7 @@ public class MainView extends Contract.MainView {
         int color = ContextCompat.getColor(getContext(), R.color.line_color);
         int size = DisplayUtils.dip2px(1);
         mRecyclerView.addItemDecoration(new DefaultItemDecoration(color, 0, size));
-        mRecyclerView.setSwipeItemClickListener(new SwipeItemClickListener() {
+        mRecyclerView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 getPresenter().clickItem(position);

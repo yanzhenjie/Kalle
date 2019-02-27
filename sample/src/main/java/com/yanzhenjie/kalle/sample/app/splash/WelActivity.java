@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,22 @@
 package com.yanzhenjie.kalle.sample.app.splash;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 
 import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.sample.App;
+import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.app.main.MainPresenter;
 import com.yanzhenjie.kalle.sample.http.SimpleCallback;
 import com.yanzhenjie.kalle.sample.util.Delivery;
 import com.yanzhenjie.kalle.simple.SimpleResponse;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.util.List;
 
@@ -38,6 +41,8 @@ import static com.yanzhenjie.kalle.sample.config.UrlConfig.LOGIN;
  * Created by YanZhenjie on 2018/3/1.
  */
 public class WelActivity extends Activity {
+
+    private static final int REQUEST_CODE_SETTING_PERMISSION = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,39 +57,66 @@ public class WelActivity extends Activity {
     }
 
     private void requestPermission() {
-        AndPermission.with(this)
-                .runtime()
-                .permission(Permission.Group.STORAGE)
-                .onDenied(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> list) {
-                        finish();
-                    }
-                })
-                .onGranted(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> list) {
-                        App.get().initialize();
-                        tryLogin();
-                    }
-                })
-                .start();
+        AndPermission.with(this).runtime().permission(Permission.Group.STORAGE).onDenied(new Action<List<String>>() {
+            @Override
+            public void onAction(List<String> list) {
+                new AlertDialog.Builder(WelActivity.this).setCancelable(false)
+                    .setTitle(R.string.tip)
+                    .setMessage(R.string.wel_permission_failed)
+                    .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            permissionSetting();
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .show();
+            }
+        }).onGranted(new Action<List<String>>() {
+            @Override
+            public void onAction(List<String> list) {
+                App.get().initialize();
+                tryLogin();
+            }
+        }).start();
+    }
+
+    /**
+     * Permission setting.
+     */
+    private void permissionSetting() {
+        AndPermission.with(this).runtime().setting().start(REQUEST_CODE_SETTING_PERMISSION);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SETTING_PERMISSION: {
+                if (AndPermission.hasPermissions(this, Permission.Group.STORAGE)) {
+                    tryLogin();
+                } else {
+                    finish();
+                }
+                break;
+            }
+        }
     }
 
     /**
      * Try login.
      */
     private void tryLogin() {
-        Kalle.post(LOGIN)
-                .param("name", 123)
-                .param("password", 456)
-                .tag(this)
-                .perform(new SimpleCallback<String>(this) {
-                    @Override
-                    public void onResponse(SimpleResponse<String, String> response) {
-                        toLauncher();
-                    }
-                });
+        Kalle.post(LOGIN).param("name", 123).param("password", 456).tag(this).perform(new SimpleCallback<String>(this) {
+            @Override
+            public void onResponse(SimpleResponse<String, String> response) {
+                toLauncher();
+            }
+        });
     }
 
     private void toLauncher() {

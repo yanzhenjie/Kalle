@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ public class MediaLoader implements AlbumLoader {
     @Override
     public void load(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
-                .load(url)
-                .placeholder(R.mipmap.placeholder)
-                .error(R.mipmap.placeholder)
-                .crossFade()
-                .into(imageView);
+            .load(url)
+            .placeholder(R.mipmap.placeholder)
+            .error(R.mipmap.placeholder)
+            .crossFade()
+            .into(imageView);
     }
 }

@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-    Copyright 2018 Yan Zhenjie.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 Zhenjie Yan.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,20 +14,21 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParent"
     android:background="@color/page_background"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_scroll" />
+    <include layout="@layout/toolbar_scroll"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_download"
         style="@style/Button.Primary.WrapContent.WidthMatchParent"
         android:layout_margin="@dimen/dp_10"
         android:text="@string/download_start"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/tv_status"
@@ -34,13 +36,13 @@
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        android:text="@string/download_status_cancel" />
+        android:text="@string/download_status_cancel"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/ProgressBar.WrapContentHeight"
         android:layout_margin="@dimen/dp_10"
-        tools:progress="50" />
+        tools:progress="50"/>
 
     <TextView
         android:id="@+id/tv_speed"
@@ -48,6 +50,6 @@
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        tools:text="20M/S" />
+        tools:text="20M/S"/>
 
 </LinearLayout>

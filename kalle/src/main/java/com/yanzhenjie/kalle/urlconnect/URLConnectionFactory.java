@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import static com.yanzhenjie.kalle.Headers.VALUE_CLOSE;
  * <p>
  * Network connection actuator based on URLConnection.
  * </p>
- * Created by Yan Zhenjie on 2016/10/15.
+ * Created by Zhenjie Yan on 2016/10/15.
  */
 public class URLConnectionFactory implements ConnectFactory {
 

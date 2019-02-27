@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,9 +40,9 @@ public class LoginInterceptor implements Interceptor {
         if (originResponse.code() == 401) { // If not login, try login.
             Logger.w("Need login: " + request.url().toString());
             BodyRequest loginRequest = BodyRequest.newBuilder(UrlConfig.LOGIN, RequestMethod.POST)
-                    .param("name", 123)
-                    .param("password", 456)
-                    .build();
+                .param("name", 123)
+                .param("password", 456)
+                .build();
             Response loginResponse = new Call(loginRequest).execute();
             if (loginResponse.code() == 200) { // Login successfully.
                 Logger.i("Re-Request: " + request.url().toString());

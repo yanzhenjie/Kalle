@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import java.util.concurrent.Executor;
 import static com.yanzhenjie.kalle.Headers.KEY_RANGE;
 
 /**
- * Created by YanZhenjie on 2018/3/18.
+ * Created by Zhenjie Yan on 2018/3/18.
  */
 public abstract class BasicWorker<T extends Download> implements Callable<String> {
 

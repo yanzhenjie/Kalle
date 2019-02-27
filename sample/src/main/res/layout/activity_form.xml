@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-    Copyright 2018 Yan Zhenjie.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 Zhenjie Yan.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,28 +14,29 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchParent"
     android:background="@color/page_background"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_scroll" />
+    <include layout="@layout/toolbar_scroll"/>
 
     <TextView
         android:id="@+id/tv_status"
         style="@style/WrapContent"
         android:layout_margin="@dimen/dp_5"
         android:text="@string/form_select_tip"
-        android:textColor="@color/font_color_secondary" />
+        android:textColor="@color/font_color_secondary"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        style="@style/WrapContent.WidthMatchParent" />
+        style="@style/WrapContent.WidthMatchParent"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_upload"
         style="@style/Button.Primary.WrapContent.WidthMatchParent"
         android:layout_margin="@dimen/dp_5"
-        android:text="@string/form_upload" />
+        android:text="@string/form_upload"/>
 
 </LinearLayout>

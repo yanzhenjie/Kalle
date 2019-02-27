@@ -119,26 +119,22 @@ class ActivitySource extends Source<Activity> {
 
     @Override
     final void setTitle(CharSequence title) {
-        if (mActionBar != null)
-            mActionBar.setTitle(title);
+        if (mActionBar != null) mActionBar.setTitle(title);
     }
 
     @Override
     final void setTitle(@StringRes int title) {
-        if (mActionBar != null)
-            mActionBar.setTitle(title);
+        if (mActionBar != null) mActionBar.setTitle(title);
     }
 
     @Override
     final void setSubTitle(CharSequence title) {
-        if (mActionBar != null)
-            mActionBar.setSubtitle(title);
+        if (mActionBar != null) mActionBar.setSubtitle(title);
     }
 
     @Override
     final void setSubTitle(@StringRes int title) {
-        if (mActionBar != null)
-            mActionBar.setSubtitle(title);
+        if (mActionBar != null) mActionBar.setSubtitle(title);
     }
 
     @Override
@@ -156,7 +152,7 @@ class ActivitySource extends Source<Activity> {
         Activity activity = getSource();
         View focusView = activity.getCurrentFocus();
         if (focusView != null) {
-            InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager manager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             if (manager != null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }

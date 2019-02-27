@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright © Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -181,7 +181,8 @@ public abstract class BaseView<Presenter extends BasePresenter> {
 
     protected final void openInputMethod(View view) {
         view.requestFocus();
-        InputMethodManager manager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager)view.getContext()
+            .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
             manager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -265,86 +266,88 @@ public abstract class BaseView<Presenter extends BasePresenter> {
     }
 
     public void showMessageDialog(CharSequence title, CharSequence message) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .create();
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            })
+            .create();
         alertDialog.show();
     }
 
-    public void showConfirmDialog(@StringRes int title, @StringRes int message, OnDialogClickListener confirmClickListener) {
+    public void showConfirmDialog(@StringRes int title, @StringRes int message,
+        OnDialogClickListener confirmClickListener) {
         showConfirmDialog(getText(title), getText(message), confirmClickListener);
     }
 
-    public void showConfirmDialog(@StringRes int title, CharSequence message, OnDialogClickListener confirmClickListener) {
+    public void showConfirmDialog(@StringRes int title, CharSequence message,
+        OnDialogClickListener confirmClickListener) {
         showConfirmDialog(getText(title), message, confirmClickListener);
     }
 
-    public void showConfirmDialog(CharSequence title, @StringRes int message, OnDialogClickListener confirmClickListener) {
+    public void showConfirmDialog(CharSequence title, @StringRes int message,
+        OnDialogClickListener confirmClickListener) {
         showConfirmDialog(title, getText(message), confirmClickListener);
     }
 
-    public void showConfirmDialog(CharSequence title, CharSequence message, final OnDialogClickListener confirmClickListener) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        confirmClickListener.onClick(which);
-                    }
-                })
-                .create();
+    public void showConfirmDialog(CharSequence title, CharSequence message,
+        final OnDialogClickListener confirmClickListener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            })
+            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    confirmClickListener.onClick(which);
+                }
+            })
+            .create();
         alertDialog.show();
     }
 
     public void showMessageDialog(@StringRes int title, @StringRes int message,
-                                  OnDialogClickListener cancelClickListener, OnDialogClickListener confirmClickListener) {
+        OnDialogClickListener cancelClickListener, OnDialogClickListener confirmClickListener) {
         showMessageDialog(getText(title), getText(message), cancelClickListener, confirmClickListener);
     }
 
-    public void showMessageDialog(@StringRes int title, CharSequence message,
-                                  OnDialogClickListener cancelClickListener, OnDialogClickListener confirmClickListener) {
+    public void showMessageDialog(@StringRes int title, CharSequence message, OnDialogClickListener cancelClickListener,
+        OnDialogClickListener confirmClickListener) {
         showMessageDialog(getText(title), message, cancelClickListener, confirmClickListener);
     }
 
-    public void showMessageDialog(CharSequence title, @StringRes int message,
-                                  OnDialogClickListener cancelClickListener, OnDialogClickListener confirmClickListener) {
+    public void showMessageDialog(CharSequence title, @StringRes int message, OnDialogClickListener cancelClickListener,
+        OnDialogClickListener confirmClickListener) {
         showMessageDialog(title, getText(message), cancelClickListener, confirmClickListener);
     }
 
     public void showMessageDialog(CharSequence title, CharSequence message,
-                                  final OnDialogClickListener cancelClickListener, final OnDialogClickListener confirmClickListener) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        cancelClickListener.onClick(which);
-                    }
-                })
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        confirmClickListener.onClick(which);
-                    }
-                })
-                .create();
+        final OnDialogClickListener cancelClickListener, final OnDialogClickListener confirmClickListener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    cancelClickListener.onClick(which);
+                }
+            })
+            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    confirmClickListener.onClick(which);
+                }
+            })
+            .create();
         alertDialog.show();
     }
 
     public interface OnDialogClickListener {
+
         void onClick(int which);
     }
 

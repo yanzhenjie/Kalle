@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,12 @@ import com.yanzhenjie.kalle.sample.mvp.BasePresenter;
 import com.yanzhenjie.kalle.sample.mvp.BaseView;
 
 /**
- * Created by YanZhenjie on 2018/3/28.
+ * Created by Zhenjie Yan on 2018/3/28.
  */
 public final class Contract {
 
     public interface BodyPresenter extends BasePresenter {
+
         /**
          * Select file.
          */
@@ -43,6 +44,7 @@ public final class Contract {
     }
 
     public static abstract class BodyView extends BaseView<BodyPresenter> {
+
         public BodyView(Activity activity, BodyPresenter presenter) {
             super(activity, presenter);
         }

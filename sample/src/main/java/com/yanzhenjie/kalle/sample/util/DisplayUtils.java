@@ -1,5 +1,5 @@
 /*
- * AUTHOR：Yan Zhenjie
+ * AUTHOR：Zhenjie Yan
  *
  * DESCRIPTION：create the File, and add the content.
  *
@@ -14,7 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 
 /**
- * Created by Yan Zhenjie on 2016/7/7.
+ * Created by Zhenjie Yan on 2016/7/7.
  */
 public class DisplayUtils {
 
@@ -44,18 +44,18 @@ public class DisplayUtils {
     }
 
     public static int px2dip(float inParam) {
-        return (int) (inParam / density + 0.5F);
+        return (int)(inParam / density + 0.5F);
     }
 
     public static int dip2px(float inParam) {
-        return (int) (inParam * density + 0.5F);
+        return (int)(inParam * density + 0.5F);
     }
 
     public static int px2sp(float inParam) {
-        return (int) (inParam / scaledDensity + 0.5F);
+        return (int)(inParam / scaledDensity + 0.5F);
     }
 
     public static int sp2px(float inParam) {
-        return (int) (inParam * scaledDensity + 0.5F);
+        return (int)(inParam * scaledDensity + 0.5F);
     }
 }

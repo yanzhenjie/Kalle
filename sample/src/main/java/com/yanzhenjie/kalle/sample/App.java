@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import com.yanzhenjie.kalle.sample.util.MediaLoader;
 import com.yanzhenjie.kalle.simple.cache.DiskCacheStore;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class App extends Application {
 
@@ -55,20 +55,16 @@ public class App extends Application {
         AppConfig.get().initFileDir();
 
         Kalle.setConfig(KalleConfig.newBuilder()
-                .connectFactory(OkHttpConnectFactory.newBuilder().build())
-                .cookieStore(DBCookieStore.newBuilder(this).build())
-                .cacheStore(DiskCacheStore.newBuilder(AppConfig.get().PATH_APP_CACHE).build())
-                .network(new BroadcastNetwork(this))
-                .addInterceptor(new LoginInterceptor())
-                .addInterceptor(new LoggerInterceptor("KalleSample", BuildConfig.DEBUG))
-                .converter(new JsonConverter(this))
-                .build());
+            .connectFactory(OkHttpConnectFactory.newBuilder().build())
+            .cookieStore(DBCookieStore.newBuilder(this).build())
+            .cacheStore(DiskCacheStore.newBuilder(AppConfig.get().PATH_APP_CACHE).build())
+            .network(new BroadcastNetwork(this))
+            .addInterceptor(new LoginInterceptor())
+            .addInterceptor(new LoggerInterceptor("KalleSample", BuildConfig.DEBUG))
+            .converter(new JsonConverter(this))
+            .build());
 
-        Album.initialize(
-                AlbumConfig.newBuilder(this)
-                        .setAlbumLoader(new MediaLoader())
-                        .build()
-        );
+        Album.initialize(AlbumConfig.newBuilder(this).setAlbumLoader(new MediaLoader()).build());
     }
 
     public static App get() {

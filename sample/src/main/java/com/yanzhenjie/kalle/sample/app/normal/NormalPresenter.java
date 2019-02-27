@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.yanzhenjie.kalle.simple.SimpleResponse;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class NormalPresenter extends BaseActivity implements Contract.NormalPresenter {
 
@@ -53,51 +53,51 @@ public class NormalPresenter extends BaseActivity implements Contract.NormalPres
     @Override
     public void refresh() {
         Kalle.get(UrlConfig.GET_LIST)
-                .param("pageNum", 1)
-                .param("pageSize", 50)
-                .tag(this)
-                .perform(new SimpleCallback<NewsWrapper>(this) {
-                    @Override
-                    public void onResponse(SimpleResponse<NewsWrapper, String> response) {
-                        if (response.isSucceed()) {
-                            NewsWrapper wrapper = response.succeed();
-                            mDataList = wrapper.getDataList();
-                            mPage = wrapper.getPage();
+            .param("pageNum", 1)
+            .param("pageSize", 50)
+            .tag(this)
+            .perform(new SimpleCallback<NewsWrapper>(this) {
+                @Override
+                public void onResponse(SimpleResponse<NewsWrapper, String> response) {
+                    if (response.isSucceed()) {
+                        NewsWrapper wrapper = response.succeed();
+                        mDataList = wrapper.getDataList();
+                        mPage = wrapper.getPage();
 
-                            mView.setDataList(mDataList, mPage);
-                        } else {
-                            mView.toast(response.failed());
-                        }
-
-                        // Finish refresh.
-                        mView.setRefresh(false);
+                        mView.setDataList(mDataList, mPage);
+                    } else {
+                        mView.toast(response.failed());
                     }
-                });
+
+                    // Finish refresh.
+                    mView.setRefresh(false);
+                }
+            });
     }
 
     @Override
     public void loadMore() {
         Kalle.get(UrlConfig.GET_LIST)
-                .param("pageNum", mPage.getPageNum() + 1)
-                .param("pageSize", 50)
-                .perform(new SimpleCallback<NewsWrapper>(this) {
-                    @Override
-                    public void onResponse(SimpleResponse<NewsWrapper, String> response) {
-                        if (response.isSucceed()) {
-                            NewsWrapper wrapper = response.succeed();
-                            List<News> dataList = wrapper.getDataList();
-                            if (dataList != null && !dataList.isEmpty()) {
-                                mDataList.addAll(dataList);
-                                mPage = wrapper.getPage();
-                            }
-                        } else {
-                            mView.toast(response.failed());
+            .param("pageNum", mPage.getPageNum() + 1)
+            .param("pageSize", 50)
+            .perform(new SimpleCallback<NewsWrapper>(this) {
+                @Override
+                public void onResponse(SimpleResponse<NewsWrapper, String> response) {
+                    if (response.isSucceed()) {
+                        NewsWrapper wrapper = response.succeed();
+                        List<News> dataList = wrapper.getDataList();
+                        if (dataList != null && !dataList.isEmpty()) {
+                            mDataList.addAll(dataList);
+                            mPage = wrapper.getPage();
                         }
-
-                        // Finish load more.
-                        mView.addDataList(mPage);
+                    } else {
+                        mView.toast(response.failed());
                     }
-                });
+
+                    // Finish load more.
+                    mView.addDataList(mPage);
+                }
+            });
     }
 
     @Override

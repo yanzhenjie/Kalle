@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ public final class Contract {
     }
 
     public static abstract class NormalView extends BaseView<NormalPresenter> {
+
         public NormalView(Activity activity, NormalPresenter presenter) {
             super(activity, presenter);
         }

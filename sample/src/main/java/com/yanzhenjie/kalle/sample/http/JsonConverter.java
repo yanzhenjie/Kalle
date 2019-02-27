@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,8 @@ public class JsonConverter implements Converter {
     }
 
     @Override
-    public <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Response response, boolean fromCache) throws Exception {
+    public <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Response response, boolean fromCache)
+        throws Exception {
         S succeedData = null; // The data when the business successful.
         F failedData = null; // The data when the business failed.
 
@@ -59,25 +60,24 @@ public class JsonConverter implements Converter {
                 try {
                     succeedData = JSON.parseObject(httpEntity.getData(), succeed);
                 } catch (Exception e) {
-                    failedData = (F) mContext.getString(R.string.http_server_data_format_error);
+                    failedData = (F)mContext.getString(R.string.http_server_data_format_error);
                 }
             } else {
                 // The server failed to read the wrong information.
-                failedData = (F) httpEntity.getMessage();
+                failedData = (F)httpEntity.getMessage();
             }
 
         } else if (code >= 400 && code < 500) {
-            failedData = (F) mContext.getString(R.string.http_unknow_error);
+            failedData = (F)mContext.getString(R.string.http_unknow_error);
         } else if (code >= 500) {
-            failedData = (F) mContext.getString(R.string.http_server_error);
+            failedData = (F)mContext.getString(R.string.http_server_error);
         }
 
-        return SimpleResponse.<S, F>newBuilder()
-                .code(response.code())
-                .headers(response.headers())
-                .fromCache(fromCache)
-                .succeed(succeedData)
-                .failed(failedData)
-                .build();
+        return SimpleResponse.<S, F>newBuilder().code(response.code())
+            .headers(response.headers())
+            .fromCache(fromCache)
+            .succeed(succeedData)
+            .failed(failedData)
+            .build();
     }
 }

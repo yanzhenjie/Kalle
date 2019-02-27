@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import com.yanzhenjie.kalle.sample.app.BaseActivity;
 import com.yanzhenjie.kalle.sample.app.body.entity.FileInfo;
 import com.yanzhenjie.kalle.sample.config.UrlConfig;
 import com.yanzhenjie.kalle.sample.http.DialogCallback;
-import com.yanzhenjie.kalle.sample.http.SimpleCallback;
 import com.yanzhenjie.kalle.sample.util.FileUtils;
 import com.yanzhenjie.kalle.simple.SimpleResponse;
 
@@ -37,7 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class BodyPresenter extends BaseActivity implements Contract.BodyPresenter {
 
@@ -55,17 +54,13 @@ public class BodyPresenter extends BaseActivity implements Contract.BodyPresente
 
     @Override
     public void selectFile() {
-        Album.album(this)
-                .singleChoice()
-                .camera(true)
-                .onResult(new Action<ArrayList<AlbumFile>>() {
-                    @Override
-                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
-                        mAlbumFile = result.get(0);
-                        mView.setLocalFile(mAlbumFile.getPath());
-                    }
-                })
-                .start();
+        Album.album(this).singleChoice().camera(true).onResult(new Action<ArrayList<AlbumFile>>() {
+            @Override
+            public void onAction(@NonNull ArrayList<AlbumFile> result) {
+                mAlbumFile = result.get(0);
+                mView.setLocalFile(mAlbumFile.getPath());
+            }
+        }).start();
     }
 
     @Override
@@ -79,31 +74,32 @@ public class BodyPresenter extends BaseActivity implements Contract.BodyPresente
 
     @Override
     public void copyPath() {
-        if (FileUtils.copyTextToClipboard(this, mFileInfo.getFilepath()))
+        if (FileUtils.copyTextToClipboard(this, mFileInfo.getFilepath())) {
             mView.toast(R.string.body_copy_successful);
-        else
+        } else {
             mView.toast(R.string.body_copy_failure);
+        }
     }
 
     private void executeUpload() {
         File file = new File(mAlbumFile.getPath());
 
         Kalle.post(UrlConfig.UPLOAD_BODY_FILE)
-                .urlParam("filename", file.getName())
-                .body(new FileBody(file))
-                .tag(this)
-                .perform(new DialogCallback<FileInfo>(this) {
-                    @Override
-                    public void onResponse(SimpleResponse<FileInfo, String> response) {
-                        if (response.isSucceed()) {
-                            mAlbumFile = null;
+            .urlParam("filename", file.getName())
+            .body(new FileBody(file))
+            .tag(this)
+            .perform(new DialogCallback<FileInfo>(this) {
+                @Override
+                public void onResponse(SimpleResponse<FileInfo, String> response) {
+                    if (response.isSucceed()) {
+                        mAlbumFile = null;
 
-                            mFileInfo = response.succeed();
-                            mView.setRemoteFile(mFileInfo.getFilepath());
-                        } else {
-                            mView.toast(response.failed());
-                        }
+                        mFileInfo = response.succeed();
+                        mView.setRemoteFile(mFileInfo.getFilepath());
+                    } else {
+                        mView.toast(response.failed());
                     }
-                });
+                }
+            });
     }
 }

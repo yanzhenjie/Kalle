@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,80 +32,65 @@ public class Logger {
     public static void setEnable(boolean enable) {
         Logger.sEnable = enable;
     }
-    
+
     public static void v(Object message) {
-        if (sEnable)
-            Log.v(sTag, String.valueOf(message));
+        if (sEnable) Log.v(sTag, String.valueOf(message));
     }
 
     public static void v(Throwable e) {
-        if (sEnable)
-            Log.v(sTag, buildMessage(ERROR_MESSAGE), e);
+        if (sEnable) Log.v(sTag, buildMessage(ERROR_MESSAGE), e);
     }
 
     public static void v(Object message, Throwable e) {
-        if (sEnable)
-            Log.v(sTag, buildMessage(message), e);
+        if (sEnable) Log.v(sTag, buildMessage(message), e);
     }
 
     public static void i(Object message) {
-        if (sEnable)
-            Log.i(sTag, String.valueOf(message));
+        if (sEnable) Log.i(sTag, String.valueOf(message));
     }
 
     public static void i(Throwable e) {
-        if (sEnable)
-            Log.i(sTag, buildMessage(ERROR_MESSAGE), e);
+        if (sEnable) Log.i(sTag, buildMessage(ERROR_MESSAGE), e);
     }
 
     public static void i(Object message, Throwable e) {
-        if (sEnable)
-            Log.i(sTag, buildMessage(message), e);
+        if (sEnable) Log.i(sTag, buildMessage(message), e);
     }
 
     public static void d(Object message) {
-        if (sEnable)
-            Log.d(sTag, String.valueOf(message));
+        if (sEnable) Log.d(sTag, String.valueOf(message));
     }
 
     public static void d(Throwable e) {
-        if (sEnable)
-            Log.d(sTag, buildMessage(ERROR_MESSAGE), e);
+        if (sEnable) Log.d(sTag, buildMessage(ERROR_MESSAGE), e);
     }
 
     public static void d(Object message, Throwable e) {
-        if (sEnable)
-            Log.d(sTag, buildMessage(message), e);
+        if (sEnable) Log.d(sTag, buildMessage(message), e);
     }
 
     public static void w(Object message) {
-        if (sEnable)
-            Log.w(sTag, String.valueOf(message));
+        if (sEnable) Log.w(sTag, String.valueOf(message));
     }
 
     public static void w(Throwable e) {
-        if (sEnable)
-            Log.w(sTag, buildMessage(ERROR_MESSAGE), e);
+        if (sEnable) Log.w(sTag, buildMessage(ERROR_MESSAGE), e);
     }
 
     public static void w(Object message, Throwable e) {
-        if (sEnable)
-            Log.w(sTag, buildMessage(message), e);
+        if (sEnable) Log.w(sTag, buildMessage(message), e);
     }
 
     public static void e(Object message) {
-        if (sEnable)
-            Log.e(sTag, String.valueOf(message));
+        if (sEnable) Log.e(sTag, String.valueOf(message));
     }
 
     public static void e(Throwable e) {
-        if (sEnable)
-            Log.e(sTag, buildMessage(ERROR_MESSAGE), e);
+        if (sEnable) Log.e(sTag, buildMessage(ERROR_MESSAGE), e);
     }
 
     public static void e(Object message, Throwable e) {
-        if (sEnable)
-            Log.e(sTag, buildMessage(message), e);
+        if (sEnable) Log.e(sTag, buildMessage(message), e);
     }
 
     private static String buildMessage(Object message) {

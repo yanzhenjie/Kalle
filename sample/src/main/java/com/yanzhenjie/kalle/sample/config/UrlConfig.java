@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ public class UrlConfig {
     /**
      * Download.
      */
-    public static final String DOWNLOAD = "http://wap.dl.pinyin.sogou.com/wapdl/android/apk/SogouInput_android_v8.18_sweb.apk";
+    public static final String DOWNLOAD = "http://wap.dl.pinyin.sogou.com/wapdl/android/apk/SogouInput_android_v8" +
+        ".18_sweb.apk";
 
 }

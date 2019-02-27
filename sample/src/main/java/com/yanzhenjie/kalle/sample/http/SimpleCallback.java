@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ public abstract class SimpleCallback<S> extends Callback<S, String> {
     @Override
     public Type getSucceed() {
         Type superClass = getClass().getGenericSuperclass();
-        return ((ParameterizedType) superClass).getActualTypeArguments()[0];
+        return ((ParameterizedType)superClass).getActualTypeArguments()[0];
     }
 
     @Override
@@ -77,9 +77,7 @@ public abstract class SimpleCallback<S> extends Callback<S, String> {
         }
 
         Logger.e(e);
-        onResponse(SimpleResponse.<S, String>newBuilder()
-                .failed(message)
-                .build());
+        onResponse(SimpleResponse.<S, String>newBuilder().failed(message).build());
     }
 
     @Override

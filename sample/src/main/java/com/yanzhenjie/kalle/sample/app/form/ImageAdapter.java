@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Yan Zhenjie.
+ * Copyright 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,8 +63,11 @@ public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         if (mFileList != null) imageSize = mFileList.size();
 
         if (imageSize < 3) {
-            if (position < imageSize) return TYPE_IMAGE;
-            else return TYPE_BUTTON;
+            if (position < imageSize) {
+                return TYPE_IMAGE;
+            } else {
+                return TYPE_BUTTON;
+            }
         } else {
             return TYPE_IMAGE;
         }
@@ -79,7 +82,8 @@ public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             }
             default:
             case TYPE_BUTTON: {
-                ButtonViewHolder buttonViewHolder = new ButtonViewHolder(getInflater().inflate(R.layout.item_form_button, parent, false));
+                ButtonViewHolder buttonViewHolder = new ButtonViewHolder(
+                    getInflater().inflate(R.layout.item_form_button, parent, false));
                 buttonViewHolder.mAddClickListener = mAddClickListener;
                 return buttonViewHolder;
             }
@@ -94,7 +98,7 @@ public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
                 break;
             }
             case TYPE_IMAGE: {
-                ((ImageViewHolder) holder).bindData(mFileList.get(position));
+                ((ImageViewHolder)holder).bindData(mFileList.get(position));
                 break;
             }
         }
@@ -125,9 +129,7 @@ public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
 
         void bindData(FileItem fileItem) {
-            Album.getAlbumConfig()
-                    .getAlbumLoader()
-                    .load(mIvImage, fileItem.getAlbumFile().getPath());
+            Album.getAlbumConfig().getAlbumLoader().load(mIvImage, fileItem.getAlbumFile().getPath());
 
             int progress = fileItem.getProgress();
             if (progress > 0) {

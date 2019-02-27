@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright © Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,5 +21,4 @@ import android.arch.lifecycle.LifecycleOwner;
  * <p>Presenter of MVP.</p>
  * Created by YanZhenjie on 2017/7/17.
  */
-public interface BasePresenter extends LifecycleOwner, Bye {
-}
+public interface BasePresenter extends LifecycleOwner, Bye {}

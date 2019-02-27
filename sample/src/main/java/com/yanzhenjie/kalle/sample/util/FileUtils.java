@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Yan Zhenjie.
+ * Copyright © 2018 Zhenjie Yan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * Created by Yan Zhenjie on 2016/7/7.
+ * Created by Zhenjie Yan on 2016/7/7.
  */
 public class FileUtils {
 
@@ -39,15 +39,16 @@ public class FileUtils {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sd = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
             return sd.canWrite();
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
      * Copy to clipboard.
      */
     public static boolean copyTextToClipboard(Context context, CharSequence content) {
-        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboardManager = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboardManager != null) {
             ClipData clipData = ClipData.newPlainText(content, content);
             clipboardManager.setPrimaryClip(clipData);
