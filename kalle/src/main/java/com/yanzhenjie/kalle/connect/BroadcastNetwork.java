@@ -54,16 +54,17 @@ public class BroadcastNetwork implements Network {
 
     private static class NetworkReceiver extends BroadcastReceiver {
 
-        private boolean mAvailable = true;
         private NetworkChecker mChecker;
+        private boolean mAvailable;
 
         public NetworkReceiver(NetworkChecker checker) {
             this.mChecker = checker;
+            this.mAvailable = mChecker.isAvailable();
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            mAvailable = mChecker.isWifiConnected() || mChecker.isWiredConnected() || mChecker.isMobileConnected();
+            mAvailable = mChecker.isAvailable();
         }
     }
 }
