@@ -35,7 +35,8 @@ import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
 /**
  * Created by YanZhenjie on 2018/2/18.
  */
-abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements Callable<SimpleResponse<Succeed, Failed>> {
+abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
+    implements Callable<SimpleResponse<Succeed, Failed>> {
 
     private static final long MAX_EXPIRES = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
 
@@ -66,11 +67,17 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
             int code = response.code();
             if (code == 304) {
                 Response cacheResponse = tryReadCacheAfter(-1);
-                if (cacheResponse != null) return buildSimpleResponse(cacheResponse, true);
-                else return buildSimpleResponse(response, false);
+                if (cacheResponse != null) {
+                    return buildSimpleResponse(cacheResponse, true);
+                } else {
+                    return buildSimpleResponse(response, false);
+                }
             }
             Headers headers = response.headers();
-            byte[] body = response.body().byteArray();
+            byte[] body = {};
+            if (code != 204) {
+                body = response.body().byteArray();
+            }
             IOUtils.closeQuietly(response);
 
             tryDetachCache(code, headers, body);
@@ -92,7 +99,9 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
      * Perform a network request.
      *
      * @param request target request.
+     *
      * @return {@link Response}.
+     *
      * @throws IOException when connecting to the network, write data, read the data {@link IOException} occurred.
      */
     protected abstract Response requestNetwork(T request) throws IOException;
@@ -253,8 +262,7 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
         if (eTag != null) headers.set(KEY_IF_NONE_MATCH, eTag);
 
         long lastModified = cacheHeaders.getLastModified();
-        if (lastModified > 0)
-            headers.set(KEY_IF_MODIFIED_SINCE, Headers.formatMillisToGMT(lastModified));
+        if (lastModified > 0) headers.set(KEY_IF_MODIFIED_SINCE, Headers.formatMillisToGMT(lastModified));
     }
 
     private void detachCache(int code, Headers headers, byte[] body, long expires) {
@@ -271,10 +279,10 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed> implements 
 
     private Response buildResponse(int code, Headers headers, byte[] body) {
         return Response.newBuilder()
-                .code(code)
-                .headers(headers)
-                .body(new ByteArrayBody(headers.getContentType(), body))
-                .build();
+            .code(code)
+            .headers(headers)
+            .body(new ByteArrayBody(headers.getContentType(), body))
+            .build();
     }
 
     private SimpleResponse<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
