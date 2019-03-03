@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
 final class BodyWorker<S, F> extends BasicWorker<SimpleBodyRequest, S, F> {
 

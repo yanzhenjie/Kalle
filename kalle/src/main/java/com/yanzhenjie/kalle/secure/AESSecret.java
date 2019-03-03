@@ -22,7 +22,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Created by YanZhenjie on 2018/2/11.
+ * Created by Zhenjie Yan on 2018/2/11.
  */
 public class AESSecret implements Secret {
 

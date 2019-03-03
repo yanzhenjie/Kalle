@@ -28,7 +28,7 @@ import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.util.Logger;
 
 /**
- * Created by YanZhenjie on 2018/3/28.
+ * Created by Zhenjie Yan on 2018/3/28.
  */
 public abstract class DownloadCallback extends SimpleCallback {
 

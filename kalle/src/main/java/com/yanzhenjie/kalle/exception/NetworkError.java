@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.exception;
 
 /**
- * Created by YanZhenjie on 2018/2/22.
+ * Created by Zhenjie Yan on 2018/2/22.
  */
 public class NetworkError extends ConnectException {
     public NetworkError(String message) {

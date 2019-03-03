@@ -53,7 +53,7 @@ import java.util.Map;
  * ...
  * The new url is: <code>http://www.example.com/get?name=abc</code>.
  * </pre>
- * Created by YanZhenjie on 2018/2/9.
+ * Created by Zhenjie Yan on 2018/2/9.
  */
 public class Url {
 

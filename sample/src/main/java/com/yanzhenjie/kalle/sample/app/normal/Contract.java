@@ -25,7 +25,7 @@ import com.yanzhenjie.kalle.sample.mvp.BaseView;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public final class Contract {
 

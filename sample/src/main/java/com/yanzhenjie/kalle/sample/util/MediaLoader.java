@@ -23,7 +23,7 @@ import com.yanzhenjie.album.AlbumLoader;
 import com.yanzhenjie.kalle.sample.R;
 
 /**
- * Created by YanZhenjie on 2018/3/29.
+ * Created by Zhenjie Yan on 2018/3/29.
  */
 public class MediaLoader implements AlbumLoader {
 

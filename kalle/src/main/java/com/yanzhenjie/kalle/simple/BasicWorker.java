@@ -33,7 +33,7 @@ import static com.yanzhenjie.kalle.Headers.KEY_IF_MODIFIED_SINCE;
 import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
 
 /**
- * Created by YanZhenjie on 2018/2/18.
+ * Created by Zhenjie Yan on 2018/2/18.
  */
 abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
     implements Callable<SimpleResponse<Succeed, Failed>> {

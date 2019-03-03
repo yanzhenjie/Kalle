@@ -38,7 +38,7 @@ import java.util.List;
 import static com.yanzhenjie.kalle.sample.config.UrlConfig.LOGIN;
 
 /**
- * Created by YanZhenjie on 2018/3/1.
+ * Created by Zhenjie Yan on 2018/3/1.
  */
 public class WelActivity extends Activity {
 

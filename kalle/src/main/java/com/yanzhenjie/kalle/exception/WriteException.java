@@ -18,7 +18,7 @@ package com.yanzhenjie.kalle.exception;
 import java.io.IOException;
 
 /**
- * Created by YanZhenjie on 2018/2/24.
+ * Created by Zhenjie Yan on 2018/2/24.
  */
 public class WriteException extends IOException {
     public WriteException(String message) {

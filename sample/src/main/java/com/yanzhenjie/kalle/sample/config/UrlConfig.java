@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.sample.config;
 
 /**
- * Created by YanZhenjie on 2018/3/1.
+ * Created by Zhenjie Yan on 2018/3/1.
  */
 public class UrlConfig {
 

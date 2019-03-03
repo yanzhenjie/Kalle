@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
 

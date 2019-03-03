@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.simple.cache;
 
 /**
- * Created by YanZhenjie on 2018/2/18.
+ * Created by Zhenjie Yan on 2018/2/18.
  */
 public enum CacheMode {
     /**

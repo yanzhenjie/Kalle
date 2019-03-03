@@ -19,7 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Created by YanZhenjie on 2018/3/18.
+ * Created by Zhenjie Yan on 2018/3/18.
  */
 public class Delivery {
 

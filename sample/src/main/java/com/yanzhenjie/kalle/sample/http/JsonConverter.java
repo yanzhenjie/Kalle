@@ -27,7 +27,7 @@ import com.yanzhenjie.kalle.simple.SimpleResponse;
 import java.lang.reflect.Type;
 
 /**
- * Created by YanZhenjie on 2018/3/26.
+ * Created by Zhenjie Yan on 2018/3/26.
  */
 public class JsonConverter implements Converter {
 

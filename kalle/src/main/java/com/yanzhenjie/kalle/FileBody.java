@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
 public class FileBody extends BasicOutData<FileBody> implements RequestBody {
 

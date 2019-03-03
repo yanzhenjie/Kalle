@@ -35,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by YanZhenjie on 2018/3/29.
+ * Created by Zhenjie Yan on 2018/3/29.
  */
 public class ImageAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 

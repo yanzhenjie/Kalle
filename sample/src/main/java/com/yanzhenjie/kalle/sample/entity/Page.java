@@ -21,7 +21,7 @@ import android.os.Parcelable;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * Created by YanZhenjie on 2018/3/28.
+ * Created by Zhenjie Yan on 2018/3/28.
  */
 public class Page implements Parcelable {
 

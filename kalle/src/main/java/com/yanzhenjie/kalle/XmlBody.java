@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 import static com.yanzhenjie.kalle.Headers.VALUE_APPLICATION_XML;
 
 /**
- * Created by YanZhenjie on 2018/2/11.
+ * Created by Zhenjie Yan on 2018/2/11.
  */
 public class XmlBody extends StringBody {
 

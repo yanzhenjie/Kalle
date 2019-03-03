@@ -24,7 +24,7 @@ import java.io.IOException;
  * <p>
  * Intercept before call request.
  * </p>
- * Created by YanZhenjie on 2018/2/11.
+ * Created by Zhenjie Yan on 2018/2/11.
  */
 public interface Interceptor {
 

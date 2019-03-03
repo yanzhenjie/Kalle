@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.sample.mvp;
 
 /**
- * Created by YanZhenjie on 2017/12/27.
+ * Created by Zhenjie Yan on 2017/12/27.
  */
 public interface Bye {
 

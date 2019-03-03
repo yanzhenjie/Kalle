@@ -32,7 +32,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by YanZhenjie on 2018/3/26.
+ * Created by Zhenjie Yan on 2018/3/26.
  */
 public abstract class SimpleCallback<S> extends Callback<S, String> {
 

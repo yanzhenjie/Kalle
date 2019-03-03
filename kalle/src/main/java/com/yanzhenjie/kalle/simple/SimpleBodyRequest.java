@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
 import static com.yanzhenjie.kalle.simple.cache.CacheMode.HTTP;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
 public class SimpleBodyRequest extends BodyRequest implements SimpleRequest {
 

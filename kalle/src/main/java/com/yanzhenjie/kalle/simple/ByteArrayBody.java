@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by YanZhenjie on 2018/2/22.
+ * Created by Zhenjie Yan on 2018/2/22.
  */
 public class ByteArrayBody implements ResponseBody {
 

@@ -30,7 +30,7 @@ import com.yanzhenjie.kalle.sample.http.DownloadCallback;
 import java.math.BigDecimal;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public class DownloadPresenter extends BaseActivity implements Contract.DownloadPresenter {
 

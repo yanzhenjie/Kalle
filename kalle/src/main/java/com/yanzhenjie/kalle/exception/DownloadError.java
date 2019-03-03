@@ -18,7 +18,7 @@ package com.yanzhenjie.kalle.exception;
 import com.yanzhenjie.kalle.Headers;
 
 /**
- * Created by YanZhenjie on 2018/3/18.
+ * Created by Zhenjie Yan on 2018/3/18.
  */
 public class DownloadError extends ReadException {
 

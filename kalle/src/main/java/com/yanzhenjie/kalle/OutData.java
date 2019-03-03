@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Created by YanZhenjie on 2018/2/11.
+ * Created by Zhenjie Yan on 2018/2/11.
  */
 public interface OutData {
 

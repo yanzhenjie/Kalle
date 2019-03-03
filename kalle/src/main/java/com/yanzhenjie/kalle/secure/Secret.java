@@ -18,7 +18,7 @@ package com.yanzhenjie.kalle.secure;
 import java.security.GeneralSecurityException;
 
 /**
- * Created by YanZhenjie on 2018/2/11.
+ * Created by Zhenjie Yan on 2018/2/11.
  */
 public interface Secret {
 

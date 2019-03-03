@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by YanZhenjie on 2017/12/8.
+ * Created by Zhenjie Yan on 2017/12/8.
  */
 class ViewSource extends Source<View> {
 

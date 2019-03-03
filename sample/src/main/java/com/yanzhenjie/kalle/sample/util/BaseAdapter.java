@@ -20,7 +20,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * Created by Zhenjie Yan on 2018/3/27.
  */
 public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 

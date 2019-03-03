@@ -56,7 +56,7 @@ import static com.yanzhenjie.kalle.Headers.KEY_HOST;
 import static com.yanzhenjie.kalle.Headers.KEY_SET_COOKIE;
 
 /**
- * Created by YanZhenjie on 2018/2/20.
+ * Created by Zhenjie Yan on 2018/2/20.
  */
 class ConnectInterceptor implements Interceptor {
 

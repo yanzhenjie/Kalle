@@ -42,7 +42,7 @@ import com.yanzhenjie.kalle.sample.R;
 
 /**
  * <p>View of MVP.</p>
- * Created by YanZhenjie on 2017/7/17.
+ * Created by Zhenjie Yan on 2017/7/17.
  */
 public abstract class BaseView<Presenter extends BasePresenter> {
 

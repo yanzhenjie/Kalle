@@ -26,7 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 /**
- * Created by YanZhenjie on 2017/12/8.
+ * Created by Zhenjie Yan on 2017/12/8.
  */
 abstract class Source<Source> {
 

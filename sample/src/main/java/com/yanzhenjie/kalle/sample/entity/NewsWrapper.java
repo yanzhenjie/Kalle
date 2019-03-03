@@ -23,7 +23,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/3/28.
+ * Created by Zhenjie Yan on 2018/3/28.
  */
 public class NewsWrapper implements Parcelable {
 

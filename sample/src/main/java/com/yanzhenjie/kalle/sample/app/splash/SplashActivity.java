@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
- * Created by YanZhenjie on 2018/2/23.
+ * Created by Zhenjie Yan on 2018/2/23.
  */
 public class SplashActivity extends Activity {
 

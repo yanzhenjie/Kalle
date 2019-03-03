@@ -20,7 +20,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * Created by YanZhenjie on 2017/6/13.
+ * Created by Zhenjie Yan on 2017/6/13.
  */
 public class SSLUtils {
 

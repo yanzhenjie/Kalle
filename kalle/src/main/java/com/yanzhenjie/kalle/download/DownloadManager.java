@@ -22,7 +22,7 @@ import com.yanzhenjie.kalle.Kalle;
 import java.util.concurrent.Executor;
 
 /**
- * Created by YanZhenjie on 2018/3/18.
+ * Created by Zhenjie Yan on 2018/3/18.
  */
 public class DownloadManager {
 

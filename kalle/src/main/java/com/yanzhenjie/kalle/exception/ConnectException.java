@@ -18,7 +18,7 @@ package com.yanzhenjie.kalle.exception;
 import java.io.IOException;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
 public class ConnectException extends IOException {
 

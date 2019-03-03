@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.exception;
 
 /**
- * Created by YanZhenjie on 2018/2/26.
+ * Created by Zhenjie Yan on 2018/2/26.
  */
 public class NoCacheError extends ReadException {
     public NoCacheError(String message) {

@@ -21,7 +21,7 @@ import com.yanzhenjie.kalle.connect.http.Call;
 import java.io.IOException;
 
 /**
- * Created by YanZhenjie on 2018/3/18.
+ * Created by Zhenjie Yan on 2018/3/18.
  */
 public class BodyWorker extends BasicWorker<BodyDownload> {
 

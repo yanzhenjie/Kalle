@@ -30,7 +30,7 @@ import java.io.IOException;
 import static com.yanzhenjie.kalle.Headers.KEY_COOKIE;
 
 /**
- * Created by YanZhenjie on 2018/3/6.
+ * Created by Zhenjie Yan on 2018/3/6.
  */
 public class RedirectInterceptor implements Interceptor {
 

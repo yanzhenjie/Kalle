@@ -17,7 +17,7 @@ package com.yanzhenjie.kalle.ssl;
 
 /**
  * <p>Add CipherSuites to the lower version.</p>
- * Created by YanZhenjie on 2017/6/13.
+ * Created by Zhenjie Yan on 2017/6/13.
  *
  * @deprecated use {@link TLSSocketFactory} instead.
  */

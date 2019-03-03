@@ -52,7 +52,7 @@ import static com.yanzhenjie.kalle.Headers.VALUE_USER_AGENT;
 
 /**
  * <p>Initialize the save parameters.</p>
- * Created by YanZhenjie on 2017/6/14.
+ * Created by Zhenjie Yan on 2017/6/14.
  */
 public final class KalleConfig {
 

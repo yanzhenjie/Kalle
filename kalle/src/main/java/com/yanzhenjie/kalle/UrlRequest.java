@@ -18,7 +18,7 @@ package com.yanzhenjie.kalle;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
 public class UrlRequest extends Request {
 

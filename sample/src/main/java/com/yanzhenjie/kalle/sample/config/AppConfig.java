@@ -29,7 +29,7 @@ import com.yanzhenjie.kalle.util.IOUtils;
 import java.io.File;
 
 /**
- * Created by YanZhenjie on 2018/2/27.
+ * Created by Zhenjie Yan on 2018/2/27.
  */
 public class AppConfig {
 

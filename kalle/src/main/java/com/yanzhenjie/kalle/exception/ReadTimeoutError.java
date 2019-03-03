@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle.exception;
 
 /**
- * Created by YanZhenjie on 2018/2/24.
+ * Created by Zhenjie Yan on 2018/2/24.
  */
 public class ReadTimeoutError extends ReadException {
     public ReadTimeoutError(String message) {
