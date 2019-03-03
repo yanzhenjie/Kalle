@@ -48,12 +48,12 @@ public class App extends Application {
             _instance = this;
 
             Logger.setEnable(BuildConfig.DEBUG);
+            kalle();
+            album();
         }
     }
 
-    public void initialize() {
-        AppConfig.get().initFileDir();
-
+    private void kalle() {
         Kalle.setConfig(KalleConfig.newBuilder()
             .connectFactory(OkHttpConnectFactory.newBuilder().build())
             .cookieStore(DBCookieStore.newBuilder(this).build())
@@ -63,7 +63,9 @@ public class App extends Application {
             .addInterceptor(new LoggerInterceptor("KalleSample", BuildConfig.DEBUG))
             .converter(new JsonConverter(this))
             .build());
+    }
 
+    private void album() {
         Album.initialize(AlbumConfig.newBuilder(this).setAlbumLoader(new MediaLoader()).build());
     }
 

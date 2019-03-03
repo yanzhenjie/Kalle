@@ -23,9 +23,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
 import com.yanzhenjie.kalle.Kalle;
-import com.yanzhenjie.kalle.sample.App;
 import com.yanzhenjie.kalle.sample.R;
 import com.yanzhenjie.kalle.sample.app.main.MainPresenter;
+import com.yanzhenjie.kalle.sample.config.AppConfig;
 import com.yanzhenjie.kalle.sample.http.SimpleCallback;
 import com.yanzhenjie.kalle.sample.util.Delivery;
 import com.yanzhenjie.kalle.simple.SimpleResponse;
@@ -80,7 +80,7 @@ public class WelActivity extends Activity {
         }).onGranted(new Action<List<String>>() {
             @Override
             public void onAction(List<String> list) {
-                App.get().initialize();
+                AppConfig.get().initFileDir();
                 tryLogin();
             }
         }).start();

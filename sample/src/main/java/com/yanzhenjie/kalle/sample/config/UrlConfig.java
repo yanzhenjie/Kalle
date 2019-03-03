@@ -20,7 +20,7 @@ package com.yanzhenjie.kalle.sample.config;
  */
 public class UrlConfig {
 
-    private static final String URL_ROOT = "http://kalle.nohttp.net";
+    private static final String URL_ROOT = "https://kalle.nohttp.net";
 
     /**
      * Login.
