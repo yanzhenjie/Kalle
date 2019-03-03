@@ -24,11 +24,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by YanZhenjie on 2018/2/24.
  */
 public class Call {
+
+    private static final Executor EXECUTOR = Executors.newCachedThreadPool();
 
     private final Request mRequest;
     private ConnectInterceptor mConnectInterceptor;
@@ -54,8 +58,11 @@ public class Call {
         try {
             return chain.proceed(mRequest);
         } catch (Exception e) {
-            if (isCanceled) throw new CancellationException("The request has been cancelled.");
-            else throw e;
+            if (isCanceled) {
+                throw new CancellationException("The request has been cancelled.");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -87,5 +94,17 @@ public class Call {
                 mConnectInterceptor.cancel();
             }
         }
+    }
+
+    /**
+     * Cancel the call asynchronously.
+     */
+    public void asyncCancel() {
+        EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                cancel();
+            }
+        });
     }
 }
