@@ -45,30 +45,30 @@ public class LoggerInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         if (isEnable) {
+            Response response = chain.proceed(request);
+
             String url = request.url().toString();
 
-            StringBuilder requestLog = new StringBuilder(String.format(" \nPrint Request: %1$s.", url));
-            requestLog.append(String.format("\nMethod: %1$s.", request.method().name()));
+            StringBuilder log = new StringBuilder(String.format(" \nPrint Request: %1$s.", url));
+            log.append(String.format("\nMethod: %1$s.", request.method().name()));
 
             Headers toHeaders = request.headers();
             for (Map.Entry<String, List<String>> entry : toHeaders.entrySet()) {
                 String key = entry.getKey();
                 List<String> values = entry.getValue();
-                requestLog.append(String.format("\n%1$s: %2$s.", key, TextUtils.join(";", values)));
+                log.append(String.format("\n%1$s: %2$s.", key, TextUtils.join(";", values)));
             }
-            Log.i(mTag, requestLog.toString());
 
-            Response response = chain.proceed(request);
-            StringBuilder responseLog = new StringBuilder(String.format(" \nPrint Response: %1$s.", url));
-            responseLog.append(String.format(Locale.getDefault(), "\nCode: %1$d", response.code()));
+            log.append(String.format(" \nPrint Response: %1$s.", url));
+            log.append(String.format(Locale.getDefault(), "\nCode: %1$d", response.code()));
 
             Headers fromHeaders = response.headers();
             for (Map.Entry<String, List<String>> entry : fromHeaders.entrySet()) {
                 String key = entry.getKey();
                 List<String> values = entry.getValue();
-                responseLog.append(String.format("\n%1$s: %2$s.", key, TextUtils.join(";", values)));
+                log.append(String.format("\n%1$s: %2$s.", key, TextUtils.join(";", values)));
             }
-            Log.i(mTag, responseLog.toString());
+            Log.i(mTag, log.toString());
             return response;
         }
         return chain.proceed(request);
