@@ -40,6 +40,9 @@ public class BroadcastNetwork implements Network {
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction("android.net.ethernet.STATE_CHANGE");
         filter.addAction("android.net.ethernet.ETHERNET_STATE_CHANGED");
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
         mContext.registerReceiver(mReceiver, filter);
     }
 
