@@ -67,4 +67,9 @@ public class StringBody extends BasicOutData<StringBody> implements RequestBody 
     protected void onWrite(OutputStream writer) throws IOException {
         IOUtils.write(writer, mBody, mCharset);
     }
+
+    @Override
+    public String toString() {
+        return mBody;
+    }
 }

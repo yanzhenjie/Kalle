@@ -20,7 +20,10 @@ import android.util.Log;
 
 import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.Request;
+import com.yanzhenjie.kalle.RequestBody;
 import com.yanzhenjie.kalle.Response;
+import com.yanzhenjie.kalle.StringBody;
+import com.yanzhenjie.kalle.UrlBody;
 import com.yanzhenjie.kalle.connect.Interceptor;
 
 import java.io.IOException;
@@ -57,6 +60,13 @@ public class LoggerInterceptor implements Interceptor {
                 String key = entry.getKey();
                 List<String> values = entry.getValue();
                 log.append(String.format("\n%1$s: %2$s.", key, TextUtils.join(";", values)));
+            }
+
+            if (request.method().allowBody()) {
+                RequestBody body = request.body();
+                if (body instanceof StringBody || body instanceof UrlBody) {
+                    log.append(String.format(" \nRequest Body: %1$s.", body.toString()));
+                }
             }
 
             log.append(String.format(" \nPrint Response: %1$s.", url));

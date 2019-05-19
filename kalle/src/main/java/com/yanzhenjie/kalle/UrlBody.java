@@ -45,13 +45,6 @@ public class UrlBody extends BasicOutData<StringBody> implements RequestBody {
         this.mContentType = TextUtils.isEmpty(builder.mContentType) ? VALUE_APPLICATION_URLENCODED : builder.mContentType;
     }
 
-    /**
-     * Copy parameters from url body.
-     */
-    private Params copyParams() {
-        return mParams;
-    }
-
     @Override
     public long length() {
         String body = mParams.toString();
@@ -68,6 +61,11 @@ public class UrlBody extends BasicOutData<StringBody> implements RequestBody {
     protected void onWrite(OutputStream writer) throws IOException {
         String body = mParams.toString();
         IOUtils.write(writer, body, mCharset);
+    }
+
+    @Override
+    public String toString() {
+        return mParams.toString();
     }
 
     public static class Builder {
