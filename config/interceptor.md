@@ -242,6 +242,7 @@ public class SignInterceptor implements Interceptor {
             String key = keyIterator.next();
             builder.append(key).append("=").append(paramMap.get(key));
             while (keyIterator.hasNext()) {
+                key = keyIterator.next();
                 builder.append("&").append(key).append("=").append(paramMap.get(key));
             }
         }
