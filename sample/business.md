@@ -190,7 +190,23 @@ public class JsonConverter implements Converter {
 
             if (httpEntity.getCode() == 1) { // 服务端业务成功。
                 try {
-                    succeedData = JSON.parseObject(httpEntity.getData(), succeed);
+                    if (succeed == Integer.class) {
+                        Integer succeedInt = Integer.parseInt(data);
+                        succeedData = (S)succeedInt;
+                    } else if (succeed == Long.class) {
+                        Long succeedLong = Long.parseLong(data);
+                        succeedData = (S)succeedLong;
+                    } else if (succeed == String.class) {
+                        succeedData = (S)data;
+                    } else if (succeed == Boolean.class) {
+                        Boolean succeedBoolean = Boolean.parseBoolean(data);
+                        succeedData = (S)succeedBoolean;
+                    } else if (succeed == JSONObject.class) {
+                        JSONObject object = JSONObject.parseObject(data);
+                        succeedData = (S)object;
+                    } else {
+                        succeedData = JSON.parseObject(data, succeed);
+                    }
                 } catch (Exception e) {
                     failedData = (F) "服务器数据格式异常";
                 }
