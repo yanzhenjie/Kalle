@@ -12,10 +12,10 @@ ext {
                sampleMinSdkVersion: 14,
                targetSdkVersion   : 28,
 
-               versionCode        : 6,
-               versionName        : "0.1.6"]
+               versionCode        : 7,
+               versionName        : "0.1.7"]
 
-    bintray = [version       : "0.1.6",
+    bintray = [version       : "0.1.7",
 
                siteUrl       : 'https://github.com/yanzhenjie/Kalle',
                gitUrl        : 'https://github.com/yanzhenjie/Kalle.git',
@@ -33,15 +33,15 @@ ext {
                developerName : 'yanzhenjie',
                developerEmail: 'im.yanzhenjie@foxmail.com',
 
-               binrayLibrary : "okalle",
+               binrayLibrary : "",
                bintrayRepo   : "maven",
                bintrayUser   : 'yolanda',
                bintrayLicense: "Apache-2.0"]
 
-    dependencies = [kalle              : 'com.yanzhenjie:kalle:0.1.6',
-                    okalle             : 'com.yanzhenjie:okalle:0.1.6',
+    dependencies = [kalle              : 'com.yanzhenjie:kalle:0.1.7',
+                    okalle             : 'com.yanzhenjie:okalle:0.1.7',
 
-                    okhttpUrl          : 'com.squareup.okhttp3:okhttp-urlconnection:3.13.1',
+                    okhttpUrl          : 'com.squareup.okhttp3:okhttp-urlconnection:3.12.3',
 
                     material           : 'com.android.support:design:28.0.0',
                     appCompat          : 'com.android.support:appcompat-v7:28.0.0',
