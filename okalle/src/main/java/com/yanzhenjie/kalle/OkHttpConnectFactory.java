@@ -60,7 +60,7 @@ public class OkHttpConnectFactory implements ConnectFactory {
 
     @Override
     public Connection connect(Request request) throws IOException {
-        URL url = new URL(request.url().toString());
+        URL url = new URL(request.url().toString(true));
         Proxy proxy = request.proxy();
         HttpURLConnection connection = open(url, proxy);
 

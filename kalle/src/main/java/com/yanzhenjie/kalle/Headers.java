@@ -293,7 +293,7 @@ public class Headers extends ListMap<String, String> {
         StringBuilder builder = new StringBuilder();
         for (String word : words) {
             String first = word.substring(0, 1);
-            String end = word.substring(1, word.length());
+            String end = word.substring(1);
             builder.append(first.toUpperCase(Locale.ENGLISH)).append(end).append("-");
         }
         if (builder.length() > 0) {

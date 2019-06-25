@@ -7,6 +7,5 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.librayMinSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        testInstrumentationRunner rootProject.ext.android.testRunner
     }
 }

@@ -33,7 +33,7 @@ import java.io.OutputStream;
  * </p>
  * Created in Oct 17, 2015 12:40:54 PM.
  */
-public class FileBinary extends BasicOutData<FileBinary> implements Binary {
+public class FileBinary extends BaseContent<FileBinary> implements Binary {
 
     private File mFile;
 
@@ -42,7 +42,7 @@ public class FileBinary extends BasicOutData<FileBinary> implements Binary {
     }
 
     @Override
-    public long length() {
+    public long contentLength() {
         return mFile.length();
     }
 

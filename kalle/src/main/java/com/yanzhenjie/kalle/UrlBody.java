@@ -29,7 +29,7 @@ import static com.yanzhenjie.kalle.Headers.VALUE_APPLICATION_URLENCODED;
 /**
  * Created by Zhenjie Yan on 2018/2/24.
  */
-public class UrlBody extends BasicOutData<StringBody> implements RequestBody {
+public class UrlBody extends BaseContent<StringBody> implements RequestBody {
 
     public static Builder newBuilder() {
         return new Builder();
@@ -45,27 +45,37 @@ public class UrlBody extends BasicOutData<StringBody> implements RequestBody {
         this.mContentType = TextUtils.isEmpty(builder.mContentType) ? VALUE_APPLICATION_URLENCODED : builder.mContentType;
     }
 
+    /**
+     * Copy parameters from url body.
+     */
+    public Params copyParams() {
+        return mParams;
+    }
+
     @Override
-    public long length() {
-        String body = mParams.toString();
-        if (TextUtils.isEmpty(body)) return 0;
+    public long contentLength() {
+        String body = mParams.toString(true);
         return IOUtils.toByteArray(body, mCharset).length;
     }
 
     @Override
     public String contentType() {
-        return mContentType;
+        return mContentType + "; charset=" + mCharset.name();
     }
 
     @Override
     protected void onWrite(OutputStream writer) throws IOException {
-        String body = mParams.toString();
+        String body = mParams.toString(true);
         IOUtils.write(writer, body, mCharset);
     }
 
     @Override
     public String toString() {
-        return mParams.toString();
+        return toString(false);
+    }
+
+    public String toString(boolean encode) {
+        return mParams.toString(encode);
     }
 
     public static class Builder {

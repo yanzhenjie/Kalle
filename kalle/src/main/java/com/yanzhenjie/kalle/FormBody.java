@@ -18,6 +18,7 @@ package com.yanzhenjie.kalle;
 import android.text.TextUtils;
 
 import com.yanzhenjie.kalle.util.IOUtils;
+import com.yanzhenjie.kalle.util.LengthOutputStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import static com.yanzhenjie.kalle.Headers.VALUE_APPLICATION_FORM;
 /**
  * Created by Zhenjie Yan on 2018/2/9.
  */
-public class FormBody extends BasicOutData<FormBody> implements RequestBody {
+public class FormBody extends BaseContent<FormBody> implements RequestBody {
 
     public static Builder newBuilder() {
         return new Builder();
@@ -53,13 +54,13 @@ public class FormBody extends BasicOutData<FormBody> implements RequestBody {
     /**
      * Copy parameters from form body.
      */
-    private Params copyParams() {
+    public Params copyParams() {
         return mParams;
     }
 
     @Override
-    public long length() {
-        CounterStream stream = new CounterStream();
+    public long contentLength() {
+        LengthOutputStream stream = new LengthOutputStream();
         try {
             onWrite(stream);
         } catch (IOException ignored) {
@@ -79,37 +80,37 @@ public class FormBody extends BasicOutData<FormBody> implements RequestBody {
             List<Object> values = mParams.get(key);
             for (Object value : values) {
                 if (value instanceof String) {
-                    writeFormString(writer, key, (String) value);
+                    writeFormString(writer, key, (String)value);
                 } else if (value instanceof Binary) {
-                    writeFormBinary(writer, key, (Binary) value);
+                    writeFormBinary(writer, key, (Binary)value);
                 }
-                IOUtils.write(writer, "\r\n", mCharset);
             }
         }
-        IOUtils.write(writer, "--" + mBoundary + "--", mCharset);
+
+        IOUtils.write(writer, "\r\n", mCharset);
+        IOUtils.write(writer, "--" + mBoundary + "--\r\n", mCharset);
     }
 
     private void writeFormString(OutputStream writer, String key, String value) throws IOException {
         IOUtils.write(writer, "--" + mBoundary + "\r\n", mCharset);
-        IOUtils.write(writer, "Content-Disposition: form-data; name=\"", mCharset);
-        IOUtils.write(writer, key, mCharset);
-        IOUtils.write(writer, "\"\r\n\r\n", mCharset);
+        IOUtils.write(writer, "Content-Disposition: form-data; name=\"" + key + "\"", mCharset);
+        IOUtils.write(writer, "\r\n\r\n", mCharset);
         IOUtils.write(writer, value, mCharset);
+        IOUtils.write(writer, "\r\n", mCharset);
     }
 
     private void writeFormBinary(OutputStream writer, String key, Binary value) throws IOException {
         IOUtils.write(writer, "--" + mBoundary + "\r\n", mCharset);
-        IOUtils.write(writer, "Content-Disposition: form-data; name=\"", mCharset);
-        IOUtils.write(writer, key, mCharset);
-        IOUtils.write(writer, "\"; filename=\"", mCharset);
-        IOUtils.write(writer, value.name(), mCharset);
-        IOUtils.write(writer, "\"\r\n", mCharset);
+        IOUtils.write(writer, "Content-Disposition: form-data; name=\"" + key + "\"", mCharset);
+        IOUtils.write(writer, "; filename=\"" + value.name() + "\"", mCharset);
+        IOUtils.write(writer, "\r\n", mCharset);
         IOUtils.write(writer, "Content-Type: " + value.contentType() + "\r\n\r\n", mCharset);
-        if (writer instanceof CounterStream) {
-            ((CounterStream) writer).write(value.length());
+        if (writer instanceof LengthOutputStream) {
+            ((LengthOutputStream)writer).write(value.contentLength());
         } else {
             value.writeTo(writer);
         }
+        IOUtils.write(writer, "\r\n", mCharset);
     }
 
     private static String createBoundary() {
@@ -117,11 +118,11 @@ public class FormBody extends BasicOutData<FormBody> implements RequestBody {
         for (int t = 1; t < 12; t++) {
             long time = System.currentTimeMillis() + t;
             if (time % 3L == 0L) {
-                sb.append((char) (int) time % '\t');
+                sb.append((char)(int)time % '\t');
             } else if (time % 3L == 1L) {
-                sb.append((char) (int) (65L + time % 26L));
+                sb.append((char)(int)(65L + time % 26L));
             } else {
-                sb.append((char) (int) (97L + time % 26L));
+                sb.append((char)(int)(97L + time % 26L));
             }
         }
         return sb.toString();

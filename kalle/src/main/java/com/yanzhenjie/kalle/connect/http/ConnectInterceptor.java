@@ -83,7 +83,7 @@ class ConnectInterceptor implements Interceptor {
         if (method.allowBody()) {
             Headers headers = request.headers();
             RequestBody body = request.body();
-            headers.set(KEY_CONTENT_LENGTH, Long.toString(body.length()));
+            headers.set(KEY_CONTENT_LENGTH, Long.toString(body.contentLength()));
             headers.set(KEY_CONTENT_TYPE, body.contentType());
             mConnection = connect(request);
             writeBody(body);

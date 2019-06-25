@@ -29,7 +29,7 @@ import java.io.OutputStream;
 /**
  * Created by Zhenjie Yan on 2018/2/13.
  */
-public class FileBody extends BasicOutData<FileBody> implements RequestBody {
+public class FileBody extends BaseContent<FileBody> implements RequestBody {
 
     private final File mFile;
 
@@ -38,7 +38,7 @@ public class FileBody extends BasicOutData<FileBody> implements RequestBody {
     }
 
     @Override
-    public long length() {
+    public long contentLength() {
         return mFile.length();
     }
 

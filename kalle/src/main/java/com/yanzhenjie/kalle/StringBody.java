@@ -28,7 +28,7 @@ import static com.yanzhenjie.kalle.Headers.VALUE_APPLICATION_STREAM;
 /**
  * Created by Zhenjie Yan on 2018/2/11.
  */
-public class StringBody extends BasicOutData<StringBody> implements RequestBody {
+public class StringBody extends BaseContent<StringBody> implements RequestBody {
 
     private final String mBody;
     private final Charset mCharset;
@@ -53,14 +53,14 @@ public class StringBody extends BasicOutData<StringBody> implements RequestBody 
     }
 
     @Override
-    public long length() {
+    public long contentLength() {
         if (TextUtils.isEmpty(mBody)) return 0;
         return IOUtils.toByteArray(mBody, mCharset).length;
     }
 
     @Override
     public String contentType() {
-        return mContentType;
+        return mContentType + "; charset=" + mCharset.name();
     }
 
     @Override

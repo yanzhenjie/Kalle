@@ -169,11 +169,6 @@ public abstract class Request {
         /**
          * Overlay path.
          */
-        public abstract T path(CharSequence value);
-
-        /**
-         * Overlay path.
-         */
         public abstract T path(String value);
 
         /**
@@ -250,11 +245,6 @@ public abstract class Request {
          * Add parameter.
          */
         public abstract T param(String key, short value);
-
-        /**
-         * Add parameter.
-         */
-        public abstract T param(String key, CharSequence value);
 
         /**
          * Add parameter.

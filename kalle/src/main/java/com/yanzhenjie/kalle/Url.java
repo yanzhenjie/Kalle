@@ -72,9 +72,9 @@ public class Url {
         this.mScheme = builder.mScheme;
         this.mHost = builder.mHost;
         this.mPort = builder.mPort;
-        this.mPath = path(builder.mPath);
-        this.mQuery = query(builder.mQuery.build());
-        this.mFragment = fragment(builder.mFragment);
+        this.mPath = wrapPath(builder.mPath, false);
+        this.mQuery = builder.mQuery.build().toString(false);
+        this.mFragment = builder.mFragment;
     }
 
     public String getScheme() {
@@ -118,12 +118,19 @@ public class Url {
     }
 
     public Builder builder() {
-        return new Builder(toString());
+        return newBuilder(toString());
     }
 
     @Override
     public String toString() {
-        return mScheme + "://" + mHost + port(mPort) + mPath + mQuery + mFragment;
+        return toString(false);
+    }
+
+    public String toString(boolean encode) {
+        String path = wrapPath(convertPath(mPath), encode);
+        String query = wrapQuery(convertQuery(mQuery), encode);
+        String fragment = wrapFragment(mFragment, encode);
+        return mScheme + "://" + mHost + wrapPort(mPort) + path + query + fragment;
     }
 
     public Url location(String location) {
@@ -135,11 +142,10 @@ public class Url {
 
         URI newUri = URI.create(location);
         if (location.startsWith("/")) {
-            return builder()
-                    .setPath(newUri.getPath())
-                    .setQuery(newUri.getQuery())
-                    .setFragment(newUri.getFragment())
-                    .build();
+            return builder().setPath(newUri.getPath())
+                .setQuery(newUri.getQuery())
+                .setFragment(newUri.getFragment())
+                .build();
         } else if (location.contains("../")) {
             List<String> oldPathList = convertPath(getPath());
             List<String> newPathList = convertPath(newUri.getPath());
@@ -150,27 +156,15 @@ public class Url {
                 oldPathList = oldPathList.subList(0, oldPathList.size() - start - 2);
                 oldPathList.addAll(newPathList);
                 String path = TextUtils.join("/", oldPathList);
-                return builder()
-                        .setPath(path)
-                        .setQuery(newUri.getQuery())
-                        .setFragment(newUri.getFragment())
-                        .build();
+                return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
             }
             String path = TextUtils.join("/", newPathList);
-            return builder()
-                    .setPath(path)
-                    .setQuery(newUri.getQuery())
-                    .setFragment(newUri.getFragment())
-                    .build();
+            return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
         } else {
             List<String> oldPathList = convertPath(getPath());
             oldPathList.addAll(convertPath(newUri.getPath()));
             String path = TextUtils.join("/", oldPathList);
-            return builder()
-                    .setPath(path)
-                    .setQuery(newUri.getQuery())
-                    .setFragment(newUri.getFragment())
-                    .build();
+            return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
         }
     }
 
@@ -188,7 +182,7 @@ public class Url {
 
             this.mScheme = uri.getScheme();
             this.mHost = uri.getHost();
-            this.mPort = uri.getPort();
+            this.mPort = convertPort(uri.getPort());
             this.mPath = convertPath(uri.getPath());
             this.mQuery = convertQuery(uri.getQuery()).builder();
             this.mFragment = uri.getFragment();
@@ -231,11 +225,6 @@ public class Url {
 
         public Builder addPath(float value) {
             return addPath(Float.toString(value));
-        }
-
-        public Builder addPath(CharSequence path) {
-            mPath.add(path.toString());
-            return this;
         }
 
         public Builder addPath(String path) {
@@ -281,18 +270,15 @@ public class Url {
             return addQuery(key, Integer.toString(value));
         }
 
-        public Builder addQuery(String key, CharSequence value) {
-            mQuery.add(key, value);
-            return this;
-        }
-
         public Builder addQuery(String key, String value) {
             mQuery.add(key, value);
             return this;
         }
 
         public Builder addQuery(String key, List<String> values) {
-            mQuery.add(key, values);
+            for (String value : values) {
+                addQuery(key, value);
+            }
             return this;
         }
 
@@ -301,7 +287,7 @@ public class Url {
                 String key = entry.getKey();
                 List<Object> values = entry.getValue();
                 for (Object value : values) {
-                    if (value != null && value instanceof CharSequence) {
+                    if (value instanceof CharSequence) {
                         String textValue = value.toString();
                         addQuery(key, textValue);
                     }
@@ -340,20 +326,12 @@ public class Url {
         }
     }
 
-    private static List<String> convertPath(String path) {
-        List<String> pathList = new LinkedList<String>() {
-            @Override
-            public boolean add(String o) {
-                return !TextUtils.isEmpty(o) && super.add(o);
-            }
+    private static int convertPort(int port) {
+        return port > 0 ? port : 80;
+    }
 
-            @Override
-            public void add(int index, String element) {
-                if (!TextUtils.isEmpty(element)) {
-                    super.add(index, element);
-                }
-            }
-        };
+    private static List<String> convertPath(String path) {
+        List<String> pathList = new LinkedList<>();
         if (!TextUtils.isEmpty(path)) {
             while (path.startsWith("/")) path = path.substring(1);
             while (path.endsWith("/")) path = path.substring(0, path.length() - 1);
@@ -375,7 +353,7 @@ public class Url {
                 if ((end = param.indexOf("=")) > 0) {
                     key = param.substring(0, end);
                     if (end < param.length() - 1) {
-                        value = param.substring(end + 1, param.length());
+                        value = param.substring(end + 1);
                     }
                 } else {
                     key = param;
@@ -386,25 +364,25 @@ public class Url {
         return params.build();
     }
 
-    private static String port(int port) {
-        return port < 0 ? "" : String.format(Locale.getDefault(), ":%d", port);
+    private static String wrapPort(int port) {
+        return (port <= 0 || port == 80) ? "" : String.format(Locale.getDefault(), ":%d", port);
     }
 
-    private static String path(List<String> pathList) {
-        if (pathList.isEmpty()) return "";
+    private static String wrapPath(List<String> pathList, boolean encode) {
+        if (pathList.isEmpty()) return "/";
         StringBuilder builder = new StringBuilder();
         for (String path : pathList) {
-            builder.append("/").append(Uri.encode(path));
+            builder.append("/").append(encode ? Uri.encode(path) : path);
         }
         return builder.toString();
     }
 
-    private static String query(Params params) {
-        String query = params.toString();
+    private static String wrapQuery(Params params, boolean encode) {
+        String query = params.toString(encode);
         return TextUtils.isEmpty(query) ? "" : String.format("?%s", query);
     }
 
-    private static String fragment(String fragment) {
-        return TextUtils.isEmpty(fragment) ? "" : String.format("#%s", Uri.encode(fragment));
+    private static String wrapFragment(String fragment, boolean encode) {
+        return TextUtils.isEmpty(fragment) ? "" : String.format("#%s", encode ? Uri.encode(fragment) : fragment);
     }
 }

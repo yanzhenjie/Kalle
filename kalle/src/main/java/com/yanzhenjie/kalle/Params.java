@@ -44,6 +44,7 @@ public class Params {
      * Get parameters by key.
      *
      * @param key key.
+     *
      * @return if the key does not exist, it may be null.
      */
     public List<Object> get(String key) {
@@ -54,12 +55,12 @@ public class Params {
      * Get the first value of the key.
      *
      * @param key key.
+     *
      * @return if the key does not exist, it may be null.
      */
     public Object getFirst(String key) {
         List<Object> values = mMap.get(key);
-        if (values != null && values.size() > 0)
-            return values.get(0);
+        if (values != null && values.size() > 0) return values.get(0);
         return null;
     }
 
@@ -67,6 +68,7 @@ public class Params {
      * Get {@link Set} view of the parameters.
      *
      * @return a set view of the mappings.
+     *
      * @see Map#entrySet()
      */
     public Set<Map.Entry<String, List<Object>>> entrySet() {
@@ -77,6 +79,7 @@ public class Params {
      * Get {@link Set} view of the keys.
      *
      * @return a set view of the keys.
+     *
      * @see Map#keySet()
      */
     public Set<String> keySet() {
@@ -87,6 +90,7 @@ public class Params {
      * No parameters.
      *
      * @return true if there are no key-values pairs.
+     *
      * @see Map#isEmpty()
      */
     public boolean isEmpty() {
@@ -97,6 +101,7 @@ public class Params {
      * Parameters contains the key.
      *
      * @param key key.
+     *
      * @return true if there contains the key.
      */
     public boolean containsKey(String key) {
@@ -143,13 +148,17 @@ public class Params {
 
     @Override
     public String toString() {
+        return toString(false);
+    }
+
+    public String toString(boolean encode) {
         StringBuilder builder = new StringBuilder();
         Set<String> keySet = keySet();
         for (String key : keySet) {
             List<Object> values = get(key);
             for (Object value : values) {
-                if (value != null && value instanceof CharSequence) {
-                    String textValue = Uri.encode(value.toString());
+                if (value instanceof CharSequence) {
+                    String textValue = encode ? Uri.encode(value.toString()) : value.toString();
                     builder.append("&").append(key).append("=").append(textValue);
                 }
             }
@@ -223,7 +232,7 @@ public class Params {
          * Add parameter.
          */
         public Builder add(String key, CharSequence value) {
-            return add(key, (Object) value);
+            return add(key, (Object)value);
         }
 
         /**
@@ -243,7 +252,7 @@ public class Params {
                     mMap.put(key, new ArrayList<>(1));
                 }
                 if (value == null) value = "";
-                if (value instanceof File) value = new FileBinary((File) value);
+                if (value instanceof File) value = new FileBinary((File)value);
                 mMap.get(key).add(value);
             }
             return this;

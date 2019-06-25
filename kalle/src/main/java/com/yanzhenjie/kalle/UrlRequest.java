@@ -73,109 +73,97 @@ public class UrlRequest extends Request {
         @Override
         public T path(int value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(long value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(boolean value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(char value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(double value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(float value) {
             mUrl.addPath(value);
-            return (T) this;
-        }
-
-        @Override
-        public T path(CharSequence value) {
-            mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T path(String value) {
             mUrl.addPath(value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, int value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, long value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, boolean value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, char value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, double value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, float value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, short value) {
             mUrl.addQuery(key, value);
-            return (T) this;
-        }
-
-        @Override
-        public T param(String key, CharSequence value) {
-            mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, String value) {
             mUrl.addQuery(key, value);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T param(String key, List<String> values) {
             mUrl.addQuery(key, values);
-            return (T) this;
+            return (T)this;
         }
 
         /**
@@ -183,7 +171,7 @@ public class UrlRequest extends Request {
          */
         public T params(Params params) {
             mUrl.addQuery(params);
-            return (T) this;
+            return (T)this;
         }
 
         /**
@@ -191,19 +179,19 @@ public class UrlRequest extends Request {
          */
         public T setParams(Params params) {
             mUrl.setQuery(params);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T removeParam(String key) {
             mUrl.removeQuery(key);
-            return (T) this;
+            return (T)this;
         }
 
         @Override
         public T clearParams() {
             mUrl.clearQuery();
-            return (T) this;
+            return (T)this;
         }
     }
 

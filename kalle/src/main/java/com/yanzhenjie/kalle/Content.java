@@ -21,20 +21,20 @@ import java.io.OutputStream;
 /**
  * Created by Zhenjie Yan on 2018/2/11.
  */
-public interface OutData {
+public interface Content {
 
     /**
-     * Returns the size of the data.
+     * Returns the length of the content.
      */
-    long length();
+    long contentLength();
 
     /**
-     * Get the content type of data.
+     * Get the type of the content.
      */
     String contentType();
 
     /**
-     * OutData data.
+     * Content data.
      */
     void writeTo(OutputStream writer) throws IOException;
 }

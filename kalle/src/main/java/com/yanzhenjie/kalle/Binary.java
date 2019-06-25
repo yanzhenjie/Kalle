@@ -19,7 +19,7 @@ package com.yanzhenjie.kalle;
  * <p>File interface. All the methods are called in thread.</p>
  * Created in Oct 12, 2015 4:44:07 PM.
  */
-public interface Binary extends OutData {
+public interface Binary extends Content {
 
     /**
      * Gets the name of Binary.
