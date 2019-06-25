@@ -2,15 +2,16 @@
 
 ![Logo](./images/logo.svg)
 
-Android platform's Http client.  
-* Form submissions, such as text form and file form
-* Custom RequestBody, such as files, json and xml
-* Support SSL, can customize the certificate
-* Multiple cache modes, using AES to encrypt cached data
-* Manage cookies like browsers automatically
-* Cancel the request at any time
-* Global converter, obtain JavaBean from server
-* We can choose URLConnection or OkHttp handle socket
+Android platform's Http client.
+
+- Form submissions, such as text form and file form
+- Custom RequestBody, such as files, json and xml
+- Support SSL, can customize the certificate
+- Multiple cache modes, using AES to encrypt cached data
+- Manage cookies like browsers automatically
+- Cancel the request at any time
+- Global converter, obtain JavaBean from server
+- We can choose URLConnection or OkHttp handle socket
 
 ```java
 Kalle.get("http://www.example.com/user")
@@ -26,25 +27,31 @@ Kalle.get("http://www.example.com/user")
         }
     });
 ```
+
 For documentation and additional information see [the website](https://www.yanzhenjie.com/Kalle).
 
 ## Download
-Kalle uses URLConnection handle socket by default, add this dependency using Gradle:  
+
+Kalle uses URLConnection handle socket by default, add this dependency using Gradle:
+
 ```groovy
-implementation 'com.yanzhenjie:kalle:0.1.6'
+implementation 'com.yanzhenjie:kalle:0.1.7'
 ```
 
-If you want to use okhttp handle socket, add this dependency using Gradle:  
+If you want to use okhttp handle socket, add this dependency using Gradle:
+
 ```groovy
-implementation 'com.yanzhenjie:okalle:0.1.6'
+implementation 'com.yanzhenjie:okalle:0.1.7'
 ```
 
 Kalle requires at minimum Android 2.3(Api level 9).
 
 ## Contributing
+
 Before submitting pull requests, contributors must abide by the [agreement](CONTRIBUTING.md) .
 
 ## License
+
 ```text
 Copyright 2019 Zhenjie Yan
 
