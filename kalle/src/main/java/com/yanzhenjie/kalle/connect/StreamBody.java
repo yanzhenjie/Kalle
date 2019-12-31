@@ -21,6 +21,7 @@ import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.ResponseBody;
 import com.yanzhenjie.kalle.util.IOUtils;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,22 +31,32 @@ import java.io.InputStream;
 public class StreamBody implements ResponseBody {
 
     private String mContentType;
-    private InputStream mStream;
+    private BufferedInputStream mStream;
 
     public StreamBody(String contentType, InputStream stream) {
         this.mContentType = contentType;
-        this.mStream = stream;
+        this.mStream = new BufferedInputStream(stream);
     }
 
     @Override
     public String string() throws IOException {
+        if (mStream.markSupported()) {
+            mStream.mark(Integer.MAX_VALUE);
+        }
         String charset = Headers.parseSubValue(mContentType, "charset", null);
-        return TextUtils.isEmpty(charset) ? IOUtils.toString(mStream) : IOUtils.toString(mStream, charset);
+        String stringBody = TextUtils.isEmpty(charset) ? IOUtils.toString(mStream) : IOUtils.toString(mStream, charset);
+        mStream.reset();
+        return stringBody;
     }
 
     @Override
     public byte[] byteArray() throws IOException {
-        return IOUtils.toByteArray(mStream);
+        if (mStream.markSupported()) {
+            mStream.mark(Integer.MAX_VALUE);
+        }
+        byte[] byteArrayBody = IOUtils.toByteArray(mStream);
+        mStream.reset();
+        return byteArrayBody;
     }
 
     @Override

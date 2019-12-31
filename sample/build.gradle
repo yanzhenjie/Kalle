@@ -32,8 +32,10 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.kalle
-    implementation rootProject.ext.dependencies.okalle
+//    implementation rootProject.ext.dependencies.kalle
+//    implementation rootProject.ext.dependencies.okalle
+    implementation project(':kalle')
+    implementation project(':okalle')
 
     implementation rootProject.ext.dependencies.material
     implementation rootProject.ext.dependencies.appCompat
@@ -53,4 +55,8 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    configurations {
+        all*.exclude group: 'com.yanzhenjie', module: 'kalle'
+    }
 }

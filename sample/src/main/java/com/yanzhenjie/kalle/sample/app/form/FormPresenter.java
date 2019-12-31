@@ -58,27 +58,27 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
     @Override
     public void addFile() {
         Album.image(this)
-            .multipleChoice()
-            .selectCount(3)
-            .camera(true)
-            .checkedList(mAlbumList)
-            .onResult(new Action<ArrayList<AlbumFile>>() {
-                @Override
-                public void onAction(@NonNull ArrayList<AlbumFile> albumFiles) {
-                    mAlbumList = albumFiles;
+                .multipleChoice()
+                .selectCount(3)
+                .camera(true)
+                .checkedList(mAlbumList)
+                .onResult(new Action<ArrayList<AlbumFile>>() {
+                    @Override
+                    public void onAction(@NonNull ArrayList<AlbumFile> albumFiles) {
+                        mAlbumList = albumFiles;
 
-                    mFileItems = new ArrayList<>();
-                    for (AlbumFile albumFile : mAlbumList) {
-                        FileItem fileItem = new FileItem();
-                        fileItem.setAlbumFile(albumFile);
-                        mFileItems.add(fileItem);
+                        mFileItems = new ArrayList<>();
+                        for (AlbumFile albumFile : mAlbumList) {
+                            FileItem fileItem = new FileItem();
+                            fileItem.setAlbumFile(albumFile);
+                            mFileItems.add(fileItem);
+                        }
+                        mView.setFileList(mFileItems);
+
+                        mView.setStatusText(getString(R.string.form_upload_wait));
                     }
-                    mView.setFileList(mFileItems);
-
-                    mView.setStatusText(getString(R.string.form_upload_wait));
-                }
-            })
-            .start();
+                })
+                .start();
     }
 
     @Override
@@ -91,17 +91,19 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
     }
 
     private void executeUpload() {
-        FileBinary binary1 = new FileBinary(new File(mAlbumList.get(0).getPath())).onProgress(
-            new ProgressBar<FileBinary>() {
-                @Override
-                public void progress(FileBinary origin, int progress) {
-                    mFileItems.get(0).setProgress(progress);
-                    mView.notifyItem(0);
-                }
-            });
+        FileBinary binary1 = new FileBinary(new File(mAlbumList.get(0).getPath()));
+        binary1.onProgress(
+                new ProgressBar<FileBinary>() {
+                    @Override
+                    public void progress(FileBinary origin, int progress) {
+                        mFileItems.get(0).setProgress(progress);
+                        mView.notifyItem(0);
+                    }
+                });
         FileBinary binary2 = null;
         if (mAlbumList.size() > 1) {
-            binary2 = new FileBinary(new File(mAlbumList.get(1).getPath())).onProgress(new ProgressBar<FileBinary>() {
+            binary2 = new FileBinary(new File(mAlbumList.get(1).getPath()));
+            binary2.onProgress(new ProgressBar<FileBinary>() {
                 @Override
                 public void progress(FileBinary origin, int progress) {
                     mFileItems.get(1).setProgress(progress);
@@ -111,7 +113,8 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
         }
         FileBinary binary3 = null;
         if (mAlbumList.size() > 2) {
-            binary3 = new FileBinary(new File(mAlbumList.get(2).getPath())).onProgress(new ProgressBar<FileBinary>() {
+            binary3 = new FileBinary(new File(mAlbumList.get(2).getPath()));
+            binary3.onProgress(new ProgressBar<FileBinary>() {
                 @Override
                 public void progress(FileBinary origin, int progress) {
                     mFileItems.get(2).setProgress(progress);
@@ -121,12 +124,12 @@ public class FormPresenter extends BaseActivity implements Contract.FormPresente
         }
 
         FormBody formBody = FormBody.newBuilder()
-            .param("name", "kalle")
-            .param("age", 18)
-            .binary("file1", binary1)
-            .binary("file2", binary2)
-            .binary("file3", binary3)
-            .build();
+                .param("name", "kalle")
+                .param("age", 18)
+                .binary("file1", binary1)
+                .binary("file2", binary2)
+                .binary("file3", binary3)
+                .build();
         formBody.onProgress(new ProgressBar<FormBody>() {
             @Override
             public void progress(FormBody origin, int progress) {
