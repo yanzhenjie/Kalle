@@ -490,7 +490,7 @@ public class Headers extends ListMap<String, String> {
 
         Locale locale = Locale.getDefault();
         String language = locale.getLanguage();
-        if (TextUtils.isEmpty(language)) {
+        if (!TextUtils.isEmpty(language)) {
             buffer.append(language.toLowerCase(locale));
             final String country = locale.getCountry();
             if (!TextUtils.isEmpty(country)) {
