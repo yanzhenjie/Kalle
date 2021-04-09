@@ -18,12 +18,13 @@ package com.yanzhenjie.kalle.connect.stream;
 import com.yanzhenjie.kalle.connect.Connection;
 import com.yanzhenjie.kalle.util.IOUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * Created by Zhenjie Yan on 2018/2/25.
  */
-public class NullStream extends InputStream {
+public final class NullStream extends InputStream {
 
     private final Connection mConnection;
 
@@ -32,45 +33,14 @@ public class NullStream extends InputStream {
     }
 
     @Override
-    public int read() {
-        return 0;
+    public int read() throws IOException {
+        return -1;
     }
 
-    @Override
-    public int read(byte[] b) {
-        return 0;
-    }
-
-    @Override
-    public int read(byte[] b, int off, int len) {
-        return 0;
-    }
 
     @Override
     public void close() {
         IOUtils.closeQuietly(mConnection);
     }
 
-    @Override
-    public long skip(long n) {
-        return 0;
-    }
-
-    @Override
-    public int available() {
-        return 0;
-    }
-
-    @Override
-    public void reset() {
-    }
-
-    @Override
-    public boolean markSupported() {
-        return false;
-    }
-
-    @Override
-    public void mark(int limit) {
-    }
 }
